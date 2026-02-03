@@ -13,7 +13,11 @@ export const introSlides = [
     subtitle: "Communication Designer",
     description: "I'm an awward winning communication designer, especialized in solving real world problems through a wide range of mediums",
     color: "#0a0a0a",
-    Awards: [
+  },
+  {
+    id: "awards",
+    type: "awards-belt",
+    awards: [
       "Gold Luum Awards TV, Geneva, Switzerland",
       "Silver Luum Awards TV, Geneva, Switzerland",
       "Creative Pool Community, London, Annual 2021",
@@ -34,11 +38,13 @@ export const introSlides = [
       "Kyiv International Advertising Festival Bronze, Short List",
       "EFFIE Republica Dominicana"
     ],
-    Exibitions: ["Expo Lado B, 2014. Caracas, Venezuela.",
+    exhibitions: [
+      "Expo Lado B, 2014. Caracas, Venezuela.",
       "Biennal Iberoamericana de Diseño, 2015 - ft Modafoca. Barcelona España",
       "Altos de Chavón Student s exhibition, 2016. La Romana, Dominican Republic.",
       "The Wrong Biennale, 2023."
-    ]
+    ],
+    color: "#0a0a0a",
   },
   {
     id: "services",

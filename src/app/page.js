@@ -36,29 +36,65 @@ export default function Home() {
                 <h1 className="text-5xl font-bold mb-4">{slide.title}</h1>
                 <p className="text-2xl mb-2">{slide.subtitle}</p>
                 {slide.description && (
-                  <p className="text-lg opacity-80 mt-4">{slide.description}</p>
-                )}
-                {slide.Awards && slide.Awards.length > 0 && (
-                  <div className="mt-8 text-left max-w-2xl mx-auto">
-                    <h3 className="text-xl font-bold mb-4">Awards</h3>
-                    <div className="text-sm opacity-70 space-y-1">
-                      {slide.Awards.map((award, idx) => (
-                        <p key={idx}>• {award}</p>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {slide.Exibitions && slide.Exibitions.length > 0 && (
-                  <div className="mt-6 text-left max-w-2xl mx-auto">
-                    <h3 className="text-xl font-bold mb-4">Exhibitions</h3>
-                    <div className="text-sm opacity-70 space-y-1">
-                      {slide.Exibitions.map((exhibition, idx) => (
-                        <p key={idx}>• {exhibition}</p>
-                      ))}
-                    </div>
-                  </div>
+                  <p className="text-lg opacity-80 mt-4 max-w-3xl mx-auto">{slide.description}</p>
                 )}
               </>
+            )}
+
+            {slide.type === "awards-belt" && (
+              <div className="w-full h-full flex flex-col justify-center overflow-hidden">
+                <h2 className="text-3xl font-bold mb-12 text-center">Awards & Recognition</h2>
+                
+                {/* Awards Scrolling Belt */}
+                <div className="relative mb-12">
+                  <div className="flex animate-scroll-left">
+                    {/* First set of awards */}
+                    {slide.awards.map((award, idx) => (
+                      <div
+                        key={`award-1-${idx}`}
+                        className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                      >
+                        <p className="text-sm whitespace-nowrap">🏆 {award}</p>
+                      </div>
+                    ))}
+                    {/* Duplicate set for seamless loop */}
+                    {slide.awards.map((award, idx) => (
+                      <div
+                        key={`award-2-${idx}`}
+                        className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                      >
+                        <p className="text-sm whitespace-nowrap">🏆 {award}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Exhibitions Scrolling Belt (opposite direction) */}
+                {slide.exhibitions && (
+                  <div className="relative">
+                    <div className="flex animate-scroll-right">
+                      {/* First set of exhibitions */}
+                      {slide.exhibitions.map((exhibition, idx) => (
+                        <div
+                          key={`exhibition-1-${idx}`}
+                          className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                        >
+                          <p className="text-sm whitespace-nowrap">🎨 {exhibition}</p>
+                        </div>
+                      ))}
+                      {/* Duplicate set for seamless loop */}
+                      {slide.exhibitions.map((exhibition, idx) => (
+                        <div
+                          key={`exhibition-2-${idx}`}
+                          className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                        >
+                          <p className="text-sm whitespace-nowrap">🎨 {exhibition}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
             
             {slide.type === "services" && (
