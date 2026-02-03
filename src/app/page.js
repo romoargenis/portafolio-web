@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef, useEffect } from "react";
 import SmoothScroll from "@/components/SmoothScroll";
+import HiCircle from "@/components/HiCircle";
 import { projects } from "@/data/projects";
 import { introSlides, outroSlide } from "@/data/slides";
 
@@ -70,8 +71,9 @@ export default function Home() {
             {/* Intro slides rendering */}
             {slide.type === "greeting" && (
               <>
-                <h1 className="text-6xl font-bold mb-4">{slide.title}</h1>
-                <p className="text-2xl opacity-80">{slide.subtitle}</p>
+                <HiCircle />
+                <h1 className="text-6xl font-bold mb-4 relative z-10">{slide.title}</h1>
+                <p className="text-2xl opacity-80 relative z-10">{slide.subtitle}</p>
               </>
             )}
             
