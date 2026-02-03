@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useEffect } from "react";
 import SmoothScroll from "@/components/SmoothScroll";
 import HiCircle from "@/components/HiCircle";
+import HorizontalProject from "@/components/HorizontalProject";
 import { projects } from "@/data/projects";
 import { introSlides, outroSlide } from "@/data/slides";
 
@@ -11,63 +11,42 @@ export default function Home() {
   // Combine intro slides, projects, and outro
   const allSlides = [...introSlides, ...projects, outroSlide];
 
-  useEffect(() => {
-    const handleWheel = (e) => {
-      // Find all project sections
-      const projectSections = document.querySelectorAll('.project-section');
-      
-      projectSections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        const isInView = rect.top <= 100 && rect.bottom >= window.innerHeight - 100;
-        
-        if (isInView) {
-          const container = section.querySelector('.horizontal-scroll-container');
-          if (!container) return;
-
-          const maxScrollLeft = container.scrollWidth - container.clientWidth;
-          const currentScroll = container.scrollLeft;
-
-          // If scrolling down and haven't reached the end
-          if (e.deltaY > 0 && currentScroll < maxScrollLeft) {
-            e.preventDefault();
-            container.scrollLeft += e.deltaY * 2;
-          }
-          // If scrolling up and not at the start
-          else if (e.deltaY < 0 && currentScroll > 0) {
-            e.preventDefault();
-            container.scrollLeft += e.deltaY * 2;
-          }
-        }
-      });
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
-
   return (
     <SmoothScroll>
-      {allSlides.map((slide, index) => (
-        <section
-          key={slide.id}
-          className={`h-screen flex items-center justify-center border-t border-white/10 ${slide.title && !slide.type ? 'project-section' : ''}`}
-          style={{ backgroundColor: slide.color }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className={
-              slide.title && !slide.type 
-                ? "w-full h-full overflow-hidden" 
-                : slide.type === "awards-belt"
-                ? "w-full h-full overflow-hidden"
-                : "text-center max-w-4xl px-8"
-            }
+      {allSlides.map((slide, index) => {
+        // Check if this is a project slide
+        const isProject = slide.title && !slide.type;
+        
+        // For project slides, render with HorizontalProject component
+        if (isProject) {
+          return (
+            <section
+              key={slide.id}
+              className="border-t border-white/10"
+              style={{ backgroundColor: slide.color }}
+            >
+              <HorizontalProject project={slide} />
+            </section>
+          );
+        }
+        
+        // For all other slides, use the regular layout
+        return (
+          <section
+            key={slide.id}
+            className="h-screen flex items-center justify-center border-t border-white/10"
+            style={{ backgroundColor: slide.color }}
           >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className={
+                slide.type === "awards-belt"
+                  ? "w-full h-full overflow-hidden"
+                  : "text-center max-w-4xl px-8"
+              }
+            >
             {/* Intro slides rendering */}
             {slide.type === "greeting" && (
               <>
@@ -180,58 +159,10 @@ export default function Home() {
               </>
             )}
 
-            {/* Project slides rendering */}
-            {slide.title && !slide.type && (
-              <div className="horizontal-scroll-container w-full h-full flex overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {/* Panel 1: Text Content */}
-                <div className="w-screen h-full flex-shrink-0 snap-center flex items-center justify-center px-8">
-                  <div className="text-left max-w-2xl">
-                    <h2 className="text-5xl font-bold mb-4">{slide.title}</h2>
-                    <p className="text-2xl mb-4 opacity-80">{slide.role}</p>
-                    {slide.description && (
-                      <p className="text-base opacity-70 mt-6 leading-relaxed">
-                        {slide.description}
-                      </p>
-                    )}
-                    <div className="mt-8 flex gap-2 flex-wrap">
-                      {slide.tags?.map((tag, index) => (
-                        <span
-                          key={index}
-                          className="px-4 py-2 bg-white/10 rounded-full text-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Panel 2: Horizontal Scrolling Images */}
-                <div className="w-screen h-full flex-shrink-0 snap-center flex items-center overflow-x-auto px-8">
-                  <div className="flex gap-4">
-                    {slide.images?.map((image, idx) => (
-                      <div
-                        key={idx}
-                        className="flex-shrink-0 rounded-lg overflow-hidden bg-white/5"
-                        style={{
-                          width: idx % 2 === 0 ? '400px' : '300px',
-                          height: idx % 2 === 0 ? '500px' : '400px'
-                        }}
-                      >
-                        <img 
-                          src={image} 
-                          alt={`${slide.title} ${idx + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </motion.div>
-        </section>
-      ))}
+            </motion.div>
+          </section>
+        );
+      })}
     </SmoothScroll>
   );
 }
