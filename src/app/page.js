@@ -59,7 +59,13 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className={slide.title && !slide.type ? "w-full h-full" : "text-center max-w-4xl px-8"}
+            className={
+              slide.title && !slide.type 
+                ? "w-full h-full overflow-hidden" 
+                : slide.type === "awards-belt"
+                ? "w-full h-full overflow-hidden"
+                : "text-center max-w-4xl px-8"
+            }
           >
             {/* Intro slides rendering */}
             {slide.type === "greeting" && (
@@ -81,27 +87,27 @@ export default function Home() {
 
             {slide.type === "awards-belt" && (
               <div className="w-full h-full flex flex-col justify-center overflow-hidden">
-                <h2 className="text-3xl font-bold mb-12 text-center">Awards & Recognition</h2>
+                {/* <h2 className="text-3xl font-bold mb-12 text-center">Awards & Recognition</h2> */}
                 
                 {/* Awards Scrolling Belt */}
-                <div className="relative mb-12">
+                <div className="relative mb-12 w-full">
                   <div className="flex animate-scroll-left">
                     {/* First set of awards */}
                     {slide.awards.map((award, idx) => (
                       <div
                         key={`award-1-${idx}`}
-                        className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                        className="flex-shrink-0 mx-4 px-8 py-6"
                       >
-                        <p className="text-sm whitespace-nowrap">🏆 {award}</p>
+                        <p className="text-xl font-semibold whitespace-nowrap uppercase">🏆 {award}</p>
                       </div>
                     ))}
                     {/* Duplicate set for seamless loop */}
                     {slide.awards.map((award, idx) => (
                       <div
                         key={`award-2-${idx}`}
-                        className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                        className="flex-shrink-0 mx-4 px-8 py-6 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
                       >
-                        <p className="text-sm whitespace-nowrap">🏆 {award}</p>
+                        <p className="text-xl font-semibold whitespace-nowrap uppercase">🏆 {award}</p>
                       </div>
                     ))}
                   </div>
@@ -109,24 +115,24 @@ export default function Home() {
 
                 {/* Exhibitions Scrolling Belt (opposite direction) */}
                 {slide.exhibitions && (
-                  <div className="relative">
+                  <div className="relative w-full">
                     <div className="flex animate-scroll-right">
                       {/* First set of exhibitions */}
                       {slide.exhibitions.map((exhibition, idx) => (
                         <div
                           key={`exhibition-1-${idx}`}
-                          className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                          className="flex-shrink-0 mx-4 px-8 py-6"
                         >
-                          <p className="text-sm whitespace-nowrap">🎨 {exhibition}</p>
+                          <p className="text-xl font-semibold whitespace-nowrap uppercase">🎨 {exhibition}</p>
                         </div>
                       ))}
                       {/* Duplicate set for seamless loop */}
                       {slide.exhibitions.map((exhibition, idx) => (
                         <div
                           key={`exhibition-2-${idx}`}
-                          className="flex-shrink-0 mx-4 px-6 py-4 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10"
+                          className="flex-shrink-0 mx-4 px-8 py-6"
                         >
-                          <p className="text-sm whitespace-nowrap">🎨 {exhibition}</p>
+                          <p className="text-xl font-semibold whitespace-nowrap uppercase">🎨 {exhibition}</p>
                         </div>
                       ))}
                     </div>
@@ -174,9 +180,9 @@ export default function Home() {
 
             {/* Project slides rendering */}
             {slide.title && !slide.type && (
-              <div className="horizontal-scroll-container w-full h-full flex scrollbar-hide snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="horizontal-scroll-container w-full h-full flex overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {/* Panel 1: Text Content */}
-                <div className="w-1/2 h-full flex-shrink-0 snap-center flex items-center">
+                <div className="w-screen h-full flex-shrink-0 snap-center flex items-center justify-center px-8">
                   <div className="text-left max-w-2xl">
                     <h2 className="text-5xl font-bold mb-4">{slide.title}</h2>
                     <p className="text-2xl mb-4 opacity-80">{slide.role}</p>
@@ -199,8 +205,8 @@ export default function Home() {
                 </div>
                 
                 {/* Panel 2: Horizontal Scrolling Images */}
-                <div className="w-screen h-full flex-shrink-0 snap-center flex items-center">
-                  <div className="flex gap-4 px-8">
+                <div className="w-screen h-full flex-shrink-0 snap-center flex items-center overflow-x-auto px-8">
+                  <div className="flex gap-4">
                     {slide.images?.map((image, idx) => (
                       <div
                         key={idx}
