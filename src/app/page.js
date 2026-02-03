@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
 import SmoothScroll from "@/components/SmoothScroll";
 import { projects } from "@/data/projects";
 import { introSlides, outroSlide } from "@/data/slides";
@@ -9,19 +10,56 @@ export default function Home() {
   // Combine intro slides, projects, and outro
   const allSlides = [...introSlides, ...projects, outroSlide];
 
+  useEffect(() => {
+    const handleWheel = (e) => {
+      // Find all project sections
+      const projectSections = document.querySelectorAll('.project-section');
+      
+      projectSections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const isInView = rect.top <= 100 && rect.bottom >= window.innerHeight - 100;
+        
+        if (isInView) {
+          const container = section.querySelector('.horizontal-scroll-container');
+          if (!container) return;
+
+          const maxScrollLeft = container.scrollWidth - container.clientWidth;
+          const currentScroll = container.scrollLeft;
+
+          // If scrolling down and haven't reached the end
+          if (e.deltaY > 0 && currentScroll < maxScrollLeft) {
+            e.preventDefault();
+            container.scrollLeft += e.deltaY * 2;
+          }
+          // If scrolling up and not at the start
+          else if (e.deltaY < 0 && currentScroll > 0) {
+            e.preventDefault();
+            container.scrollLeft += e.deltaY * 2;
+          }
+        }
+      });
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   return (
     <SmoothScroll>
       {allSlides.map((slide, index) => (
         <section
           key={slide.id}
-          className="h-screen flex items-center justify-center border-t border-white/10"
+          className={`h-screen flex items-center justify-center border-t border-white/10 ${slide.title && !slide.type ? 'project-section' : ''}`}
           style={{ backgroundColor: slide.color }}
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className={slide.title && !slide.type ? "w-full h-full flex" : "text-center max-w-4xl px-8"}
+            className={slide.title && !slide.type ? "w-full h-full" : "text-center max-w-4xl px-8"}
           >
             {/* Intro slides rendering */}
             {slide.type === "greeting" && (
@@ -136,10 +174,10 @@ export default function Home() {
 
             {/* Project slides rendering */}
             {slide.title && !slide.type && (
-              <>
-                {/* Left 50% - Text */}
-                <div className="w-1/2 h-full flex items-center px-16">
-                  <div className="text-left">
+              <div className="horizontal-scroll-container w-full h-full flex scrollbar-hide snap-x snap-mandatory" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {/* Panel 1: Text Content */}
+                <div className="w-1/2 h-full flex-shrink-0 snap-center flex items-center">
+                  <div className="text-left max-w-2xl">
                     <h2 className="text-5xl font-bold mb-4">{slide.title}</h2>
                     <p className="text-2xl mb-4 opacity-80">{slide.role}</p>
                     {slide.description && (
@@ -160,9 +198,9 @@ export default function Home() {
                   </div>
                 </div>
                 
-                {/* Right 50% - Bento Grid with Horizontal Scroll */}
-                <div className="w-1/2 h-full flex items-center overflow-hidden">
-                  <div className="flex gap-4 overflow-x-auto px-8 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {/* Panel 2: Horizontal Scrolling Images */}
+                <div className="w-screen h-full flex-shrink-0 snap-center flex items-center">
+                  <div className="flex gap-4 px-8">
                     {slide.images?.map((image, idx) => (
                       <div
                         key={idx}
@@ -181,7 +219,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </motion.div>
         </section>
