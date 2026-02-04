@@ -70,6 +70,5 @@ export const outroSlide = {
   title: "Thank You!",
   subtitle: "Let's work together",
   email: "romoargenis@gmail.com",
-  phone: "+1 (809) 281-5483",
   color: "#0a0a0a",
 };

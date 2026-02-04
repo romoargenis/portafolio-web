@@ -162,12 +162,6 @@ export default function Home() {
                   >
                     📧 {slide.email}
                   </a>
-                  <a 
-                    href={`tel:${slide.phone}`}
-                    className="px-6 py-4 bg-white/10 rounded-lg hover:bg-white/20 transition-colors backdrop-blur-sm"
-                  >
-                    📱 {slide.phone}
-                  </a>
                 </div>
               </>
             )}

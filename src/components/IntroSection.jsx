@@ -103,7 +103,7 @@ export default function IntroSection({ slide }) {
   );
 
   return (
-    <div ref={containerRef} className="h-[300vh] relative" style={{ backgroundColor: slide.color }}>
+    <div ref={containerRef} className="h-[250vh] relative" style={{ backgroundColor: slide.color }}>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
           className="w-full h-full flex items-center justify-center gap-8 px-12"
