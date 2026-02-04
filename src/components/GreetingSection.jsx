@@ -9,7 +9,9 @@ export default function GreetingSection({ title, subtitle, color }) {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"],
+    // Map progress so 1.0 happens when the sticky should release (container end hits viewport end).
+    // Using "end start" makes the animation finish ~1 viewport too late for sticky compositions.
+    offset: ["start start", "end end"],
   });
 
   // Split title into first word and client name
@@ -53,22 +55,25 @@ export default function GreetingSection({ title, subtitle, color }) {
   const subtitleEndTime = 0.22 + (subtitleWords.length * 0.03) + 0.06;
   
   // Zoom out effect: margins increase AFTER subtitle is done
-  // Complete zoom near the end with minimal buffer
+  // Complete before the sticky releases, then "hold" the final state until the end.
+  // This avoids users hitting the next section while the zoom is still happening.
+  const zoomStart = subtitleEndTime + 0.06;
+  const zoomEnd = 0.9;
   const margin = useTransform(
     scrollYProgress,
-    [0.6, 0.95],
+    [zoomStart, zoomEnd],
     ["0px", "40px"]
   );
   
   // Border radius for zoom effect
   const borderRadius = useTransform(
     scrollYProgress,
-    [0.6, 0.95],
+    [zoomStart, zoomEnd],
     ["0px", "24px"]
   );
 
   return (
-    <div ref={containerRef} className="h-[250vh] relative" style={{ backgroundColor: color }}>
+    <div ref={containerRef} className="h-[300vh] relative" style={{ backgroundColor: color }}>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center p-0 overflow-hidden">
         <motion.div 
           className="absolute inset-0 flex items-center justify-center overflow-hidden"

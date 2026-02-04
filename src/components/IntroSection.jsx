@@ -9,7 +9,8 @@ export default function IntroSection({ slide }) {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"],
+    // Ensure progress completes while the sticky composition is still on-screen.
+    offset: ["start start", "end end"],
   });
 
   // Split title into words for stagger
@@ -77,10 +78,13 @@ export default function IntroSection({ slide }) {
   const descriptionEndTime = subtitleEndTime + 0.1;
   
   // After description is done, expand to full width with margins
-  // Complete the animation near the very end (95-98%)
+  // Complete before the sticky releases, then "hold" the final state until the end.
+  // This avoids users hitting the next section while the expansion is still happening.
+  const expandStart = descriptionEndTime + 0.05;
+  const expandEnd = 0.9;
   const rightSectionWidth = useTransform(
     scrollYProgress,
-    [descriptionEndTime + 0.05, 0.98],
+    [expandStart, expandEnd],
     ["50%", "100%"]
   );
 
@@ -92,18 +96,18 @@ export default function IntroSection({ slide }) {
 
   const containerMargin = useTransform(
     scrollYProgress,
-    [descriptionEndTime + 0.05, 0.98],
+    [expandStart, expandEnd],
     ["0px", "40px"]
   );
 
   const containerBorderRadius = useTransform(
     scrollYProgress,
-    [descriptionEndTime + 0.05, 0.98],
+    [expandStart, expandEnd],
     ["0px", "24px"]
   );
 
   return (
-    <div ref={containerRef} className="h-[250vh] relative" style={{ backgroundColor: slide.color }}>
+    <div ref={containerRef} className="h-[300vh] relative" style={{ backgroundColor: slide.color }}>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
           className="w-full h-full flex items-center justify-center gap-8 px-12"
