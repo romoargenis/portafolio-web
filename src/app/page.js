@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import HiCircle from "@/components/HiCircle";
 import HorizontalProject from "@/components/HorizontalProject";
 import SplitText from "@/components/SplitText";
+import ServicesCarousel from "@/components/ServicesCarousel";
 import { projects } from "@/data/projects";
 import { introSlides, outroSlide } from "@/data/slides";
 
@@ -27,6 +28,19 @@ export default function Home() {
               style={{ backgroundColor: slide.color }}
             >
               <HorizontalProject project={slide} />
+            </section>
+          );
+        }
+        
+        // For services slides, render with ServicesCarousel component
+        if (slide.type === "services") {
+          return (
+            <section
+              key={slide.id}
+              className="border-t border-white/10"
+              style={{ backgroundColor: slide.color }}
+            >
+              <ServicesCarousel title={slide.title} services={slide.services} />
             </section>
           );
         }
@@ -146,22 +160,6 @@ export default function Home() {
                   </div>
                 )}
               </div>
-            )}
-            
-            {slide.type === "services" && (
-              <>
-                <h1 className="text-5xl font-bold mb-8">{slide.title}</h1>
-                <div className="grid grid-cols-2 gap-4 mt-8">
-                  {slide.services.map((service, index) => (
-                    <div
-                      key={index}
-                      className="p-6 bg-white/10 rounded-lg backdrop-blur-sm"
-                    >
-                      <p className="text-xl">{service}</p>
-                    </div>
-                  ))}
-                </div>
-              </>
             )}
 
             {slide.type === "contact" && (
