@@ -11,7 +11,7 @@ export const introSlides = [
     type: "intro",
     title: "I'm Argenis Romo",
     subtitle: "Communication Designer",
-    description: "I'm an awward winning communication designer, especialized in solving real world problems through a wide range of mediums",
+    description: "I'm an award winning communication designer, especialized in solving real world problems through a wide range of mediums",
     color: "#0a0a0a",
   },
   {

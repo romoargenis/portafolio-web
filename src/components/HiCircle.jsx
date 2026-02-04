@@ -39,7 +39,7 @@ export default function HiCircle() {
       >
         {Array.from({ length: numberOfHis }).map((_, index) => {
           const angle = (index * 360) / numberOfHis;
-          const angleRad = (angle * Math.PI) / -180;
+          const angleRad = (angle * Math.PI) / 180;
           
           // Calculate position on circle
           const x = Math.cos(angleRad) * radius;

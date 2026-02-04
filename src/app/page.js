@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import SmoothScroll from "@/components/SmoothScroll";
 import HiCircle from "@/components/HiCircle";
 import HorizontalProject from "@/components/HorizontalProject";
+import SplitText from "@/components/SplitText";
 import { projects } from "@/data/projects";
 import { introSlides, outroSlide } from "@/data/slides";
 
@@ -42,7 +43,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className={
-                slide.type === "awards-belt"
+                slide.type === "awards-belt" || slide.type === "intro"
                   ? "w-full h-full overflow-hidden"
                   : "text-center max-w-4xl px-8"
               }
@@ -57,13 +58,38 @@ export default function Home() {
             )}
             
             {slide.type === "intro" && (
-              <>
-                <h1 className="text-5xl font-bold mb-4">{slide.title}</h1>
-                <p className="text-2xl mb-2">{slide.subtitle}</p>
-                {slide.description && (
-                  <p className="text-lg opacity-80 mt-4 max-w-3xl mx-auto">{slide.description}</p>
-                )}
-              </>
+              <div className="w-full h-full flex items-center justify-center gap-8 px-12">
+                {/* Left 50% - Title and Subtitle */}
+                <div className="w-1/2 flex flex-col justify-center text-left">
+                  <h1 className="text-6xl font-bold mb-6">{slide.title}</h1>
+                  <p className="text-3xl opacity-90">{slide.subtitle}</p>
+                </div>
+                
+                {/* Right 50% - Image background with description and awards belt */}
+                <div className="w-1/2 h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20">
+                  {/* Placeholder background image */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center opacity-30"
+                    style={{
+                      backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1000&fit=crop')"
+                    }}
+                  />
+                  
+                  {/* Content overlay */}
+                  <div className="relative z-10 h-full flex flex-col justify-between p-8">
+                    {/* Description at top */}
+                    {slide.description && (
+                      <div className="text-6xl font-light mb-6 flex items-center justify-center h-full">
+                        <SplitText 
+                          text={slide.description} 
+                          className="text-lg leading-relaxed text-center"
+                        />
+                      </div>
+                    )}
+                    
+                  </div>
+                </div>
+              </div>
             )}
 
             {slide.type === "awards-belt" && (
