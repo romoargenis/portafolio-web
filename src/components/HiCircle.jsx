@@ -12,7 +12,7 @@ export default function HiCircle() {
     // Animate the rotation value
     const animate = () => {
       const startTime = Date.now();
-      const duration = 60000; // 60 seconds
+      const duration = 90000; // 60 seconds
 
       const update = () => {
         const elapsed = Date.now() - startTime;
@@ -48,7 +48,7 @@ export default function HiCircle() {
           return (
             <motion.div
               key={index}
-              className="absolute font-bold opacity-20"
+              className="absolute font-bold opacity-10"
               style={{
                 left: "50%",
                 top: "50%",

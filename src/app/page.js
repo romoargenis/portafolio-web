@@ -6,6 +6,8 @@ import HiCircle from "@/components/HiCircle";
 import HorizontalProject from "@/components/HorizontalProject";
 import SplitText from "@/components/SplitText";
 import ServicesCarousel from "@/components/ServicesCarousel";
+import GreetingSection from "@/components/GreetingSection";
+import IntroSection from "@/components/IntroSection";
 import { projects } from "@/data/projects";
 import { introSlides, outroSlide } from "@/data/slides";
 
@@ -19,6 +21,23 @@ export default function Home() {
         // Check if this is a project slide
         const isProject = slide.title && !slide.type;
         
+        // For greeting slides, render with GreetingSection component
+        if (slide.type === "greeting") {
+          return (
+            <section
+              key={slide.id}
+              className="border-t border-white/10"
+              style={{ backgroundColor: slide.color }}
+            >
+              <GreetingSection 
+                title={slide.title} 
+                subtitle={slide.subtitle}
+                color={slide.color}
+              />
+            </section>
+          );
+        }
+        
         // For project slides, render with HorizontalProject component
         if (isProject) {
           return (
@@ -28,6 +47,19 @@ export default function Home() {
               style={{ backgroundColor: slide.color }}
             >
               <HorizontalProject project={slide} />
+            </section>
+          );
+        }
+        
+        // For intro slides, render with IntroSection component
+        if (slide.type === "intro") {
+          return (
+            <section
+              key={slide.id}
+              className="border-t border-white/10"
+              style={{ backgroundColor: slide.color }}
+            >
+              <IntroSection slide={slide} />
             </section>
           );
         }
@@ -55,56 +87,13 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
               className={
-                slide.type === "awards-belt" || slide.type === "intro"
+                slide.type === "awards-belt"
                   ? "w-full h-full overflow-hidden"
                   : "text-center max-w-4xl px-8"
               }
             >
-            {/* Intro slides rendering */}
-            {slide.type === "greeting" && (
-              <>
-                <HiCircle />
-                <h1 className="text-6xl font-bold mb-4 relative z-10">{slide.title}</h1>
-                <p className="text-2xl opacity-80 relative z-10">{slide.subtitle}</p>
-              </>
-            )}
-            
-            {slide.type === "intro" && (
-              <div className="w-full h-full flex items-center justify-center gap-8 px-12">
-                {/* Left 50% - Title and Subtitle */}
-                <div className="w-1/2 flex flex-col justify-center text-left">
-                  <h1 className="text-6xl font-bold mb-6">{slide.title}</h1>
-                  <p className="text-3xl opacity-90">{slide.subtitle}</p>
-                </div>
-                
-                {/* Right 50% - Image background with description and awards belt */}
-                <div className="w-1/2 h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20">
-                  {/* Placeholder background image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center opacity-30"
-                    style={{
-                      backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1000&fit=crop')"
-                    }}
-                  />
-                  
-                  {/* Content overlay */}
-                  <div className="relative z-10 h-full flex flex-col justify-between p-8">
-                    {/* Description at top */}
-                    {slide.description && (
-                      <div className="text-6xl font-light mb-6 flex items-center justify-center h-full">
-                        <SplitText 
-                          text={slide.description} 
-                          className="text-lg leading-relaxed text-center"
-                        />
-                      </div>
-                    )}
-                    
-                  </div>
-                </div>
-              </div>
-            )}
 
             {slide.type === "awards-belt" && (
               <div className="w-full h-full flex flex-col justify-center overflow-hidden">

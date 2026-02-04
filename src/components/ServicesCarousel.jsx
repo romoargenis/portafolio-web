@@ -12,7 +12,7 @@ export default function ServicesCarousel({ title, services }) {
   });
 
   return (
-    <div ref={containerRef} className="h-[400vh] relative">
+    <div ref={containerRef} className="h-[300vh] relative">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center">
         <div className="text-center max-w-4xl px-8">
           <motion.h1 

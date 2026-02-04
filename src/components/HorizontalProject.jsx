@@ -25,7 +25,7 @@ export default function HorizontalProject({ project }) {
   const x = useTransform(scrollYProgress, [0, 1], [0, -totalDistance]);
 
   return (
-    <div ref={containerRef} className="h-[300vh] relative">
+    <div ref={containerRef} className="h-[250vh] relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
         <motion.div 
           className="flex items-center gap-4 will-change-transform"
