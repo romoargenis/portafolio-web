@@ -62,19 +62,64 @@ export default function IntroSection({ slide }) {
 
   const subtitleEndTime = 0.04 + (subtitleWords.length * 0.02) + 0.04;
 
-  // ── SERVICES CAROUSEL (continuation of subtitle) ───────────────────
-  // Each service gets an equal slice of the services window
-  const servicesStart = subtitleEndTime + 0.02;
-  const servicesWindow = 0.45; // total scroll budget for all services
+  // ── DESCRIPTION (two segments) ──────────────────────────────────────
+  const description = slide.description || [];
+  const descLine1 = Array.isArray(description) ? description[0] : description;
+  const descLine2 = Array.isArray(description) ? description[1] : null;
+  const descLine2Words = descLine2 ? descLine2.split(" ") : [];
+
+  // Line 1 fades in as a block (before expansion)
+  const descriptionStart = subtitleEndTime + 0.02;
+  const desc1Opacity = useTransform(
+    scrollYProgress,
+    [descriptionStart, descriptionStart + 0.06],
+    [0, 1]
+  );
+  const desc1EndTime = descriptionStart + 0.06;
+
+  // ── EXPAND RIGHT SECTION TO FULL WIDTH ─────────────────────────────
+  const expandStart = desc1EndTime + 0.03;
+  const expandEnd = expandStart + 0.15;
+
+  // Line 2 fades in word-by-word (after expansion)
+  const desc2Start = expandEnd + 0.02;
+  const desc2StaggerDelay = 0.02;
+
+  const getDesc2WordOpacity = (index) => {
+    const wordStart = desc2Start + (index * desc2StaggerDelay);
+    const wordEnd = wordStart + 0.04;
+    return useTransform(
+      scrollYProgress,
+      [wordStart, wordEnd],
+      [0, 1]
+    );
+  };
+
+  const desc2EndTime = desc2Start + (descLine2Words.length * desc2StaggerDelay) + 0.04;
+
+  // ── SERVICES CAROUSEL (after desc line 2, full-width panel) ────────
+  const servicesStart = desc2EndTime + 0.02;
+  const servicesWindow = 0.88 - servicesStart; // fill remaining scroll budget (hold at end)
   const servicesEnd = servicesStart + servicesWindow;
   const segmentSize = servicesWindow / totalServices;
+
+  const isLastService = (index) => index === totalServices - 1;
 
   const getServiceOpacity = (index) => {
     const start = servicesStart + (index * segmentSize);
     const fadeIn = start + segmentSize * 0.15;
+
+    if (isLastService(index)) {
+      // Last service fades in and STAYS
+      return useTransform(
+        scrollYProgress,
+        [start, fadeIn],
+        [0, 1]
+      );
+    }
+
     const fadeOut = start + segmentSize * 0.85;
     const end = start + segmentSize;
-
     return useTransform(
       scrollYProgress,
       [start, fadeIn, fadeOut, end],
@@ -85,28 +130,24 @@ export default function IntroSection({ slide }) {
   const getServiceY = (index) => {
     const start = servicesStart + (index * segmentSize);
     const settleIn = start + segmentSize * 0.2;
+
+    if (isLastService(index)) {
+      // Last service settles and STAYS
+      return useTransform(
+        scrollYProgress,
+        [start, settleIn],
+        [40, 0]
+      );
+    }
+
     const settleOut = start + segmentSize * 0.8;
     const end = start + segmentSize;
-
     return useTransform(
       scrollYProgress,
       [start, settleIn, settleOut, end],
       [40, 0, 0, -40]
     );
   };
-
-  // ── DESCRIPTION ────────────────────────────────────────────────────
-  const descriptionStart = servicesEnd + 0.02;
-  const descriptionOpacity = useTransform(
-    scrollYProgress,
-    [descriptionStart, descriptionStart + 0.06],
-    [0, 1]
-  );
-  const descriptionEndTime = descriptionStart + 0.06;
-
-  // ── EXPAND RIGHT SECTION TO FULL WIDTH ─────────────────────────────
-  const expandStart = descriptionEndTime + 0.03;
-  const expandEnd = 0.9;
 
   const leftSectionOpacity = useTransform(
     scrollYProgress,
@@ -177,7 +218,7 @@ export default function IntroSection({ slide }) {
             </h1>
             
             {/* Subtitle with staggered fade in + vertical slide */}
-            <p className="text-3xl opacity-90 flex flex-wrap gap-2 mb-8">
+            <p className="text-3xl opacity-90 flex flex-wrap gap-2">
               {subtitleWords.map((word, index) => {
                 const wordOpacity = getSubtitleWordOpacity(index);
                 const wordY = getSubtitleWordY(index);
@@ -194,33 +235,11 @@ export default function IntroSection({ slide }) {
                 );
               })}
             </p>
-
-            {/* Services carousel - feels like a continuation of the subtitle */}
-            {services.length > 0 && (
-              <div className="relative h-16 flex items-center overflow-hidden">
-                {services.map((service, index) => {
-                  const serviceOpacity = getServiceOpacity(index);
-                  const serviceY = getServiceY(index);
-                  return (
-                    <motion.span
-                      key={index}
-                      className="absolute text-2xl font-light opacity-70 whitespace-nowrap"
-                      style={{
-                        opacity: serviceOpacity,
-                        y: serviceY,
-                      }}
-                    >
-                      {service}
-                    </motion.span>
-                  );
-                })}
-              </div>
-            )}
           </motion.div>
           
           {/* Right 50% - Image background with description */}
           <motion.div 
-            className="h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 flex-1 min-w-0"
+            className="h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0"
             style={{
               borderRadius: containerBorderRadius,
             }}
@@ -234,18 +253,54 @@ export default function IntroSection({ slide }) {
             />
             
             {/* Content overlay */}
-            <div className="relative z-10 h-full flex flex-col justify-center p-8">
-              {/* Description */}
-              {slide.description && (
-                <motion.div 
-                  className="text-6xl font-light flex items-center justify-center"
-                  style={{ opacity: descriptionOpacity }}
+            <div className="relative z-10 h-full flex flex-col justify-center items-center p-8">
+              {/* Description - Line 1 (fades in as block) */}
+              {descLine1 && (
+                <motion.p 
+                  className="text-lg leading-relaxed text-center"
+                  style={{ opacity: desc1Opacity }}
                 >
-                  <SplitText 
-                    text={slide.description} 
-                    className="text-lg leading-relaxed text-center"
-                  />
-                </motion.div>
+                  {descLine1}
+                </motion.p>
+              )}
+
+              {/* Description - Line 2 (word-by-word stagger) */}
+              {descLine2Words.length > 0 && (
+                <p className="text-lg leading-relaxed text-center mt-1">
+                  {descLine2Words.map((word, index) => {
+                    const wordOpacity = getDesc2WordOpacity(index);
+                    return (
+                      <motion.span
+                        key={index}
+                        style={{ opacity: wordOpacity, display: "inline-block", marginRight: "0.25em" }}
+                      >
+                        {word}
+                      </motion.span>
+                    );
+                  })}
+                </p>
+              )}
+
+              {/* Services carousel - continuation of the description "like:" */}
+              {services.length > 0 && (
+                <div className="relative h-14 w-full flex items-center justify-center overflow-hidden mt-4">
+                  {services.map((service, index) => {
+                    const serviceOpacity = getServiceOpacity(index);
+                    const serviceY = getServiceY(index);
+                    return (
+                      <motion.span
+                        key={index}
+                        className="absolute text-3xl font-semibold whitespace-nowrap"
+                        style={{
+                          opacity: serviceOpacity,
+                          y: serviceY,
+                        }}
+                      >
+                        {service}
+                      </motion.span>
+                    );
+                  })}
+                </div>
               )}
             </div>
           </motion.div>

@@ -25,7 +25,7 @@ export default function Home() {
           return (
             <section
               key={slide.id}
-              className="border-t border-white/10"
+              className=""
               style={{ backgroundColor: slide.color }}
             >
               <GreetingSection 
@@ -42,7 +42,7 @@ export default function Home() {
           return (
             <section
               key={slide.id}
-              className="border-t border-white/10"
+              className=""
               style={{ backgroundColor: slide.color }}
             >
               <HorizontalProject project={slide} />
@@ -55,7 +55,7 @@ export default function Home() {
           return (
             <section
               key={slide.id}
-              className="border-t border-white/10"
+              className=""
               style={{ backgroundColor: slide.color }}
             >
               <IntroSection slide={slide} />
@@ -68,7 +68,7 @@ export default function Home() {
         return (
           <section
             key={slide.id}
-            className="h-screen flex items-center justify-center border-t border-white/10"
+            className="h-screen flex items-center justify-center"
             style={{ backgroundColor: slide.color }}
           >
             <motion.div

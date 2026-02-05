@@ -21,7 +21,10 @@ export const introSlides = [
       "Branding",
       "Advertising"
     ],
-    description: "I'm an award winning designer, solving real world problems through a wide range of mediums like: ", 
+    description: [
+      "Award winning designer,",
+      "solving real world problems through a wide range of mediums like:"
+    ],
     color: "#0a0a0a",
   },
   {

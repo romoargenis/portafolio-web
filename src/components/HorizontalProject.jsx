@@ -11,16 +11,20 @@ export default function HorizontalProject({ project }) {
     offset: ["start start", "end end"],
   });
 
-  // Calculate total panels and distance
-  // Panel 1: Text content (full viewport width)
-  // Panel 2: Images (need to scroll through them)
+  // Calculate total distance to scroll through all images
   const imageCount = project.images?.length || 0;
-  const IMAGE_WIDTH = 400;
+  const IMAGE_WIDTH_LARGE = 400;
+  const IMAGE_WIDTH_SMALL = 300;
   const GAP = 16;
   
-  // Calculate total distance needed to scroll through all content
-  // Approximate viewport width + all images with gaps
-  const totalDistance = 1920 + (imageCount * (IMAGE_WIDTH + GAP));
+  // Sum actual image widths (alternating large/small)
+  let imagesWidth = 0;
+  for (let i = 0; i < imageCount; i++) {
+    imagesWidth += (i % 2 === 0 ? IMAGE_WIDTH_LARGE : IMAGE_WIDTH_SMALL) + GAP;
+  }
+  
+  // Only scroll the overflow: images beyond the visible ~50vw
+  const totalDistance = Math.max(imagesWidth - 800, 0);
   
   const x = useTransform(scrollYProgress, [0, 1], [0, -totalDistance]);
 
@@ -32,7 +36,7 @@ export default function HorizontalProject({ project }) {
           style={{ x }}
         >
           {/* Panel 1: Text Content */}
-          <div className="flex-shrink-0 flex items-center justify-center px-8" style={{ width: '100vw' }}>
+          <div className="flex-shrink-0 flex items-center justify-center px-8" style={{ width: '50vw' }}>
             <div className="text-left max-w-2xl">
               <h2 className="text-5xl font-bold mb-4">{project.title}</h2>
               <p className="text-2xl mb-4 opacity-80">{project.role}</p>
