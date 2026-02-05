@@ -31,11 +31,12 @@ export default function IntroSection({ slide }) {
     );
   };
 
-  // ── SUBTITLE ───────────────────────────────────────────────────────
+  // ── SUBTITLE (part of the same motion as title) ────────────────────
   const subtitleWords = slide.subtitle.split(" ");
+  const titleEndApprox = 0.02 + (titleWords.length * 0.02) + 0.04;
   
   const getSubtitleWordOpacity = (index) => {
-    const baseStart = 0.04;
+    const baseStart = titleEndApprox;
     const staggerDelay = 0.02;
     const wordStart = baseStart + (index * staggerDelay);
     const wordEnd = wordStart + 0.04;
@@ -48,7 +49,7 @@ export default function IntroSection({ slide }) {
   };
 
   const getSubtitleWordY = (index) => {
-    const baseStart = 0.04;
+    const baseStart = titleEndApprox;
     const staggerDelay = 0.02;
     const wordStart = baseStart + (index * staggerDelay);
     const wordEnd = wordStart + 0.04;
@@ -60,7 +61,9 @@ export default function IntroSection({ slide }) {
     );
   };
 
-  const subtitleEndTime = 0.04 + (subtitleWords.length * 0.02) + 0.04;
+  const subtitleEndTime = titleEndApprox + (subtitleWords.length * 0.02) + 0.04;
+
+  // ── PAUSE ── let the layout (image + text) breathe ─────────────────
 
   // ── DESCRIPTION (two segments) ──────────────────────────────────────
   const description = slide.description || [];
@@ -68,8 +71,8 @@ export default function IntroSection({ slide }) {
   const descLine2 = Array.isArray(description) ? description[1] : null;
   const descLine2Words = descLine2 ? descLine2.split(" ") : [];
 
-  // Line 1 fades in as a block (before expansion)
-  const descriptionStart = subtitleEndTime + 0.02;
+  // Line 1 "Award winning designer," fades in after a deliberate pause
+  const descriptionStart = subtitleEndTime + 0.12;
   const desc1Opacity = useTransform(
     scrollYProgress,
     [descriptionStart, descriptionStart + 0.06],
@@ -81,13 +84,13 @@ export default function IntroSection({ slide }) {
   const expandStart = desc1EndTime + 0.03;
   const expandEnd = expandStart + 0.15;
 
-  // Line 2 fades in word-by-word (after expansion)
+  // Line 2 fades in word-by-word (after expansion, tighter stagger)
   const desc2Start = expandEnd + 0.02;
-  const desc2StaggerDelay = 0.02;
+  const desc2StaggerDelay = 0.01;
 
   const getDesc2WordOpacity = (index) => {
     const wordStart = desc2Start + (index * desc2StaggerDelay);
-    const wordEnd = wordStart + 0.04;
+    const wordEnd = wordStart + 0.03;
     return useTransform(
       scrollYProgress,
       [wordStart, wordEnd],
@@ -95,11 +98,11 @@ export default function IntroSection({ slide }) {
     );
   };
 
-  const desc2EndTime = desc2Start + (descLine2Words.length * desc2StaggerDelay) + 0.04;
+  const desc2EndTime = desc2Start + (descLine2Words.length * desc2StaggerDelay) + 0.03;
 
   // ── SERVICES CAROUSEL (after desc line 2, full-width panel) ────────
   const servicesStart = desc2EndTime + 0.02;
-  const servicesWindow = 0.88 - servicesStart; // fill remaining scroll budget (hold at end)
+  const servicesWindow = 0.92 - servicesStart; // fill remaining scroll budget (hold at end)
   const servicesEnd = servicesStart + servicesWindow;
   const segmentSize = servicesWindow / totalServices;
 
@@ -186,7 +189,7 @@ export default function IntroSection({ slide }) {
   );
 
   return (
-    <div ref={containerRef} className="h-[500vh] relative" style={{ backgroundColor: slide.color }}>
+    <div ref={containerRef} className="h-[800vh] relative" style={{ backgroundColor: slide.color }}>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
           className="w-full h-full flex items-center justify-center"

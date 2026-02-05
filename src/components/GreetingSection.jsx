@@ -20,29 +20,31 @@ export default function GreetingSection({ title, subtitle, color }) {
   const clientName = words.slice(1).join(" ");
 
   // Animation progress for different stages
-  // Stage 1: First word fades in quickly (0 - 0.08) - SNAPPY
+  // Stage 1: "Hi" fades in quickly
   const firstWordOpacity = useTransform(
     scrollYProgress,
-    [0, 0.04, 0.12],
+    [0, 0.04, 0.10],
     [0, 1, 1]
   );
 
-  // Stage 2: Client name fades in quickly (0.08 - 0.16) - SNAPPY
+  // Stage 2: "[Client Name]" fades in right after
   const clientNameOpacity = useTransform(
     scrollYProgress,
-    [0.08, 0.12, 0.2],
+    [0.06, 0.10, 0.18],
     [0, 1, 1]
   );
+
+  // ── PAUSE ── 0.18 → 0.35 — let "Hi [Client Name]" breathe ──────────
 
   // Split subtitle into words for stagger
   const subtitleWords = subtitle.split(" ");
   
-  // Create opacity transforms for each subtitle word with stagger
+  // Stage 3: Subtitle fades in after the pause
   const getWordOpacity = (index) => {
-    const baseStart = 0.22; // Start after title is fully revealed (snappier)
-    const staggerDelay = 0.03;
+    const baseStart = 0.35;
+    const staggerDelay = 0.025;
     const wordStart = baseStart + (index * staggerDelay);
-    const wordEnd = wordStart + 0.06;
+    const wordEnd = wordStart + 0.05;
     
     return useTransform(
       scrollYProgress,
@@ -52,13 +54,12 @@ export default function GreetingSection({ title, subtitle, color }) {
   };
 
   // Calculate when subtitle finishes
-  const subtitleEndTime = 0.22 + (subtitleWords.length * 0.03) + 0.06;
+  const subtitleEndTime = 0.35 + (subtitleWords.length * 0.025) + 0.05;
   
-  // Zoom out effect: margins increase AFTER subtitle is done
-  // Complete before the sticky releases, then "hold" the final state until the end.
-  // This avoids users hitting the next section while the zoom is still happening.
-  const zoomStart = subtitleEndTime + 0.06;
-  const zoomEnd = 0.9;
+  // ── PAUSE ── small hold after subtitle before zoom ──────────────────
+  // Zoom out effect: eases into the next section
+  const zoomStart = subtitleEndTime + 0.08;
+  const zoomEnd = 0.88;
   const margin = useTransform(
     scrollYProgress,
     [zoomStart, zoomEnd],
