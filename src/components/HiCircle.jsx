@@ -48,7 +48,7 @@ export default function HiCircle() {
           return (
             <motion.div
               key={index}
-              className="absolute font-bold opacity-10"
+              className="absolute font-bold opacity-100"
               style={{
                 left: "50%",
                 top: "50%",

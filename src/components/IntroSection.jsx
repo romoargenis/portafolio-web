@@ -90,8 +90,29 @@ export default function IntroSection({ slide }) {
 
   const leftSectionOpacity = useTransform(
     scrollYProgress,
-    [descriptionEndTime + 0.05, descriptionEndTime + 0.15],
+    [expandStart, expandStart + 0.1],
     [1, 0]
+  );
+
+  // Collapse the left section so the right can truly fill 100%
+  const leftSectionWidth = useTransform(
+    scrollYProgress,
+    [expandStart, expandEnd],
+    ["50%", "0%"]
+  );
+
+  // Collapse the flex gap so it doesn't eat space
+  const containerGap = useTransform(
+    scrollYProgress,
+    [expandStart, expandEnd],
+    ["32px", "0px"]
+  );
+
+  // Collapse outer padding so the right section can be edge-to-edge (minus margin)
+  const containerPadding = useTransform(
+    scrollYProgress,
+    [expandStart, expandEnd],
+    ["48px", "0px"]
   );
 
   const containerMargin = useTransform(
@@ -110,15 +131,18 @@ export default function IntroSection({ slide }) {
     <div ref={containerRef} className="h-[300vh] relative" style={{ backgroundColor: slide.color }}>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
-          className="w-full h-full flex items-center justify-center gap-8 px-12"
+          className="w-full h-full flex items-center justify-center"
           style={{
             margin: containerMargin,
+            gap: containerGap,
+            paddingLeft: containerPadding,
+            paddingRight: containerPadding,
           }}
         >
           {/* Left 50% - Title and Subtitle */}
           <motion.div 
-            className="w-1/2 flex flex-col justify-center text-left pl-8 pr-12"
-            style={{ opacity: leftSectionOpacity }}
+            className="flex flex-col justify-center text-left pl-8 pr-12 overflow-hidden flex-shrink-0"
+            style={{ opacity: leftSectionOpacity, width: leftSectionWidth }}
           >
             {/* Title with staggered fade in */}
             <h1 className="text-6xl font-bold mb-6 flex flex-wrap gap-3">
@@ -157,9 +181,8 @@ export default function IntroSection({ slide }) {
           
           {/* Right 50% - Image background with description */}
           <motion.div 
-            className="h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20"
+            className="h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 flex-1 min-w-0"
             style={{
-              width: rightSectionWidth,
               borderRadius: containerBorderRadius,
             }}
           >
