@@ -5,7 +5,6 @@ import SmoothScroll from "@/components/SmoothScroll";
 import HiCircle from "@/components/HiCircle";
 import HorizontalProject from "@/components/HorizontalProject";
 import SplitText from "@/components/SplitText";
-import ServicesCarousel from "@/components/ServicesCarousel";
 import GreetingSection from "@/components/GreetingSection";
 import IntroSection from "@/components/IntroSection";
 import { projects } from "@/data/projects";
@@ -64,18 +63,6 @@ export default function Home() {
           );
         }
         
-        // For services slides, render with ServicesCarousel component
-        if (slide.type === "services") {
-          return (
-            <section
-              key={slide.id}
-              className="border-t border-white/10"
-              style={{ backgroundColor: slide.color }}
-            >
-              <ServicesCarousel title={slide.title} services={slide.services} />
-            </section>
-          );
-        }
         
         // For all other slides, use the regular layout
         return (

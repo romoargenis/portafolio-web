@@ -9,19 +9,20 @@ export default function IntroSection({ slide }) {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    // Ensure progress completes while the sticky composition is still on-screen.
     offset: ["start start", "end end"],
   });
 
-  // Split title into words for stagger
+  const services = slide.services || [];
+  const totalServices = services.length;
+
+  // ── TITLE ──────────────────────────────────────────────────────────
   const titleWords = slide.title.split(" ");
   
-  // Create opacity transforms for each title word with stagger
   const getTitleWordOpacity = (index) => {
-    const baseStart = 0.05;
-    const staggerDelay = 0.04;
+    const baseStart = 0.02;
+    const staggerDelay = 0.02;
     const wordStart = baseStart + (index * staggerDelay);
-    const wordEnd = wordStart + 0.08;
+    const wordEnd = wordStart + 0.04;
     
     return useTransform(
       scrollYProgress,
@@ -30,19 +31,14 @@ export default function IntroSection({ slide }) {
     );
   };
 
-  // Split subtitle into words for stagger
+  // ── SUBTITLE ───────────────────────────────────────────────────────
   const subtitleWords = slide.subtitle.split(" ");
   
-  // Calculate when title finishes
-  const titleEndTime = 0.05 + (titleWords.length * 0.04) + 0.08;
-  
-  // Create opacity and y transforms for each subtitle word with stagger
-  // Start slightly after title starts
   const getSubtitleWordOpacity = (index) => {
-    const baseStart = 0.08;
-    const staggerDelay = 0.035;
+    const baseStart = 0.04;
+    const staggerDelay = 0.02;
     const wordStart = baseStart + (index * staggerDelay);
-    const wordEnd = wordStart + 0.08;
+    const wordEnd = wordStart + 0.04;
     
     return useTransform(
       scrollYProgress,
@@ -52,10 +48,10 @@ export default function IntroSection({ slide }) {
   };
 
   const getSubtitleWordY = (index) => {
-    const baseStart = 0.08;
-    const staggerDelay = 0.035;
+    const baseStart = 0.04;
+    const staggerDelay = 0.02;
     const wordStart = baseStart + (index * staggerDelay);
-    const wordEnd = wordStart + 0.08;
+    const wordEnd = wordStart + 0.04;
     
     return useTransform(
       scrollYProgress,
@@ -64,51 +60,72 @@ export default function IntroSection({ slide }) {
     );
   };
 
-  // Calculate when subtitle finishes
-  const subtitleEndTime = 0.08 + (subtitleWords.length * 0.035) + 0.08;
-  
-  // Description starts fading in when visible (after subtitle)
+  const subtitleEndTime = 0.04 + (subtitleWords.length * 0.02) + 0.04;
+
+  // ── SERVICES CAROUSEL (continuation of subtitle) ───────────────────
+  // Each service gets an equal slice of the services window
+  const servicesStart = subtitleEndTime + 0.02;
+  const servicesWindow = 0.45; // total scroll budget for all services
+  const servicesEnd = servicesStart + servicesWindow;
+  const segmentSize = servicesWindow / totalServices;
+
+  const getServiceOpacity = (index) => {
+    const start = servicesStart + (index * segmentSize);
+    const fadeIn = start + segmentSize * 0.15;
+    const fadeOut = start + segmentSize * 0.85;
+    const end = start + segmentSize;
+
+    return useTransform(
+      scrollYProgress,
+      [start, fadeIn, fadeOut, end],
+      [0, 1, 1, 0]
+    );
+  };
+
+  const getServiceY = (index) => {
+    const start = servicesStart + (index * segmentSize);
+    const settleIn = start + segmentSize * 0.2;
+    const settleOut = start + segmentSize * 0.8;
+    const end = start + segmentSize;
+
+    return useTransform(
+      scrollYProgress,
+      [start, settleIn, settleOut, end],
+      [40, 0, 0, -40]
+    );
+  };
+
+  // ── DESCRIPTION ────────────────────────────────────────────────────
+  const descriptionStart = servicesEnd + 0.02;
   const descriptionOpacity = useTransform(
     scrollYProgress,
-    [subtitleEndTime, subtitleEndTime + 0.1],
+    [descriptionStart, descriptionStart + 0.06],
     [0, 1]
   );
+  const descriptionEndTime = descriptionStart + 0.06;
 
-  // Calculate when description finishes
-  const descriptionEndTime = subtitleEndTime + 0.1;
-  
-  // After description is done, expand to full width with margins
-  // Complete before the sticky releases, then "hold" the final state until the end.
-  // This avoids users hitting the next section while the expansion is still happening.
-  const expandStart = descriptionEndTime + 0.05;
+  // ── EXPAND RIGHT SECTION TO FULL WIDTH ─────────────────────────────
+  const expandStart = descriptionEndTime + 0.03;
   const expandEnd = 0.9;
-  const rightSectionWidth = useTransform(
-    scrollYProgress,
-    [expandStart, expandEnd],
-    ["50%", "100%"]
-  );
 
   const leftSectionOpacity = useTransform(
     scrollYProgress,
-    [expandStart, expandStart + 0.1],
+    [expandStart, expandStart + 0.06],
     [1, 0]
   );
 
-  // Collapse the left section so the right can truly fill 100%
   const leftSectionWidth = useTransform(
     scrollYProgress,
     [expandStart, expandEnd],
     ["50%", "0%"]
   );
 
-  // Collapse the flex gap so it doesn't eat space
   const containerGap = useTransform(
     scrollYProgress,
     [expandStart, expandEnd],
     ["32px", "0px"]
   );
 
-  // Collapse outer padding so the right section can be edge-to-edge (minus margin)
   const containerPadding = useTransform(
     scrollYProgress,
     [expandStart, expandEnd],
@@ -128,7 +145,7 @@ export default function IntroSection({ slide }) {
   );
 
   return (
-    <div ref={containerRef} className="h-[300vh] relative" style={{ backgroundColor: slide.color }}>
+    <div ref={containerRef} className="h-[500vh] relative" style={{ backgroundColor: slide.color }}>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
           className="w-full h-full flex items-center justify-center"
@@ -139,7 +156,7 @@ export default function IntroSection({ slide }) {
             paddingRight: containerPadding,
           }}
         >
-          {/* Left 50% - Title and Subtitle */}
+          {/* Left 50% - Title, Subtitle & Services */}
           <motion.div 
             className="flex flex-col justify-center text-left pl-8 pr-12 overflow-hidden flex-shrink-0"
             style={{ opacity: leftSectionOpacity, width: leftSectionWidth }}
@@ -160,7 +177,7 @@ export default function IntroSection({ slide }) {
             </h1>
             
             {/* Subtitle with staggered fade in + vertical slide */}
-            <p className="text-3xl opacity-90 flex flex-wrap gap-2">
+            <p className="text-3xl opacity-90 flex flex-wrap gap-2 mb-8">
               {subtitleWords.map((word, index) => {
                 const wordOpacity = getSubtitleWordOpacity(index);
                 const wordY = getSubtitleWordY(index);
@@ -177,6 +194,28 @@ export default function IntroSection({ slide }) {
                 );
               })}
             </p>
+
+            {/* Services carousel - feels like a continuation of the subtitle */}
+            {services.length > 0 && (
+              <div className="relative h-16 flex items-center overflow-hidden">
+                {services.map((service, index) => {
+                  const serviceOpacity = getServiceOpacity(index);
+                  const serviceY = getServiceY(index);
+                  return (
+                    <motion.span
+                      key={index}
+                      className="absolute text-2xl font-light opacity-70 whitespace-nowrap"
+                      style={{
+                        opacity: serviceOpacity,
+                        y: serviceY,
+                      }}
+                    >
+                      {service}
+                    </motion.span>
+                  );
+                })}
+              </div>
+            )}
           </motion.div>
           
           {/* Right 50% - Image background with description */}

@@ -11,6 +11,16 @@ export const introSlides = [
     type: "intro",
     title: "I'm Argenis Romo",
     subtitle: "Communication Designer",
+    services: [
+      "Full Stack Development",
+      "WordPress & Custom Themes",
+      "UI/UX Design",
+      "Technical Leadership",
+      "Motion",
+      "Art Direction",
+      "Branding",
+      "Advertising"
+    ],
     description: "I'm an award winning designer, solving real world problems through a wide range of mediums like: ", 
     color: "#0a0a0a",
   },
@@ -46,22 +56,6 @@ export const introSlides = [
     ],
     color: "#0a0a0a",
   },
-  {
-    id: "services",
-    type: "services",
-    title: "What I Do",
-    services: [
-      "Full Stack Development",
-      "WordPress & Custom Themes",
-      "UI/UX Design",
-      "Technical Leadership",
-      "Motion",
-      "Art Direction",
-      "Branding",
-      "Advertising"
-    ],
-    color: "#0a0a0a",
-  }
 ];
 
 export const outroSlide = {
