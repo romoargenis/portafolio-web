@@ -4,12 +4,12 @@ import { motion, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function HiCircle() {
-  const numberOfHis = 8;
+  const numberOfHis = 6;
   const circleRotation = useMotionValue(0);
 
   // Responsive radius based on viewport size
   const [radius, setRadius] = useState(800);
-  const fontSize = radius * 0.5;
+  const fontSize = radius * 1;
 
   useEffect(() => {
     const updateRadius = () => {
@@ -63,9 +63,9 @@ export default function HiCircle() {
                 top: "50%",
                 x,
                 y,
-                rotate: angle,
-                translateX: "-50%",
-                translateY: "-100%", // Baseline sits on the circle
+                rotate: angle+90,
+                translateX: 0,
+                translateY: 0, // Baseline sits on the circle
                 fontSize: `${fontSize}px`,
                 transformOrigin: "center bottom",
               }}
@@ -77,7 +77,7 @@ export default function HiCircle() {
                 ease: "easeOut",
               }}
             >
-              Hi
+              Hi!
             </motion.div>
           );
         })}
