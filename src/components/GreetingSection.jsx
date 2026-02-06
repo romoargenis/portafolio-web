@@ -67,10 +67,11 @@ export default function GreetingSection({ title, subtitle, color }) {
   // Zoom out effect: eases into the next section
   const zoomStart = subtitleEndTime + 0.08;
   const zoomEnd = 0.88;
-  const margin = useTransform(
+  
+  const scale = useTransform(
     scrollYProgress,
     [zoomStart, zoomEnd],
-    ["0px", "40px"]
+    [1, 0.9]
   );
   
   // Border radius for zoom effect
@@ -86,7 +87,7 @@ export default function GreetingSection({ title, subtitle, color }) {
         <motion.div 
           className="absolute inset-0 flex items-center justify-center overflow-hidden"
           style={{
-            margin,
+            scale,
             borderRadius,
             backgroundColor: "rgb(24, 24, 24)",
           }}
