@@ -1,30 +1,39 @@
 "use client";
 
 import { motion, useMotionValue } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function HiCircle() {
-  const numberOfHis = 8; // Number of "Hi" texts around the circle
-  const radius = 800; // Huge radius - bigger than the screen
+  const numberOfHis = 8;
   const circleRotation = useMotionValue(0);
 
+  // Responsive radius based on viewport size
+  const [radius, setRadius] = useState(800);
+  const fontSize = radius * 0.5;
+
   useEffect(() => {
-    // Animate the rotation value
-    const animate = () => {
-      const startTime = Date.now();
-      const duration = 90000; // 60 seconds
+    const updateRadius = () => {
+      const vmin = Math.min(window.innerWidth, window.innerHeight);
+      setRadius(vmin * 0.85);
+    };
+    updateRadius();
+    window.addEventListener("resize", updateRadius);
+    return () => window.removeEventListener("resize", updateRadius);
+  }, []);
 
-      const update = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = (elapsed % duration) / duration;
-        circleRotation.set(progress * 360);
-        requestAnimationFrame(update);
-      };
+  useEffect(() => {
+    const startTime = Date.now();
+    const duration = 90000;
 
-      update();
+    const update = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = (elapsed % duration) / duration;
+      circleRotation.set(progress * 360);
+      requestAnimationFrame(update);
     };
 
-    animate();
+    const id = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(id);
   }, [circleRotation]);
 
   return (
@@ -40,31 +49,31 @@ export default function HiCircle() {
         {Array.from({ length: numberOfHis }).map((_, index) => {
           const angle = (index * 360) / numberOfHis;
           const angleRad = (angle * Math.PI) / 180;
-          
-          // Calculate position on circle
+
+          // Position on the circle circumference
           const x = Math.cos(angleRad) * radius;
           const y = Math.sin(angleRad) * radius;
 
           return (
             <motion.div
               key={index}
-              className="absolute font-bold opacity-100"
+              className="absolute font-bold"
               style={{
                 left: "50%",
                 top: "50%",
                 x,
                 y,
-                rotate: angle, // Rotate text to align with circle baseline
+                rotate: angle,
                 translateX: "-50%",
-                translateY: "-50%",
-                fontSize: "400px", // Huge text
-                transformOrigin: "center center",
+                translateY: "-100%", // Baseline sits on the circle
+                fontSize: `${fontSize}px`,
+                transformOrigin: "center bottom",
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.2 }}
               transition={{
                 duration: 0.5,
-                delay: index * 0.15, // Sequential fade-in with more spacing
+                delay: index * 0.15,
                 ease: "easeOut",
               }}
             >

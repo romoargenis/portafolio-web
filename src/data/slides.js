@@ -4,7 +4,7 @@ export const introSlides = [
     type: "greeting",
     title: "Hi [Client Name]",
     subtitle: "Let me show you what I can do",
-    color: "#0a0a0a",
+    color: "#1c1c1c",
   },
   {
     id: "intro",

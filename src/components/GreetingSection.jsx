@@ -34,6 +34,13 @@ export default function GreetingSection({ title, subtitle, color }) {
     [0, 1, 1]
   );
 
+  // Client name width expands in sync so the layout re-centers smoothly
+  const clientNameMaxWidth = useTransform(
+    scrollYProgress,
+    [0.06, 0.10],
+    ["0px", "600px"]
+  );
+
   // ── PAUSE ── 0.18 → 0.35 — let "Hi [Client Name]" breathe ──────────
 
   // Split subtitle into words for stagger
@@ -81,7 +88,7 @@ export default function GreetingSection({ title, subtitle, color }) {
           style={{
             margin,
             borderRadius,
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            backgroundColor: "rgb(24, 24, 24)",
           }}
         >
           {/* Background circle */}
@@ -89,7 +96,7 @@ export default function GreetingSection({ title, subtitle, color }) {
           
           {/* Title container */}
           <div className="relative z-10 text-center">
-            <div className="text-6xl font-bold mb-4 flex items-center justify-center gap-4">
+            <div className="text-6xl font-bold mb-4 flex items-baseline justify-center">
               {/* First word - always centered */}
               <motion.span
                 style={{ opacity: firstWordOpacity }}
@@ -97,12 +104,16 @@ export default function GreetingSection({ title, subtitle, color }) {
                 {firstWord}
               </motion.span>
               
-              {/* Client name - fades in */}
-              <motion.span
-                style={{ opacity: clientNameOpacity }}
+              {/* Client name - width expands so layout re-centers */}
+              <motion.div
+                className="overflow-hidden whitespace-nowrap"
+                style={{
+                  opacity: clientNameOpacity,
+                  maxWidth: clientNameMaxWidth,
+                }}
               >
-                {clientName}
-              </motion.span>
+                <span className="pl-4 inline-block">{clientName}</span>
+              </motion.div>
             </div>
             
             {/* Subtitle with staggered words */}

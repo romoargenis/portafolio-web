@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 
 export default function HorizontalProject({ project }) {
   const containerRef = useRef(null);
@@ -11,20 +11,53 @@ export default function HorizontalProject({ project }) {
     offset: ["start start", "end end"],
   });
 
-  // Calculate total distance to scroll through all images
-  const imageCount = project.images?.length || 0;
-  const IMAGE_WIDTH_LARGE = 400;
-  const IMAGE_WIDTH_SMALL = 300;
+  const highlights = project.highlights || [];
+
+  // Build the bento sequence: image, text, image, text, image...
+  // Text cards are inserted after every 2 images
+  const bentoItems = useMemo(() => {
+    const items = [];
+    let highlightIdx = 0;
+
+    project.images?.forEach((image, idx) => {
+      // Add the image
+      items.push({
+        type: "image",
+        src: image,
+        idx,
+        width: idx % 2 === 0 ? 400 : 300,
+        height: idx % 2 === 0 ? 500 : 400,
+      });
+
+      // After every 2nd image, insert a text highlight
+      if ((idx + 1) % 2 === 0 && highlightIdx < highlights.length) {
+        items.push({
+          type: "text",
+          content: highlights[highlightIdx],
+          idx: highlightIdx,
+        });
+        highlightIdx++;
+      }
+    });
+
+    return items;
+  }, [project.images, highlights]);
+
+  // Calculate total width of bento items
+  const TEXT_CARD_WIDTH = 220;
   const GAP = 16;
-  
-  // Sum actual image widths (alternating large/small)
-  let imagesWidth = 0;
-  for (let i = 0; i < imageCount; i++) {
-    imagesWidth += (i % 2 === 0 ? IMAGE_WIDTH_LARGE : IMAGE_WIDTH_SMALL) + GAP;
-  }
-  
-  // Only scroll the overflow: images beyond the visible ~50vw
-  const totalDistance = Math.max(imagesWidth - 800, 0);
+
+  let totalContentWidth = 0;
+  bentoItems.forEach((item) => {
+    if (item.type === "image") {
+      totalContentWidth += item.width + GAP;
+    } else {
+      totalContentWidth += TEXT_CARD_WIDTH + GAP;
+    }
+  });
+
+  // Only scroll the overflow beyond the visible area
+  const totalDistance = Math.max(totalContentWidth - 800, 0);
   
   const x = useTransform(scrollYProgress, [0, 1], [0, -totalDistance]);
 
@@ -58,23 +91,42 @@ export default function HorizontalProject({ project }) {
             </div>
           </div>
           
-          {/* Panel 2: Images */}
-          {project.images?.map((image, idx) => (
-            <div
-              key={idx}
-              className="flex-shrink-0 rounded-lg overflow-hidden bg-white/5"
-              style={{
-                width: idx % 2 === 0 ? '400px' : '300px',
-                height: idx % 2 === 0 ? '500px' : '400px'
-              }}
-            >
-              <img 
-                src={image} 
-                alt={`${project.title} ${idx + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
+          {/* Panel 2: Bento grid — images + text highlights */}
+          {bentoItems.map((item, i) => {
+            if (item.type === "text") {
+              return (
+                <div
+                  key={`text-${item.idx}`}
+                  className="flex-shrink-0 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center p-6"
+                  style={{
+                    width: `${TEXT_CARD_WIDTH}px`,
+                    height: item.idx % 2 === 0 ? '300px' : '250px',
+                  }}
+                >
+                  <p className="text-xl font-semibold text-center leading-snug opacity-80">
+                    {item.content}
+                  </p>
+                </div>
+              );
+            }
+
+            return (
+              <div
+                key={`img-${item.idx}`}
+                className="flex-shrink-0 rounded-lg overflow-hidden bg-white/5"
+                style={{
+                  width: `${item.width}px`,
+                  height: `${item.height}px`,
+                }}
+              >
+                <img 
+                  src={item.src} 
+                  alt={`${project.title} ${item.idx + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            );
+          })}
         </motion.div>
       </div>
     </div>
