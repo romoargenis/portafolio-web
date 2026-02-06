@@ -9,9 +9,11 @@ export default function HiCircle() {
 
   // Responsive radius based on viewport size
   const [radius, setRadius] = useState(800);
-  const fontSize = radius * 1;
+  const [isMounted, setIsMounted] = useState(false);
+  const fontSize = radius * .5;
 
   useEffect(() => {
+    setIsMounted(true);
     const updateRadius = () => {
       const vmin = Math.min(window.innerWidth, window.innerHeight);
       setRadius(vmin * 0.85);
@@ -22,6 +24,8 @@ export default function HiCircle() {
   }, []);
 
   useEffect(() => {
+    if (!isMounted) return;
+    
     const startTime = Date.now();
     const duration = 90000;
 
@@ -34,7 +38,16 @@ export default function HiCircle() {
 
     const id = requestAnimationFrame(update);
     return () => cancelAnimationFrame(id);
-  }, [circleRotation]);
+  }, [circleRotation, isMounted]);
+
+  // Don't render the animated elements until mounted to avoid hydration issues
+  if (!isMounted) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+        <div className="relative" style={{ width: 1600, height: 1600 }} />
+      </div>
+    );
+  }
 
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
@@ -57,27 +70,33 @@ export default function HiCircle() {
           return (
             <motion.div
               key={index}
-              className="absolute font-bold"
+              className="absolute flex items-center justify-center"
               style={{
                 left: "50%",
                 top: "50%",
                 x,
                 y,
-                rotate: angle+90,
-                translateX: 0,
-                translateY: 0, // Baseline sits on the circle
-                fontSize: `${fontSize}px`,
-                transformOrigin: "center bottom",
-              }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.2 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.15,
-                ease: "easeOut",
+                width: 0,
+                height: 0,
               }}
             >
-              Hi!
+              <motion.div
+                className="font-bold whitespace-nowrap"
+                style={{
+                  rotate: `${angle + 90}deg`,
+                  fontSize: fontSize,
+                  transformOrigin: "center center",
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.2 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.15,
+                  ease: "easeOut",
+                }}
+              >
+                Hi!
+              </motion.div>
             </motion.div>
           );
         })}
