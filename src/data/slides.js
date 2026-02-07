@@ -25,7 +25,7 @@ export const introSlides = [
       "Award winning designer,",
       "solving real world problems through a wide range of mediums like:"
     ],
-    color: "#0a0a0a",
+    color: "#1c1c1c",
   },
   {
     id: "awards",
@@ -57,7 +57,7 @@ export const introSlides = [
       "Altos de Chavón Student s exhibition, 2016. La Romana, Dominican Republic.",
       "The Wrong Biennale, 2023."
     ],
-    color: "#0a0a0a",
+    color: "#1c1c1c ",
   },
 ];
 

@@ -170,40 +170,24 @@ export default function IntroSection({ slide }) {
     ["32px", "0px"]
   );
 
-  const containerPadding = useTransform(
-    scrollYProgress,
-    [expandStart, expandEnd],
-    ["48px", "0px"]
-  );
-
-  const containerMargin = useTransform(
-    scrollYProgress,
-    [expandStart, expandEnd],
-    ["0px", "40px"]
-  );
-
-  const containerBorderRadius = useTransform(
-    scrollYProgress,
-    [expandStart, expandEnd],
-    ["0px", "24px"]
-  );
-
   return (
     <div ref={containerRef} className="h-[800vh] relative" style={{ backgroundColor: slide.color }}>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div 
           className="w-full h-full flex items-center justify-center"
           style={{
-            margin: containerMargin,
+            scale: 0.9,
             gap: containerGap,
-            paddingLeft: containerPadding,
-            paddingRight: containerPadding,
+            borderRadius: "24px",
           }}
         >
           {/* Left 50% - Title, Subtitle & Services */}
           <motion.div 
-            className="flex flex-col justify-center text-left pl-8 pr-12 overflow-hidden flex-shrink-0"
-            style={{ opacity: leftSectionOpacity, width: leftSectionWidth }}
+            className="flex flex-col justify-center text-left pl-8 pr-12 overflow-hidden flex-shrink-0 h-full"
+            style={{ 
+              opacity: leftSectionOpacity, 
+              width: leftSectionWidth, 
+            }}
           >
             {/* Title with staggered fade in */}
             <h1 className="text-6xl font-bold mb-6 flex flex-wrap gap-3">
@@ -243,13 +227,10 @@ export default function IntroSection({ slide }) {
           {/* Right 50% - Image background with description */}
           <motion.div 
             className="h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0"
-            style={{
-              borderRadius: containerBorderRadius,
-            }}
           >
             {/* Placeholder background image */}
             <div 
-              className="absolute inset-0 bg-cover bg-center opacity-30"
+              className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1000&fit=crop')"
               }}
