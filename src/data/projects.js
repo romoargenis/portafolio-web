@@ -4,26 +4,25 @@ export const projects = [
     title: "Grupo Peravia Industrial",
     role: "Full Stack developer",
     tags: ["Wordpress", "Divi 5"],
-    color: "#0a0a0a",
+    color: "#1c1c1c",
     description: "GPI is one of the most important holdings in the Dominican Republic, including flagship brands found in every household on the island",
     highlights: [
       "Multi-brand ecosystem. due to the nature of the business, careful planing was required to integrate a wide arrange of brands and internal departments",
-      "Custom Divi 5 theme. Build from the ground up with the fastest flexbox layout engine available.",
+      "Custom Divi 5 theme. Build from the ground up with the fastest flexbox layout engine available."
+      "Effortlessly Responsive design.",
     ],
     images: [
-      "https://placehold.co/600x400?text=GPI+1",
-      "https://placehold.co/400x600?text=GPI+2",
-      "https://placehold.co/500x500?text=GPI+3",
-      "https://placehold.co/600x400?text=GPI+4",
-      "https://placehold.co/400x600?text=GPI+5"
-    ]
+      "/img/GPI-01-wireframes.png",
+      "/img/GPI-05-wireframes.png",
+    ],
+    phoneFrameImage: "/img/screencapture-grupoperaviaindustrial-home-2026-02-06-21_18_40.png"
   },
   {
     id: 2,
     title: "LabourHumana",
     role: "Full Stack developer",
     tags: ["Wordpress", "Divi 5"],
-    color: "#0a0a0a",
+    color: "#1c1c1c",
     description: "Agency that connects workers with companies in the local and international market",
     highlights: [
       "Private email server. Since the business is international, a private email server was necessary to ensure confidentiality and security of the data.",
@@ -41,7 +40,7 @@ export const projects = [
     title: "Quepidocargo",
     role: "Full Stack developer",
     tags: ["Wordpress", "Elementor"],
-    color: "#0a0a0a",
+    color: "#1c1c1c",
     description: "Logistics and tracking platform for the transportation of goods",
     highlights: [
       "Real-time tracking analytics. Since the buissnes is on its early stages marketing anlytics are crucial to the success of the business",
@@ -59,7 +58,7 @@ export const projects = [
     title: "Teleswitch",
     role: "Tech Lead",
     tags: ["Wordpress", "Elementor"],
-    color: "#0a0a0a",
+    color: "#1c1c1c",
     description: "Microsoft's telecom segment that offers hardware and software for voice and data communication",
     highlights: [
       "Technical leadership. Support was custom tooling was provided to both marketing and 2b2 sales teams.",
@@ -77,7 +76,7 @@ export const projects = [
     title: "Bermudez Corporation",
     role: "Designer",
     tags: ["Figma"],
-    color: "#0a0a0a",
+    color: "#1c1c1c",
     description: "Dominican Republic first rum. With international reach and distribution",
     highlights: [
       "Corporative site and promotional materials",

@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo } from "react";
+import PhoneFrame from "./PhoneFrame";
 
 export default function HorizontalProject({ project }) {
   const containerRef = useRef(null);
@@ -43,7 +44,11 @@ export default function HorizontalProject({ project }) {
     return items;
   }, [project.images, highlights]);
 
-  // Calculate total width of bento items
+  // Phone frame panel (9:16 scrollable) when project has phoneFrameImage
+  const phoneFrameWidth = 280 + 20; // width + gap
+  const hasPhoneFrame = !!project.phoneFrameImage;
+
+  // Calculate total width of bento items (+ phone frame if present)
   const TEXT_CARD_WIDTH = 220;
   const GAP = 16;
 
@@ -55,6 +60,7 @@ export default function HorizontalProject({ project }) {
       totalContentWidth += TEXT_CARD_WIDTH + GAP;
     }
   });
+  if (hasPhoneFrame) totalContentWidth += phoneFrameWidth;
 
   // Only scroll the overflow beyond the visible area
   const totalDistance = Math.max(totalContentWidth - 800, 0);
@@ -127,6 +133,14 @@ export default function HorizontalProject({ project }) {
               </div>
             );
           })}
+          {hasPhoneFrame && (
+            <div key="phone-frame" className="flex-shrink-0 flex items-center">
+              <PhoneFrame
+                src={project.phoneFrameImage}
+                alt={`${project.title} — mobile view`}
+              />
+            </div>
+          )}
         </motion.div>
       </div>
     </div>

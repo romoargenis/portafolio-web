@@ -67,5 +67,5 @@ export const outroSlide = {
   title: "Thank You!",
   subtitle: "Let's work together",
   email: "romoargenis@gmail.com",
-  color: "#0a0a0a",
+  color: "#1c1c1c",
 };
