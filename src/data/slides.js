@@ -22,7 +22,11 @@ export const introSlides = [
       "Advertising"
     ],
     description: [
-      "Award winning designer,",
+      {
+        type: "award-layout",
+        lines: ["Award", "Winning"],
+        overlay: "Designer"
+      },
       "solving real world problems through a wide range of mediums like:"
     ],
     color: "#1c1c1c",

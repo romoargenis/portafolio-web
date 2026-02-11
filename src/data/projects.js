@@ -1,4 +1,28 @@
 export const projects = [
+    {
+    id: 5,
+    title: "Bermudez Corporation",
+    role: "Designer",
+    tags: ["Figma"],
+    color: "#1c1c1c",
+    description: "Dominican Republic first rum. With international reach and distribution",
+    highlights: [
+      "Corporative site and promotional materials",
+      "Market Intelligence. The introduction of a new product and promotions being designed specifically for the digital spaces, both Meta and Google tracking technologies were used to measure the success of the campaign.",
+      "Launch campaign for Bermudez Blanco: Pega con todo"
+    ],
+    images: [
+      "https://placehold.co/600x400?text=Bermudez+1",
+      "https://placehold.co/400x600?text=Bermudez+2",
+      "https://placehold.co/500x500?text=Bermudez+3",
+      "https://placehold.co/600x400?text=Bermudez+4",
+      "https://placehold.co/400x600?text=Bermudez+5"
+    ],
+    videos: {
+      mobile: "/img/2k-mobile.mp4",
+      desktop: "/img/2k-desktop.mp4"
+    }
+  },
   {
     id: 1,
     title: "Grupo Peravia Industrial",
@@ -39,6 +63,7 @@ export const projects = [
       "https://placehold.co/400x600?text=Quepido+5"
     ]
   },
+
   {
     id: 4,
     title: "Teleswitch",
@@ -57,29 +82,4 @@ export const projects = [
       "https://placehold.co/400x600?text=Teleswitch+5"
     ]
   },
-  {
-    id: 5,
-    title: "Bermudez Corporation",
-    role: "Designer",
-    tags: ["Figma"],
-    color: "#1c1c1c",
-    description: "Dominican Republic first rum. With international reach and distribution",
-    highlights: [
-      "Corporative site and promotional materials",
-      "Market Intelligence. The introduction of a new product and promotions being designed specifically for the digital spaces, both Meta and Google tracking technologies were used to measure the success of the campaign.",
-      "Launch campaign for Bermudez Blanco: Pega con todo"
-    ],
-    images: [
-      "https://placehold.co/600x400?text=Bermudez+1",
-      "https://placehold.co/400x600?text=Bermudez+2",
-      "https://placehold.co/500x500?text=Bermudez+3",
-      "https://placehold.co/600x400?text=Bermudez+4",
-      "https://placehold.co/400x600?text=Bermudez+5"
-    ],
-    videos: {
-      mobile: "/img/2k-mobile.mp4",
-      desktop: "/img/2k-desktop.mp4"
-    }
-  },
-
 ];

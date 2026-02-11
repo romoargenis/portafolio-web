@@ -240,12 +240,33 @@ export default function IntroSection({ slide }) {
             <div className="relative z-10 h-full flex flex-col justify-center items-center p-8">
               {/* Description - Line 1 (fades in as block) */}
               {descLine1 && (
-                <motion.p 
-                  className="text-lg leading-relaxed text-center"
-                  style={{ opacity: desc1Opacity }}
-                >
-                  {descLine1}
-                </motion.p>
+                typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
+                  <motion.div 
+                    className="flex flex-col items-center relative"
+                    style={{ opacity: desc1Opacity }}
+                  >
+                    <span className="text-2xl tracking-[0.2em] font-light uppercase z-10 mix-blend-difference mb-[-4rem]">
+                      {descLine1.overlay}
+                    </span>
+                    <div className="flex flex-col items-center leading-[0.8]">
+                      {descLine1.lines.map((line, idx) => (
+                        <span 
+                          key={idx}
+                          className="text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
+                        >
+                          {line}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.p 
+                    className="text-lg leading-relaxed text-center"
+                    style={{ opacity: desc1Opacity }}
+                  >
+                    {descLine1}
+                  </motion.p>
+                )
               )}
 
               {/* Description - Line 2 (word-by-word stagger) */}
