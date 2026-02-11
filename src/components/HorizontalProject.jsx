@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo } from "react";
 import PhoneFrame from "./PhoneFrame";
+import ResponsiveScrollPair from "./ResponsiveScrollPair";
 
 export default function HorizontalProject({ project }) {
   const containerRef = useRef(null);
@@ -48,7 +49,15 @@ export default function HorizontalProject({ project }) {
   const phoneFrameWidth = 280 + 20; // width + gap
   const hasPhoneFrame = !!project.phoneFrameImage;
 
-  // Calculate total width of bento items (+ phone frame if present)
+  // Responsive pair: two images scrolling in sync (desktop + mobile)
+  const RESPONSIVE_PAIR_WIDTH = 520 + 16; // width + gap
+  const hasResponsivePair = project.responsiveImages?.length >= 2;
+
+  // Video pair: desktop + mobile (e.g. Bermudez)
+  const VIDEO_PAIR_WIDTH = 320 + 16 + 160 + 16; // desktop + gap + mobile + gap
+  const hasVideos = project.videos?.desktop && project.videos?.mobile;
+
+  // Calculate total width of bento items (+ phone frame, responsive pair, videos if present)
   const TEXT_CARD_WIDTH = 220;
   const GAP = 16;
 
@@ -61,6 +70,8 @@ export default function HorizontalProject({ project }) {
     }
   });
   if (hasPhoneFrame) totalContentWidth += phoneFrameWidth;
+  if (hasResponsivePair) totalContentWidth += RESPONSIVE_PAIR_WIDTH;
+  if (hasVideos) totalContentWidth += VIDEO_PAIR_WIDTH;
 
   // Only scroll the overflow beyond the visible area
   const totalDistance = Math.max(totalContentWidth - 800, 0);
@@ -139,6 +150,41 @@ export default function HorizontalProject({ project }) {
                 src={project.phoneFrameImage}
                 alt={`${project.title} — mobile view`}
               />
+            </div>
+          )}
+          {hasResponsivePair && (
+            <div key="responsive-pair" className="flex-shrink-0 flex items-center">
+              <ResponsiveScrollPair
+                images={project.responsiveImages}
+                altLeft="Desktop"
+                altRight="Mobile"
+              />
+            </div>
+          )}
+          {hasVideos && (
+            <div key="video-pair" className="flex-shrink-0 flex items-center gap-4">
+              <div className="rounded-lg overflow-hidden bg-black/40" style={{ width: 320, height: 180 }}>
+                <video
+                  src={project.videos.desktop}
+                  className="w-full h-full object-cover"
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  aria-label={`${project.title} — desktop`}
+                />
+              </div>
+              <div className="rounded-lg overflow-hidden bg-black/40" style={{ width: 160, height: 284 }}>
+                <video
+                  src={project.videos.mobile}
+                  className="w-full h-full object-cover"
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  aria-label={`${project.title} — mobile`}
+                />
+              </div>
             </div>
           )}
         </motion.div>

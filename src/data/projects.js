@@ -8,31 +8,17 @@ export const projects = [
     description: "GPI is one of the most important holdings in the Dominican Republic, including flagship brands found in every household on the island",
     highlights: [
       "Multi-brand ecosystem. due to the nature of the business, careful planing was required to integrate a wide arrange of brands and internal departments",
-      "Custom Divi 5 theme. Build from the ground up with the fastest flexbox layout engine available."
+      "Custom Divi 5 theme. Build from the ground up with the fastest flexbox layout engine available.",
       "Effortlessly Responsive design.",
     ],
     images: [
       "/img/GPI-01-wireframes.png",
       "/img/GPI-05-wireframes.png",
     ],
-    phoneFrameImage: "/img/screencapture-grupoperaviaindustrial-home-2026-02-06-21_18_40.png"
-  },
-  {
-    id: 2,
-    title: "LabourHumana",
-    role: "Full Stack developer",
-    tags: ["Wordpress", "Divi 5"],
-    color: "#1c1c1c",
-    description: "Agency that connects workers with companies in the local and international market",
-    highlights: [
-      "Private email server. Since the business is international, a private email server was necessary to ensure confidentiality and security of the data.",
-    ],
-    images: [
-      "https://placehold.co/600x400?text=Labour+1",
-      "https://placehold.co/400x600?text=Labour+2",
-      "https://placehold.co/500x500?text=Labour+3",
-      "https://placehold.co/600x400?text=Labour+4",
-      "https://placehold.co/400x600?text=Labour+5"
+    phoneFrameImage: "/img/screencapture-grupoperaviaindustrial-home-2026-02-06-21_18_40.png",
+    responsiveImages: [
+      "/img/GPI-07-responsive.png",
+      "/img/GPI-07-responsive-2.png"
     ]
   },
   {
@@ -89,7 +75,11 @@ export const projects = [
       "https://placehold.co/500x500?text=Bermudez+3",
       "https://placehold.co/600x400?text=Bermudez+4",
       "https://placehold.co/400x600?text=Bermudez+5"
-    ]
+    ],
+    videos: {
+      mobile: "/img/2k-mobile.mp4",
+      desktop: "/img/2k-desktop.mp4"
+    }
   },
 
 ];
