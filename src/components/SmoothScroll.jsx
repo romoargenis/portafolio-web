@@ -8,7 +8,7 @@ export default function SmoothScroll({ children }) {
       root 
       options={{ 
         lerp: 0.1,
-        duration: 0.8,
+        duration: 1.2,
         smoothWheel: true,
       }}
     >

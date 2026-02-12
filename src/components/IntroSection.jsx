@@ -228,7 +228,7 @@ export default function IntroSection({ slide }) {
           <motion.div 
             className="h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0"
           >
-            {/* Placeholder background image */}
+            {/* Background image */}
             <div 
               className="absolute inset-0 bg-cover bg-center"
               style={{
@@ -245,14 +245,14 @@ export default function IntroSection({ slide }) {
                     className="flex flex-col items-center justify-center relative"
                     style={{ opacity: desc1Opacity }}
                   >
-                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] font-light uppercase z-20 mix-blend-difference text-white whitespace-nowrap">
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12vw] xl:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap">
                       {descLine1.overlay}
                     </span>
                     <div className="flex flex-col items-center leading-[0.8] z-10">
                       {descLine1.lines.map((line, idx) => (
                         <span 
                           key={idx}
-                          className="text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white/90"
+                          className="text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
                         >
                           {line}
                         </span>

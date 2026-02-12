@@ -9,12 +9,12 @@ export const projects = [
     highlights: [
       "Corporative site and promotional materials",
       "Market Intelligence. The introduction of a new product and promotions being designed specifically for the digital spaces, both Meta and Google tracking technologies were used to measure the success of the campaign.",
-      "Launch campaign for Bermudez Blanco: Pega con todo"
     ],
     images: [
       "/img/2k-desktop - br.mp4",
-      "/img/2k-desktop.mp4",
-      "/img/2k-mobile.mp4"
+      "/img/2k-mobile.mp4",
+      "/img/2k-desktop.mp4"
+
     ]
   },
   {
@@ -71,9 +71,7 @@ export const projects = [
     images: [
       "https://placehold.co/600x400?text=Teleswitch+1",
       "https://placehold.co/400x600?text=Teleswitch+2",
-      "https://placehold.co/500x500?text=Teleswitch+3",
-      "https://placehold.co/600x400?text=Teleswitch+4",
-      "https://placehold.co/400x600?text=Teleswitch+5"
+      "https://placehold.co/500x500?text=Teleswitch+3"
     ]
   },
 ];

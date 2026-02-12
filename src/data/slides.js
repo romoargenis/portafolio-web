@@ -4,7 +4,7 @@ export const introSlides = [
     type: "greeting",
     title: "Hi [Client Name]",
     subtitle: "Let me show you what I can do",
-    color: "#1c1c1c",
+    color: "#141414",
   },
   {
     id: "intro",
@@ -29,7 +29,7 @@ export const introSlides = [
       },
       "solving real world problems through a wide range of mediums like:"
     ],
-    color: "#1c1c1c",
+    color: "#141414",
   },
   {
     id: "awards",
@@ -61,7 +61,7 @@ export const introSlides = [
       "Altos de Chavón Student s exhibition, 2016. La Romana, Dominican Republic.",
       "The Wrong Biennale, 2023."
     ],
-    color: "#1c1c1c ",
+    color: "#141414",
   },
 ];
 
@@ -71,5 +71,5 @@ export const outroSlide = {
   title: "Thank You!",
   subtitle: "Let's work together",
   email: "romoargenis@gmail.com",
-  color: "#1c1c1c",
+  color: "#141414",
 };
