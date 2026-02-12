@@ -4,11 +4,17 @@ export const projects = [
     title: "Bermudez Corporation",
     role: "Designer",
     tags: ["Figma"],
-    color: "#1c1c1c",
+    color: "#141414",
     description: "Dominican Republic first rum. With international reach and distribution",
     highlights: [
-      "Corporative site and promotional materials",
-      "Market Intelligence. The introduction of a new product and promotions being designed specifically for the digital spaces, both Meta and Google tracking technologies were used to measure the success of the campaign.",
+      {
+        title: "Corporative site and promotional landing page",
+        body: "Not only a whole new site, but a new look and feel was build to match the brands new push into the market. Ranging from archival imagry to 3D renders to cocktails recepies where crafted."
+      },
+      {
+        title: "Market Intelligence",
+        body: "The introduction of a new product and promotions being designed specifically for the digital spaces, both Meta and Google tracking technologies were used to measure the success of the campaign."
+      }
     ],
     images: [
       "/img/2k-desktop - br.mp4",
@@ -22,7 +28,7 @@ export const projects = [
     title: "Grupo Peravia Industrial",
     role: "Full Stack developer",
     tags: ["Wordpress", "Divi 5"],
-    color: "#1c1c1c",
+    color: "#141414",
     description: "GPI is one of the most important holdings in the Dominican Republic, including flagship brands found in every household on the island",
     highlights: [
       "Multi-brand ecosystem. due to the nature of the business, careful planing was required to integrate a wide arrange of brands and internal departments",
@@ -44,7 +50,7 @@ export const projects = [
     title: "Quepidocargo",
     role: "Full Stack developer",
     tags: ["Wordpress", "Elementor"],
-    color: "#1c1c1c",
+    color: "#141414",
     description: "Logistics and tracking platform for the transportation of goods",
     highlights: [
       "Real-time tracking analytics. Since the buissnes is on its early stages marketing anlytics are crucial to the success of the business",
@@ -63,7 +69,7 @@ export const projects = [
     title: "Teleswitch",
     role: "Tech Lead",
     tags: ["Wordpress", "Elementor"],
-    color: "#1c1c1c",
+    color: "#141414",
     description: "Microsoft's telecom segment that offers hardware and software for voice and data communication",
     highlights: [
       "Technical leadership. Support was custom tooling was provided to both marketing and 2b2 sales teams.",

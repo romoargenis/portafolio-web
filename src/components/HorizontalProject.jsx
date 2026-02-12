@@ -121,15 +121,22 @@ export default function HorizontalProject({ project }) {
           {/* Panel 2: Bento grid — images + text highlights */}
           {bentoItems.map((item, i) => {
             if (item.type === "text") {
-              // Parse content for Title/Body structure
-              let title = item.content;
-              let body = null;
-              
-              // Split by first period or colon if present
-              const match = item.content.match(/^([^.:]+[.:])(.*)$/);
-              if (match) {
-                title = match[1];
-                body = match[2].trim();
+              let title = "";
+              let body = "";
+
+              if (typeof item.content === 'object') {
+                title = item.content.title;
+                body = item.content.body;
+              } else {
+                // Parse content for Title/Body structure (legacy support)
+                title = item.content;
+                
+                // Split by first period or colon if present
+                const match = item.content.match(/^([^.:]+[.:])(.*)$/);
+                if (match) {
+                  title = match[1];
+                  body = match[2].trim();
+                }
               }
 
               return (

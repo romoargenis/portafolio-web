@@ -77,56 +77,54 @@ export default function Home() {
               transition={{ duration: 0.4, ease: "easeOut" }}
               className={
                 slide.type === "awards-belt"
-                  ? "w-full h-full overflow-y-auto"
+                  ? "w-full h-full flex items-center justify-center"
                   : "text-center max-w-4xl px-8"
               }
             >
 
             {slide.type === "awards-belt" && (
-              <div className="min-h-full w-full flex flex-col justify-center py-20">
-                <div className="w-full max-w-6xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-center">
-                  {/* Left Column: Awards */}
-                  <div className="flex flex-col gap-8 items-center">
-                    <h2 className="text-xl font-bold">
-                      Awards
+              <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-center">
+                {/* Left Column: Awards */}
+                <div className="flex flex-col gap-8 items-center">
+                  <h2 className="text-4xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
+                    Awards
+                  </h2>
+                  <div className="flex flex-col gap-2 w-full">
+                    {slide.awards.map((award, idx) => (
+                      <motion.div
+                        key={`award-${idx}`}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="opacity-80 hover:opacity-100 transition-opacity font-mono"
+                      >
+                        {award}
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Column: Exhibitions */}
+                {slide.exhibitions && (
+                  <div className="flex flex-col gap-8 items-center m-8">
+                    <h2 className="text-4xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
+                      Exhibitions
                     </h2>
                     <div className="flex flex-col gap-2 w-full">
-                      {slide.awards.map((award, idx) => (
+                      {slide.exhibitions.map((exhibition, idx) => (
                         <motion.div
-                          key={`award-${idx}`}
+                          key={`exhibition-${idx}`}
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="text-m opacity-80 hover:opacity-100 transition-opacity font-mono"
+                          className="opacity-80 hover:opacity-100 transition-opacity font-mono"
                         >
-                          {award}
+                          {exhibition}
                         </motion.div>
                       ))}
                     </div>
                   </div>
-
-                  {/* Right Column: Exhibitions */}
-                  {slide.exhibitions && (
-                    <div className="flex flex-col gap-8 items-center">
-                      <h2 className="text-xl font-bold">
-                        Exhibitions
-                      </h2>
-                      <div className="flex flex-col gap-2 w-full">
-                        {slide.exhibitions.map((exhibition, idx) => (
-                          <motion.div
-                            key={`exhibition-${idx}`}
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.1 }}
-                            className="text-m opacity-80 hover:opacity-100 transition-opacity font-mono"
-                          >
-                            {exhibition}
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                )}
               </div>
             )}
 
