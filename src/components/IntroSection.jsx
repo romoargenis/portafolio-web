@@ -237,7 +237,7 @@ export default function IntroSection({ slide }) {
             />
             
             {/* Content overlay */}
-            <div className="relative z-10 h-full flex flex-col justify-center items-center p-8">
+            <div className="relative z-10 h-full w-full flex flex-col justify-center items-center p-8">
               {/* Description - Line 1 (fades in as block) */}
               {descLine1 && (
                 typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
@@ -269,44 +269,47 @@ export default function IntroSection({ slide }) {
                 )
               )}
 
-              {/* Description - Line 2 (word-by-word stagger) */}
-              {descLine2Words.length > 0 && (
-                <p className="text-lg leading-relaxed text-center mt-1">
-                  {descLine2Words.map((word, index) => {
-                    const wordOpacity = getDesc2WordOpacity(index);
-                    return (
-                      <motion.span
-                        key={index}
-                        style={{ opacity: wordOpacity, display: "inline-block", marginRight: "0.25em" }}
-                      >
-                        {word}
-                      </motion.span>
-                    );
-                  })}
-                </p>
-              )}
+              {/* Description Line 2 & Services - Bottom Aligned & Inline */}
+              <div className="absolute bottom-16 left-0 right-0 flex items-center justify-center gap-4 text-[#333]">
+                {/* Description - Line 2 (word-by-word stagger) */}
+                {descLine2Words.length > 0 && (
+                  <p className="text-xl leading-relaxed font-medium">
+                    {descLine2Words.map((word, index) => {
+                      const wordOpacity = getDesc2WordOpacity(index);
+                      return (
+                        <motion.span
+                          key={index}
+                          style={{ opacity: wordOpacity, display: "inline-block", marginRight: "0.25em" }}
+                        >
+                          {word}
+                        </motion.span>
+                      );
+                    })}
+                  </p>
+                )}
 
-              {/* Services carousel - continuation of the description "like:" */}
-              {services.length > 0 && (
-                <div className="relative h-14 w-full flex items-center justify-center overflow-hidden mt-4">
-                  {services.map((service, index) => {
-                    const serviceOpacity = getServiceOpacity(index);
-                    const serviceY = getServiceY(index);
-                    return (
-                      <motion.span
-                        key={index}
-                        className="absolute text-3xl font-semibold whitespace-nowrap"
-                        style={{
-                          opacity: serviceOpacity,
-                          y: serviceY,
-                        }}
-                      >
-                        {service}
-                      </motion.span>
-                    );
-                  })}
-                </div>
-              )}
+                {/* Services carousel - continuation of the description "like:" */}
+                {services.length > 0 && (
+                  <div className="relative h-12 w-64 overflow-hidden flex items-center">
+                    {services.map((service, index) => {
+                      const serviceOpacity = getServiceOpacity(index);
+                      const serviceY = getServiceY(index);
+                      return (
+                        <motion.span
+                          key={index}
+                          className="absolute left-0 text-3xl font-bold whitespace-nowrap"
+                          style={{
+                            opacity: serviceOpacity,
+                            y: serviceY,
+                          }}
+                        >
+                          {service}
+                        </motion.span>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         </motion.div>

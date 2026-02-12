@@ -13,10 +13,10 @@ export default function ServicesCarousel({ title, services }) {
 
   return (
     <div ref={containerRef} className="h-[300vh] relative">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center">
-        <div className="text-center max-w-4xl px-8">
+      <div className="sticky top-0 h-screen w-full flex items-end justify-center pb-20">
+        <div className="text-center w-full px-8 flex items-center justify-center gap-4">
           <motion.h1 
-            className="text-5xl font-bold mb-16"
+            className="text-4xl font-bold text-[#333] whitespace-nowrap"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -24,7 +24,7 @@ export default function ServicesCarousel({ title, services }) {
             {title}
           </motion.h1>
           
-          <div className="relative h-64 flex items-center justify-center overflow-hidden">
+          <div className="relative h-12 w-64 overflow-hidden">
             {services.map((service, index) => {
               // Calculate progress ranges for each service
               const totalServices = services.length;
@@ -44,21 +44,19 @@ export default function ServicesCarousel({ title, services }) {
               const y = useTransform(
                 scrollYProgress,
                 [start, start + segmentSize * 0.2, end - segmentSize * 0.2, end],
-                [100, 0, 0, -100]
+                [40, 0, 0, -40]
               );
 
               return (
                 <motion.div
                   key={index}
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-start"
                   style={{
                     opacity,
                     y,
                   }}
                 >
-                  <div className="p-12 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20 w-full max-w-2xl">
-                    <p className="text-4xl font-semibold">{service}</p>
-                  </div>
+                  <p className="text-4xl font-semibold text-[#333] whitespace-nowrap">{service}</p>
                 </motion.div>
               );
             })}
