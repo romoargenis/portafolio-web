@@ -232,7 +232,7 @@ export default function IntroSection({ slide }) {
             <div 
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=1000&fit=crop')"
+                backgroundImage: "url('/img/Whiteflag.jpg')"
               }}
             />
             
@@ -242,17 +242,17 @@ export default function IntroSection({ slide }) {
               {descLine1 && (
                 typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
                   <motion.div 
-                    className="flex flex-col items-center relative"
+                    className="flex flex-col items-center justify-center relative"
                     style={{ opacity: desc1Opacity }}
                   >
-                    <span className="text-2xl tracking-[0.2em] font-light uppercase z-10 mix-blend-difference mb-[-4rem]">
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] font-light uppercase z-20 mix-blend-difference text-white whitespace-nowrap">
                       {descLine1.overlay}
                     </span>
-                    <div className="flex flex-col items-center leading-[0.8]">
+                    <div className="flex flex-col items-center leading-[0.8] z-10">
                       {descLine1.lines.map((line, idx) => (
                         <span 
                           key={idx}
-                          className="text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
+                          className="text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white/90"
                         >
                           {line}
                         </span>
