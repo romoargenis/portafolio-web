@@ -85,41 +85,7 @@ export default function Home() {
             {slide.type === "awards-belt" && (
               <div className="min-h-full flex flex-col">
                 {/* Layout 1: Scrolling Belts */}
-                <div className="w-full py-20 flex flex-col justify-center overflow-hidden border-b border-white/10">
-                  {/* Awards Scrolling Belt */}
-                  <div className="relative mb-12 w-full">
-                    <div className="flex animate-scroll-left">
-                      {slide.awards.map((award, idx) => (
-                        <div key={`award-1-${idx}`} className="flex-shrink-0 mx-4 px-8 py-6">
-                          <p className="text-xl font-semibold whitespace-nowrap uppercase">🏆 {award}</p>
-                        </div>
-                      ))}
-                      {slide.awards.map((award, idx) => (
-                        <div key={`award-2-${idx}`} className="flex-shrink-0 mx-4 px-8 py-6 bg-white/5 rounded-lg backdrop-blur-sm border border-white/10">
-                          <p className="text-xl font-semibold whitespace-nowrap uppercase">🏆 {award}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
-                  {/* Exhibitions Scrolling Belt */}
-                  {slide.exhibitions && (
-                    <div className="relative w-full">
-                      <div className="flex animate-scroll-right">
-                        {slide.exhibitions.map((exhibition, idx) => (
-                          <div key={`exhibition-1-${idx}`} className="flex-shrink-0 mx-4 px-8 py-6">
-                            <p className="text-xl font-semibold whitespace-nowrap uppercase">🎨 {exhibition}</p>
-                          </div>
-                        ))}
-                        {slide.exhibitions.map((exhibition, idx) => (
-                          <div key={`exhibition-2-${idx}`} className="flex-shrink-0 mx-4 px-8 py-6">
-                            <p className="text-xl font-semibold whitespace-nowrap uppercase">🎨 {exhibition}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
 
                 {/* Layout 2: Centered Columns */}
                 <div className="w-full max-w-7xl mx-auto px-8 py-20 flex flex-col justify-center flex-grow">
@@ -136,9 +102,9 @@ export default function Home() {
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.1 }}
-                            className="text-xl opacity-80 hover:opacity-100 transition-opacity"
+                            className="text-xl opacity-80 hover:opacity-100 transition-opacity font-mono"
                           >
-                            🏆 {award}
+                            {award}
                           </motion.div>
                         ))}
                       </div>
@@ -157,9 +123,9 @@ export default function Home() {
                               initial={{ opacity: 0, y: 10 }}
                               whileInView={{ opacity: 1, y: 0 }}
                               transition={{ delay: idx * 0.1 }}
-                              className="text-xl opacity-80 hover:opacity-100 transition-opacity"
+                              className="text-xl opacity-80 hover:opacity-100 transition-opacity font-mono"
                             >
-                              🎨 {exhibition}
+                              {exhibition}
                             </motion.div>
                           ))}
                         </div>
