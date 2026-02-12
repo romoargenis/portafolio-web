@@ -12,16 +12,12 @@ export const projects = [
       "Launch campaign for Bermudez Blanco: Pega con todo"
     ],
     images: [
-      "https://placehold.co/600x400?text=Bermudez+1",
-      "https://placehold.co/400x600?text=Bermudez+2",
-      "https://placehold.co/500x500?text=Bermudez+3",
+      "/img/2k-desktop - br.mp4",
+      "/img/2k-desktop.mp4",
+      "/img/2k-mobile.mp4",
       "https://placehold.co/600x400?text=Bermudez+4",
       "https://placehold.co/400x600?text=Bermudez+5"
-    ],
-    videos: {
-      mobile: "/img/2k-mobile.mp4",
-      desktop: "/img/2k-desktop.mp4"
-    }
+    ]
   },
   {
     id: 1,

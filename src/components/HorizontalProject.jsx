@@ -27,8 +27,8 @@ export default function HorizontalProject({ project }) {
         type: "image",
         src: image,
         idx,
-        width: idx % 2 === 0 ? 400 : 300,
-        height: idx % 2 === 0 ? 500 : 400,
+        width: 400,
+        height: 400,
       });
 
       // After every 2nd image, insert a text highlight
@@ -127,6 +127,8 @@ export default function HorizontalProject({ project }) {
               );
             }
 
+            const isVideo = item.src?.endsWith('.mp4');
+
             return (
               <div
                 key={`img-${item.idx}`}
@@ -136,11 +138,22 @@ export default function HorizontalProject({ project }) {
                   height: `${item.height}px`,
                 }}
               >
-                <img 
-                  src={item.src} 
-                  alt={`${project.title} ${item.idx + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                {isVideo ? (
+                  <video
+                    src={item.src}
+                    className="w-full h-full object-cover"
+                    muted
+                    autoPlay
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <img 
+                    src={item.src} 
+                    alt={`${project.title} ${item.idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
             );
           })}
