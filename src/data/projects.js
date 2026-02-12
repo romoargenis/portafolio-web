@@ -14,9 +14,7 @@ export const projects = [
     images: [
       "/img/2k-desktop - br.mp4",
       "/img/2k-desktop.mp4",
-      "/img/2k-mobile.mp4",
-      "https://placehold.co/600x400?text=Bermudez+4",
-      "https://placehold.co/400x600?text=Bermudez+5"
+      "/img/2k-mobile.mp4"
     ]
   },
   {

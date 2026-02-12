@@ -58,7 +58,7 @@ export default function HorizontalProject({ project }) {
   const hasVideos = project.videos?.desktop && project.videos?.mobile;
 
   // Calculate total width of bento items (+ phone frame, responsive pair, videos if present)
-  const TEXT_CARD_WIDTH = 220;
+  const TEXT_CARD_WIDTH = 400;
   const GAP = 16;
 
   let totalContentWidth = 0;
@@ -111,18 +111,34 @@ export default function HorizontalProject({ project }) {
           {/* Panel 2: Bento grid — images + text highlights */}
           {bentoItems.map((item, i) => {
             if (item.type === "text") {
+              // Parse content for Title/Body structure
+              let title = item.content;
+              let body = null;
+              
+              // Split by first period or colon if present
+              const match = item.content.match(/^([^.:]+[.:])(.*)$/);
+              if (match) {
+                title = match[1];
+                body = match[2].trim();
+              }
+
               return (
                 <div
                   key={`text-${item.idx}`}
-                  className="flex-shrink-0 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center p-6"
+                  className="flex-shrink-0 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-8 shadow-sm hover:bg-white/10 transition-colors flex flex-col justify-start text-left"
                   style={{
                     width: `${TEXT_CARD_WIDTH}px`,
-                    height: item.idx % 2 === 0 ? '300px' : '250px',
+                    height: '400px',
                   }}
                 >
-                  <p className="text-xl font-semibold text-center leading-snug opacity-80">
-                    {item.content}
-                  </p>
+                  <h5 className="mb-3 text-2xl font-semibold tracking-tight leading-8">
+                    {title}
+                  </h5>
+                  {body && (
+                    <p className="text-base opacity-70 leading-relaxed">
+                      {body}
+                    </p>
+                  )}
                 </div>
               );
             }
