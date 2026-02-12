@@ -42,6 +42,16 @@ export default function HorizontalProject({ project }) {
       }
     });
 
+    // Append any remaining highlights that weren't interleaved
+    while (highlightIdx < highlights.length) {
+      items.push({
+        type: "text",
+        content: highlights[highlightIdx],
+        idx: highlightIdx,
+      });
+      highlightIdx++;
+    }
+
     return items;
   }, [project.images, highlights]);
 
