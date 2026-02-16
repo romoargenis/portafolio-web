@@ -1,13 +1,46 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import PhoneFrame from "./PhoneFrame";
 import ResponsiveScrollPair from "./ResponsiveScrollPair";
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
+function parseHighlight(content) {
+  let title = "";
+  let body = "";
+
+  if (typeof content === "object") {
+    title = content.title;
+    body = content.body;
+  } else {
+    title = content;
+    const match = content.match(/^([^.:]+[.:])(.*)$/);
+    if (match) {
+      title = match[1];
+      body = match[2].trim();
+    }
+  }
+
+  return { title, body };
+}
+
 export default function HorizontalProject({ project }) {
+  const isMobile = useIsMobile();
   const containerRef = useRef(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
@@ -15,14 +48,11 @@ export default function HorizontalProject({ project }) {
 
   const highlights = project.highlights || [];
 
-  // Build the bento sequence: image, text, image, text, image...
-  // Text cards are inserted after every 2 images
   const bentoItems = useMemo(() => {
     const items = [];
     let highlightIdx = 0;
 
     project.images?.forEach((image, idx) => {
-      // Add the image
       items.push({
         type: "image",
         src: image,
@@ -31,7 +61,6 @@ export default function HorizontalProject({ project }) {
         height: 400,
       });
 
-      // After every 2nd image, insert a text highlight
       if ((idx + 1) % 2 === 0 && highlightIdx < highlights.length) {
         items.push({
           type: "text",
@@ -42,7 +71,6 @@ export default function HorizontalProject({ project }) {
       }
     });
 
-    // Append any remaining highlights that weren't interleaved
     while (highlightIdx < highlights.length) {
       items.push({
         type: "text",
@@ -55,19 +83,15 @@ export default function HorizontalProject({ project }) {
     return items;
   }, [project.images, highlights]);
 
-  // Phone frame panel (9:16 scrollable) when project has phoneFrameImage
-  const phoneFrameWidth = 280 + 20; // width + gap
+  const phoneFrameWidth = 280 + 20;
   const hasPhoneFrame = !!project.phoneFrameImage;
 
-  // Responsive pair: two images scrolling in sync (desktop + mobile)
-  const RESPONSIVE_PAIR_WIDTH = 520 + 16; // width + gap
+  const RESPONSIVE_PAIR_WIDTH = 520 + 16;
   const hasResponsivePair = project.responsiveImages?.length >= 2;
 
-  // Video pair: desktop + mobile (e.g. Bermudez)
-  const VIDEO_PAIR_WIDTH = 320 + 16 + 160 + 16; // desktop + gap + mobile + gap
+  const VIDEO_PAIR_WIDTH = 320 + 16 + 160 + 16;
   const hasVideos = project.videos?.desktop && project.videos?.mobile;
 
-  // Calculate total width of bento items (+ phone frame, responsive pair, videos if present)
   const TEXT_CARD_WIDTH = 400;
   const GAP = 16;
 
@@ -83,20 +107,182 @@ export default function HorizontalProject({ project }) {
   if (hasResponsivePair) totalContentWidth += RESPONSIVE_PAIR_WIDTH;
   if (hasVideos) totalContentWidth += VIDEO_PAIR_WIDTH;
 
-  // Only scroll the overflow beyond the visible area
   const totalDistance = Math.max(totalContentWidth - 800, 0);
-  
+
   const x = useTransform(scrollYProgress, [0, 1], [0, -totalDistance]);
 
+  // ── MOBILE LAYOUT ────────────────────────────────────────────────────
+  if (isMobile) {
+    const imageItems = bentoItems.filter((item) => item.type === "image");
+    const textItems = bentoItems.filter((item) => item.type === "text");
+
+    return (
+      <div className="py-16 px-5">
+        {/* Project Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
+          <h2 className="text-3xl font-bold mb-2">{project.title}</h2>
+          <p className="text-lg mb-3 opacity-80">{project.role}</p>
+          {project.description && (
+            <p className="text-sm opacity-70 leading-relaxed mb-5">
+              {project.description}
+            </p>
+          )}
+          <div className="flex gap-2 flex-wrap">
+            {project.tags?.map((tag, index) => (
+              <span
+                key={index}
+                className="px-3 py-1.5 bg-white/10 rounded-full text-xs"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Horizontal swipeable image gallery */}
+        <div className="overflow-x-auto scrollbar-hide -mx-5 px-5 mb-6">
+          <div className="flex gap-3" style={{ width: "max-content" }}>
+            {imageItems.map((item) => {
+              const isVideo = item.src?.endsWith(".mp4");
+              return (
+                <div
+                  key={`img-${item.idx}`}
+                  className="flex-shrink-0 rounded-xl overflow-hidden bg-white/5"
+                  style={{ width: 260, height: 260 }}
+                >
+                  {isVideo ? (
+                    <video
+                      src={item.src}
+                      className="w-full h-full object-cover"
+                      muted
+                      autoPlay
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <img
+                      src={item.src}
+                      alt={`${project.title} ${item.idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              );
+            })}
+            {hasPhoneFrame && (
+              <div className="flex-shrink-0 flex items-center">
+                <PhoneFrame
+                  src={project.phoneFrameImage}
+                  alt={`${project.title} — mobile view`}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Text highlight cards */}
+        <div className="flex flex-col gap-4 mb-6">
+          {textItems.map((item) => {
+            const { title, body } = parseHighlight(item.content);
+            return (
+              <motion.div
+                key={`text-${item.idx}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{ duration: 0.4 }}
+                className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-6"
+              >
+                <h5 className="mb-2 text-lg font-semibold leading-snug">
+                  {title}
+                </h5>
+                {body && (
+                  <p className="text-sm opacity-70 leading-relaxed">{body}</p>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Responsive scroll pair */}
+        {hasResponsivePair && (
+          <div className="overflow-x-auto scrollbar-hide -mx-5 px-5 mb-6">
+            <div className="flex gap-3" style={{ width: "max-content" }}>
+              {project.responsiveImages.map((src, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 rounded-lg overflow-hidden bg-white/5"
+                  style={{ width: 260, height: 380 }}
+                >
+                  <img
+                    src={src}
+                    alt={i === 0 ? "Desktop" : "Mobile"}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Video pair */}
+        {hasVideos && (
+          <div className="overflow-x-auto scrollbar-hide -mx-5 px-5">
+            <div className="flex gap-3 items-end" style={{ width: "max-content" }}>
+              <div
+                className="flex-shrink-0 rounded-lg overflow-hidden bg-black/40"
+                style={{ width: 260, height: 146 }}
+              >
+                <video
+                  src={project.videos.desktop}
+                  className="w-full h-full object-cover"
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  aria-label={`${project.title} — desktop`}
+                />
+              </div>
+              <div
+                className="flex-shrink-0 rounded-lg overflow-hidden bg-black/40"
+                style={{ width: 130, height: 231 }}
+              >
+                <video
+                  src={project.videos.mobile}
+                  className="w-full h-full object-cover"
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  aria-label={`${project.title} — mobile`}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── DESKTOP LAYOUT (horizontal scroll-jacking) ──────────────────────
   return (
     <div ref={containerRef} className="h-[250vh] relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
-        <motion.div 
+        <motion.div
           className="flex items-center gap-4 will-change-transform"
           style={{ x }}
         >
           {/* Panel 1: Text Content */}
-          <div className="flex-shrink-0 flex items-center justify-center px-8" style={{ width: '50vw' }}>
+          <div
+            className="flex-shrink-0 flex items-center justify-center px-8"
+            style={{ width: "50vw" }}
+          >
             <div className="text-left max-w-2xl">
               <h2 className="text-5xl font-bold mb-4">{project.title}</h2>
               <p className="text-2xl mb-4 opacity-80">{project.role}</p>
@@ -117,27 +303,11 @@ export default function HorizontalProject({ project }) {
               </div>
             </div>
           </div>
-          
+
           {/* Panel 2: Bento grid — images + text highlights */}
           {bentoItems.map((item, i) => {
             if (item.type === "text") {
-              let title = "";
-              let body = "";
-
-              if (typeof item.content === 'object') {
-                title = item.content.title;
-                body = item.content.body;
-              } else {
-                // Parse content for Title/Body structure (legacy support)
-                title = item.content;
-                
-                // Split by first period or colon if present
-                const match = item.content.match(/^([^.:]+[.:])(.*)$/);
-                if (match) {
-                  title = match[1];
-                  body = match[2].trim();
-                }
-              }
+              const { title, body } = parseHighlight(item.content);
 
               return (
                 <div
@@ -145,7 +315,7 @@ export default function HorizontalProject({ project }) {
                   className="flex-shrink-0 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-8 shadow-sm hover:bg-white/10 transition-colors flex flex-col justify-start text-left"
                   style={{
                     width: `${TEXT_CARD_WIDTH}px`,
-                    height: '400px',
+                    height: "400px",
                   }}
                 >
                   <h5 className="mb-3 text-2xl font-semibold tracking-tight leading-8">
@@ -160,7 +330,7 @@ export default function HorizontalProject({ project }) {
               );
             }
 
-            const isVideo = item.src?.endsWith('.mp4');
+            const isVideo = item.src?.endsWith(".mp4");
 
             return (
               <div
@@ -181,8 +351,8 @@ export default function HorizontalProject({ project }) {
                     playsInline
                   />
                 ) : (
-                  <img 
-                    src={item.src} 
+                  <img
+                    src={item.src}
                     alt={`${project.title} ${item.idx + 1}`}
                     className="w-full h-full object-cover"
                   />
@@ -199,7 +369,10 @@ export default function HorizontalProject({ project }) {
             </div>
           )}
           {hasResponsivePair && (
-            <div key="responsive-pair" className="flex-shrink-0 flex items-center">
+            <div
+              key="responsive-pair"
+              className="flex-shrink-0 flex items-center"
+            >
               <ResponsiveScrollPair
                 images={project.responsiveImages}
                 altLeft="Desktop"
@@ -208,8 +381,14 @@ export default function HorizontalProject({ project }) {
             </div>
           )}
           {hasVideos && (
-            <div key="video-pair" className="flex-shrink-0 flex items-center gap-4">
-              <div className="rounded-lg overflow-hidden bg-black/40" style={{ width: 320, height: 180 }}>
+            <div
+              key="video-pair"
+              className="flex-shrink-0 flex items-center gap-4"
+            >
+              <div
+                className="rounded-lg overflow-hidden bg-black/40"
+                style={{ width: 320, height: 180 }}
+              >
                 <video
                   src={project.videos.desktop}
                   className="w-full h-full object-cover"
@@ -220,7 +399,10 @@ export default function HorizontalProject({ project }) {
                   aria-label={`${project.title} — desktop`}
                 />
               </div>
-              <div className="rounded-lg overflow-hidden bg-black/40" style={{ width: 160, height: 284 }}>
+              <div
+                className="rounded-lg overflow-hidden bg-black/40"
+                style={{ width: 160, height: 284 }}
+              >
                 <video
                   src={project.videos.mobile}
                   className="w-full h-full object-cover"

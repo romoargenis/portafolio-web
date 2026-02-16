@@ -25,8 +25,8 @@ export default function Home() {
           return (
             <section
               key={slide.id}
-              className=""
-              style={{ backgroundColor: slide.color }}
+              className="relative"
+              style={{ backgroundColor: slide.color, zIndex: index + 1 }}
             >
               <GreetingSection 
                 title={slide.title} 
@@ -42,8 +42,8 @@ export default function Home() {
           return (
             <section
               key={slide.id}
-              className=""
-              style={{ backgroundColor: slide.color }}
+              className="relative"
+              style={{ backgroundColor: slide.color, zIndex: index + 1 }}
             >
               <HorizontalProject project={slide} />
             </section>
@@ -55,8 +55,8 @@ export default function Home() {
           return (
             <section
               key={slide.id}
-              className=""
-              style={{ backgroundColor: slide.color }}
+              className="relative"
+              style={{ backgroundColor: slide.color, zIndex: index + 1 }}
             >
               <IntroSection slide={slide} />
             </section>
@@ -68,8 +68,8 @@ export default function Home() {
         return (
           <section
             key={slide.id}
-            className="h-screen flex items-center justify-center"
-            style={{ backgroundColor: slide.color }}
+            className="relative h-screen flex items-center justify-center"
+            style={{ backgroundColor: slide.color, zIndex: index + 1 }}
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
