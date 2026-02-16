@@ -19,6 +19,12 @@ export default function Home() {
       {allSlides.map((slide, index) => {
         // Check if this is a project slide
         const isProject = slide.title && !slide.type;
+
+        // Sticky sections (greeting, intro, projects) need a high z-index so
+        // their pinned content stays on top of the non-sticky section that follows.
+        // Non-sticky sections (awards-belt, contact) sit below the preceding sticky.
+        const isStickySection = slide.type === "greeting" || slide.type === "intro" || isProject;
+        const sectionZIndex = isStickySection ? 10 + index : 1;
         
         // For greeting slides, render with GreetingSection component
         if (slide.type === "greeting") {
@@ -26,7 +32,7 @@ export default function Home() {
             <section
               key={slide.id}
               className="relative"
-              style={{ backgroundColor: slide.color, zIndex: index + 1 }}
+              style={{ backgroundColor: slide.color, zIndex: sectionZIndex }}
             >
               <GreetingSection 
                 title={slide.title} 
@@ -43,7 +49,7 @@ export default function Home() {
             <section
               key={slide.id}
               className="relative"
-              style={{ backgroundColor: slide.color, zIndex: index + 1 }}
+              style={{ backgroundColor: slide.color, zIndex: sectionZIndex }}
             >
               <HorizontalProject project={slide} />
             </section>
@@ -56,7 +62,7 @@ export default function Home() {
             <section
               key={slide.id}
               className="relative"
-              style={{ backgroundColor: slide.color, zIndex: index + 1 }}
+              style={{ backgroundColor: slide.color, zIndex: sectionZIndex }}
             >
               <IntroSection slide={slide} />
             </section>
@@ -68,8 +74,8 @@ export default function Home() {
         return (
           <section
             key={slide.id}
-            className="relative h-screen flex items-center justify-center"
-            style={{ backgroundColor: slide.color, zIndex: index + 1 }}
+            className="relative flex items-center justify-center"
+            style={{ backgroundColor: slide.color, zIndex: sectionZIndex }}
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}

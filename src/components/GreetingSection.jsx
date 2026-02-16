@@ -96,8 +96,8 @@ export default function GreetingSection({ title, subtitle, color }) {
           <HiCircle />
           
           {/* Title container */}
-          <div className="relative z-10 text-center">
-            <div className="text-6xl font-bold mb-4 flex items-baseline justify-center">
+          <div className="relative z-10 text-center px-6 md:px-8 max-w-full">
+            <div className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 flex items-baseline justify-center">
               {/* First word - always centered */}
               <motion.span
                 style={{ opacity: firstWordOpacity }}
@@ -113,12 +113,12 @@ export default function GreetingSection({ title, subtitle, color }) {
                   maxWidth: clientNameMaxWidth,
                 }}
               >
-                <span className="pl-4 inline-block">{clientName}</span>
+                <span className="pl-2 sm:pl-4 inline-block">{clientName}</span>
               </motion.div>
             </div>
             
             {/* Subtitle with staggered words */}
-            <div className="text-2xl flex items-center justify-center gap-2 flex-wrap">
+            <div className="text-base sm:text-xl md:text-2xl flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
               {subtitleWords.map((word, index) => {
                 const wordOpacity = getWordOpacity(index);
                 return (
