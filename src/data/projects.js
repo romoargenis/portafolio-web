@@ -19,8 +19,8 @@ export const projects = [
     images: [
       "/img/2k-desktop - br.mp4",
       "/img/2k-mobile.mp4",
-      "/img/2k-desktop.mp4"
-
+      "/img/2k-desktop.mp4",
+      "/img/clean-browser-mockup-ar.png"
     ]
   },
   {
@@ -45,24 +45,24 @@ export const projects = [
       "/img/GPI-07-responsive-2.png"
     ]
   },
-  {
-    id: 3,
-    title: "Quepidocargo",
-    role: "Full Stack developer",
-    tags: ["Wordpress", "Elementor"],
-    color: "#141414",
-    description: "Logistics and tracking platform for the transportation of goods",
-    highlights: [
-      "Real-time tracking analytics. Since the buissnes is on its early stages marketing anlytics are crucial to the success of the business",
-    ],
-    images: [
-      "https://placehold.co/600x400?text=Quepido+1",
-      "https://placehold.co/400x600?text=Quepido+2",
-      "https://placehold.co/500x500?text=Quepido+3",
-      "https://placehold.co/600x400?text=Quepido+4",
-      "https://placehold.co/400x600?text=Quepido+5"
-    ]
-  },
+  // {
+  //   id: 3,
+  //   title: "Quepidocargo",
+  //   role: "Full Stack developer",
+  //   tags: ["Wordpress", "Elementor"],
+  //   color: "#141414",
+  //   description: "Logistics and tracking platform for the transportation of goods",
+  //   highlights: [
+  //     "Real-time tracking analytics. Since the buissnes is on its early stages marketing anlytics are crucial to the success of the business",
+  //   ],
+  //   images: [
+  //     "https://placehold.co/600x400?text=Quepido+1",
+  //     "https://placehold.co/400x600?text=Quepido+2",
+  //     "https://placehold.co/500x500?text=Quepido+3",
+  //     "https://placehold.co/600x400?text=Quepido+4",
+  //     "https://placehold.co/400x600?text=Quepido+5"
+  //   ]
+  // },
 
   {
     id: 4,
