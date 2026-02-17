@@ -39,11 +39,7 @@ export const projects = [
       "/img/GPI-01-wireframes.png",
       "/img/GPI-05-wireframes.png",
     ],
-    phoneFrameImage: "/img/screencapture-grupoperaviaindustrial-home-2026-02-06-21_18_40.png",
-    responsiveImages: [
-      "/img/GPI-07-responsive.png",
-      "/img/GPI-07-responsive-2.png"
-    ]
+    extraMedia: "/img/GPI vert.mp4"
   },
   // {
   //   id: 3,

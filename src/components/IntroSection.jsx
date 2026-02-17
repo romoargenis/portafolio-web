@@ -1,10 +1,24 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import SplitText from "./SplitText";
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 export default function IntroSection({ slide }) {
+  const isMobile = useIsMobile();
   const containerRef = useRef(null);
   
   const { scrollYProgress } = useScroll({
@@ -158,10 +172,16 @@ export default function IntroSection({ slide }) {
     [1, 0]
   );
 
-  const leftSectionWidth = useTransform(
+  const leftSectionWidthDesktop = useTransform(
     scrollYProgress,
     [expandStart, expandEnd],
     ["50%", "0%"]
+  );
+
+  const leftSectionWidthMobile = useTransform(
+    scrollYProgress,
+    [expandStart, expandEnd],
+    ["100%", "0%"]
   );
 
   const containerGap = useTransform(
@@ -176,21 +196,21 @@ export default function IntroSection({ slide }) {
         <motion.div 
           className="w-full h-full flex items-center justify-center"
           style={{
-            scale: 0.9,
+            scale: isMobile ? 1 : 0.9,
             gap: containerGap,
-            borderRadius: "24px",
+            borderRadius: isMobile ? "0px" : "24px",
           }}
         >
-          {/* Left 50% - Title, Subtitle & Services */}
+          {/* Left section - Title, Subtitle & Services */}
           <motion.div 
-            className="flex flex-col justify-center text-left pl-8 pr-12 overflow-hidden flex-shrink-0 h-full"
+            className="flex flex-col justify-center text-left px-5 md:pl-8 md:pr-12 overflow-hidden flex-shrink-0 h-full"
             style={{ 
               opacity: leftSectionOpacity, 
-              width: leftSectionWidth, 
+              width: isMobile ? leftSectionWidthMobile : leftSectionWidthDesktop, 
             }}
           >
             {/* Title with staggered fade in */}
-            <h1 className="text-6xl font-bold mb-6 flex flex-wrap gap-3">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 flex flex-wrap gap-2 md:gap-3">
               {titleWords.map((word, index) => {
                 const wordOpacity = getTitleWordOpacity(index);
                 return (
@@ -205,7 +225,7 @@ export default function IntroSection({ slide }) {
             </h1>
             
             {/* Subtitle with staggered fade in + vertical slide */}
-            <p className="text-3xl opacity-90 flex flex-wrap gap-2">
+            <p className="text-lg sm:text-xl md:text-3xl opacity-90 flex flex-wrap gap-1.5 md:gap-2">
               {subtitleWords.map((word, index) => {
                 const wordOpacity = getSubtitleWordOpacity(index);
                 const wordY = getSubtitleWordY(index);
@@ -224,9 +244,9 @@ export default function IntroSection({ slide }) {
             </p>
           </motion.div>
           
-          {/* Right 50% - Image background with description */}
+          {/* Right section - Image background with description */}
           <motion.div 
-            className="h-full rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0"
+            className="h-full rounded-2xl md:rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0"
           >
             {/* Background image */}
             <div 
@@ -237,7 +257,7 @@ export default function IntroSection({ slide }) {
             />
             
             {/* Content overlay */}
-            <div className="relative z-10 h-full w-full flex flex-col justify-center items-center p-8">
+            <div className="relative z-10 h-full w-full flex flex-col justify-center items-center p-4 md:p-8">
               {/* Description - Line 1 (fades in as block) */}
               {descLine1 && (
                 typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
@@ -245,7 +265,7 @@ export default function IntroSection({ slide }) {
                     className="flex flex-col items-center justify-center relative"
                     style={{ opacity: desc1Opacity }}
                   >
-                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12vw] xl:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap">
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5.1vw] xl:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap">
                       {descLine1.overlay}
                     </span>
                     <div className="flex flex-col items-center leading-[0.8] z-10">
@@ -261,7 +281,7 @@ export default function IntroSection({ slide }) {
                   </motion.div>
                 ) : (
                   <motion.p 
-                    className="text-lg leading-relaxed text-center"
+                    className="text-base md:text-lg leading-relaxed text-center"
                     style={{ opacity: desc1Opacity }}
                   >
                     {descLine1}
@@ -270,10 +290,10 @@ export default function IntroSection({ slide }) {
               )}
 
               {/* Description Line 2 & Services - Bottom Aligned & Inline */}
-              <div className="absolute bottom-16 left-0 right-0 flex items-center justify-center gap-4 text-[#333]">
+              <div className="absolute bottom-6 md:bottom-16 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-[#333] px-4">
                 {/* Description - Line 2 (word-by-word stagger) */}
                 {descLine2Words.length > 0 && (
-                  <p className="text-xl leading-relaxed font-medium">
+                  <p className="text-sm sm:text-base md:text-xl leading-relaxed font-medium">
                     {descLine2Words.map((word, index) => {
                       const wordOpacity = getDesc2WordOpacity(index);
                       return (
@@ -290,14 +310,14 @@ export default function IntroSection({ slide }) {
 
                 {/* Services carousel - continuation of the description "like:" */}
                 {services.length > 0 && (
-                  <div className="relative h-12 w-64 overflow-hidden flex items-center">
+                  <div className="relative h-8 md:h-12 w-48 md:w-64 overflow-hidden flex items-center">
                     {services.map((service, index) => {
                       const serviceOpacity = getServiceOpacity(index);
                       const serviceY = getServiceY(index);
                       return (
                         <motion.span
                           key={index}
-                          className="absolute left-0 text-3xl font-bold whitespace-nowrap"
+                          className="absolute left-0 text-xl sm:text-2xl md:text-3xl font-bold whitespace-nowrap"
                           style={{
                             opacity: serviceOpacity,
                             y: serviceY,

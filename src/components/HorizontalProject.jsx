@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo, useState, useEffect } from "react";
-import PhoneFrame from "./PhoneFrame";
 import ResponsiveScrollPair from "./ResponsiveScrollPair";
 
 function useIsMobile(breakpoint = 768) {
@@ -83,8 +82,8 @@ export default function HorizontalProject({ project }) {
     return items;
   }, [project.images, highlights]);
 
-  const phoneFrameWidth = 280 + 20;
-  const hasPhoneFrame = !!project.phoneFrameImage;
+  const EXTRA_MEDIA_SIZE = 400;
+  const hasExtraMedia = !!project.extraMedia;
 
   const RESPONSIVE_PAIR_WIDTH = 520 + 16;
   const hasResponsivePair = project.responsiveImages?.length >= 2;
@@ -103,7 +102,7 @@ export default function HorizontalProject({ project }) {
       totalContentWidth += TEXT_CARD_WIDTH + GAP;
     }
   });
-  if (hasPhoneFrame) totalContentWidth += phoneFrameWidth;
+  if (hasExtraMedia) totalContentWidth += EXTRA_MEDIA_SIZE + GAP;
   if (hasResponsivePair) totalContentWidth += RESPONSIVE_PAIR_WIDTH;
   if (hasVideos) totalContentWidth += VIDEO_PAIR_WIDTH;
 
@@ -175,12 +174,27 @@ export default function HorizontalProject({ project }) {
                 </div>
               );
             })}
-            {hasPhoneFrame && (
-              <div className="flex-shrink-0 flex items-center">
-                <PhoneFrame
-                  src={project.phoneFrameImage}
-                  alt={`${project.title} — mobile view`}
-                />
+            {hasExtraMedia && (
+              <div
+                className="flex-shrink-0 rounded-xl overflow-hidden bg-white/5"
+                style={{ width: 260, height: 260 }}
+              >
+                {project.extraMedia.endsWith(".mp4") ? (
+                  <video
+                    src={project.extraMedia}
+                    className="w-full h-full object-cover"
+                    muted
+                    autoPlay
+                    loop
+                    playsInline
+                  />
+                ) : (
+                  <img
+                    src={project.extraMedia}
+                    alt={`${project.title}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
             )}
           </div>
@@ -360,12 +374,28 @@ export default function HorizontalProject({ project }) {
               </div>
             );
           })}
-          {hasPhoneFrame && (
-            <div key="phone-frame" className="flex-shrink-0 flex items-center">
-              <PhoneFrame
-                src={project.phoneFrameImage}
-                alt={`${project.title} — mobile view`}
-              />
+          {hasExtraMedia && (
+            <div
+              key="extra-media"
+              className="flex-shrink-0 rounded-lg overflow-hidden bg-white/5"
+              style={{ width: EXTRA_MEDIA_SIZE, height: EXTRA_MEDIA_SIZE }}
+            >
+              {project.extraMedia.endsWith(".mp4") ? (
+                <video
+                  src={project.extraMedia}
+                  className="w-full h-full object-cover"
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={project.extraMedia}
+                  alt={`${project.title}`}
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
           )}
           {hasResponsivePair && (

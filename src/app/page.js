@@ -89,7 +89,7 @@ export default function Home() {
             >
 
             {slide.type === "awards-belt" && (
-              <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-center">
+              <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-center items-start">
                 {/* Left Column: Awards */}
                 <div className="flex flex-col gap-8 items-center">
                   <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
@@ -112,7 +112,7 @@ export default function Home() {
 
                 {/* Right Column: Exhibitions */}
                 {slide.exhibitions && (
-                  <div className="flex flex-col gap-8 items-center m-8">
+                  <div className="flex flex-col gap-8 items-center">
                     <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
                       Exhibitions
                     </h2>
