@@ -67,7 +67,7 @@ export const introSlides = [
 export const outroSlide = {
   id: "contact",
   type: "contact",
-  title: "Lets create beautiful things together",
+  title: "Let us create\nbeautiful things,\n together",
   subtitle: "Let's work together",
   email: "romoargenis@gmail.com",
   color: "#141414",

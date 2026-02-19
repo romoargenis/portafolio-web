@@ -338,7 +338,7 @@ export default function IntroSection({ slide }) {
                       return (
                         <motion.span
                           key={index}
-                          className="absolute left-0 text-sm sm:text-2xl md:text-3xl font-medium whitespace-nowrap"
+                          className="text-sm sm:text-base md:text-xl leading-relaxed font-medium whitespace-nowrap"
                           style={{
                             opacity: serviceOpacity,
                             y: serviceY,

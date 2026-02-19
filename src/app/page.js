@@ -207,9 +207,9 @@ export default function Home() {
                 <div className="flex flex-col gap-6 text-xl">
                   <a 
                     href={`mailto:${slide.email}`}
-                    className="px-6 py-4 bg-white/10 rounded-lg hover:bg-white/20 transition-colors backdrop-blur-sm"
+                    className="px-6 py-4"
                   >
-                    📧 {slide.email}
+                   {slide.email}
                   </a>
                 </div>
               </>
