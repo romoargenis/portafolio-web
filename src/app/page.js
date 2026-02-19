@@ -10,6 +10,46 @@ import IntroSection from "@/components/IntroSection";
 import { projects } from "@/data/projects";
 import { introSlides, outroSlide } from "@/data/slides";
 
+const MEDAL_COLORS = {
+  gold: "#FFD700",
+  silver: "#C0C0C0",
+  bronze: "#CD7F32",
+  "grand prix": "#88C8E8",
+  pencil: "#8B7355",
+  cristal: "#88C8E8",
+};
+
+const SKIP_KEYWORDS = ["finalist", "short list", "community", "multiple", "ranking"];
+
+function parseAwardMedals(awardStr) {
+  const circles = [];
+  const segments = awardStr.split(",").map((s) => s.trim());
+
+  for (const segment of segments) {
+    const lower = segment.toLowerCase();
+
+    if (SKIP_KEYWORDS.some((kw) => lower.includes(kw))) continue;
+
+    let count = 1;
+    const countMatch = segment.match(/^(\d+)x?\s/i);
+    if (countMatch) count = parseInt(countMatch[1]);
+
+    let color = null;
+    if (lower.includes("grand prix")) color = MEDAL_COLORS["grand prix"];
+    else if (lower.includes("gold")) color = MEDAL_COLORS.gold;
+    else if (lower.includes("silver")) color = MEDAL_COLORS.silver;
+    else if (lower.includes("bronze")) color = MEDAL_COLORS.bronze;
+    else if (lower.includes("pencil")) color = MEDAL_COLORS.pencil;
+    else if (lower.includes("cristal")) color = MEDAL_COLORS.cristal;
+
+    if (color) {
+      for (let i = 0; i < count; i++) circles.push(color);
+    }
+  }
+
+  return circles;
+}
+
 export default function Home() {
   // Combine intro slides, projects, and outro
   const allSlides = [...introSlides, ...projects, outroSlide];
@@ -74,7 +114,7 @@ export default function Home() {
         return (
           <section
             key={slide.id}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center min-h-screen"
             style={{ backgroundColor: slide.color, zIndex: sectionZIndex }}
           >
             <motion.div
@@ -89,51 +129,70 @@ export default function Home() {
             >
 
             {slide.type === "awards-belt" && (
-              <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-center items-start">
+              <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-left items-start">
                 {/* Left Column: Awards */}
-                <div className="flex flex-col gap-8 items-center">
-                  <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
+                <div className="flex flex-col gap-6">
+                  <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2">
                     Awards
                   </h2>
                   <div className="flex flex-col gap-3 w-full">
-                    {slide.awards.map((award, idx) => (
-                      <motion.div
-                        key={`award-${idx}`}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        className="opacity-80 hover:opacity-100 transition-opacity"
-                      >
-                        <span className="font-bold">{award.award}</span>
-                        <span className="opacity-60"> · </span>
-                        <span className="font-mono">{award.name}</span>
-                        <span className="opacity-60"> · </span>
-                        <span className="opacity-50 text-sm">{award.location}</span>
-                      </motion.div>
-                    ))}
+                    {slide.awards.map((award, idx) => {
+                      const medals = parseAwardMedals(award.award);
+                      return (
+                        <motion.div
+                          key={`award-${idx}`}
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ delay: idx * 0.04 }}
+                          className="group opacity-80 hover:opacity-100 transition-all cursor-default"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-sm">{award.name}</span>
+                            <span className="opacity-40 text-sm">·</span>
+                            <span className="opacity-40 text-xs whitespace-nowrap">{award.location}</span>
+                          </div>
+
+                          {/* Circles + award text - revealed on hover */}
+                          <div className="flex items-center gap-2 h-0 group-hover:h-6 opacity-0 group-hover:opacity-100 overflow-hidden transition-all duration-300 ease-out">
+                            {medals.length > 0 && (
+                              <div className="flex gap-1 shrink-0">
+                                {medals.map((color, i) => (
+                                  <span
+                                    key={i}
+                                    className="w-2 h-2 rounded-full inline-block shrink-0"
+                                    style={{ backgroundColor: color }}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                            <span className="font-bold text-xs opacity-70">{award.award}</span>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* Right Column: Exhibitions */}
                 {slide.exhibitions && (
-                  <div className="flex flex-col gap-8 items-center">
-                    <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
+                  <div className="flex flex-col gap-6">
+                    <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2">
                       Exhibitions
                     </h2>
-                    <div className="flex flex-col gap-3 w-full">
+                    <div className="flex flex-col gap-2.5 w-full">
                       {slide.exhibitions.map((exhibition, idx) => (
                         <motion.div
                           key={`exhibition-${idx}`}
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="opacity-80 hover:opacity-100 transition-opacity"
+                          className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"
                         >
-                          <span className="font-mono">{exhibition.name}</span>
-                          <span className="opacity-60"> · </span>
-                          <span className="font-bold">{exhibition.year}</span>
-                          <span className="opacity-60"> · </span>
-                          <span className="opacity-50 text-sm">{exhibition.location}</span>
+                          <span className="font-mono text-sm">{exhibition.name}</span>
+                          <span className="opacity-40 text-sm">&nbsp;·&nbsp;</span>
+                          <span className="font-bold text-sm">{exhibition.year}</span>
+                          <span className="opacity-40 text-sm">&nbsp;·&nbsp;</span>
+                          <span className="opacity-40 text-xs whitespace-nowrap">{exhibition.location}</span>
                         </motion.div>
                       ))}
                     </div>
@@ -145,7 +204,6 @@ export default function Home() {
             {slide.type === "contact" && (
               <>
                 <h1 className="text-6xl font-bold mb-4">{slide.title}</h1>
-                <p className="text-2xl opacity-80 mb-12">{slide.subtitle}</p>
                 <div className="flex flex-col gap-6 text-xl">
                   <a 
                     href={`mailto:${slide.email}`}

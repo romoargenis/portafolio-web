@@ -92,7 +92,27 @@ export default function IntroSection({ slide }) {
     [descriptionStart, descriptionStart + 0.06],
     [0, 1]
   );
-  const desc1EndTime = descriptionStart + 0.06;
+
+  // Staggered fade for award-layout lines + overlay
+  const AWARD_STAGGER = 0.03;
+  const awardLine0Opacity = useTransform(
+    scrollYProgress,
+    [descriptionStart, descriptionStart + 0.04],
+    [0, 1]
+  );
+  const awardLine1Opacity = useTransform(
+    scrollYProgress,
+    [descriptionStart + AWARD_STAGGER, descriptionStart + AWARD_STAGGER + 0.04],
+    [0, 1]
+  );
+  const awardOverlayOpacity = useTransform(
+    scrollYProgress,
+    [descriptionStart + AWARD_STAGGER * 2, descriptionStart + AWARD_STAGGER * 2 + 0.04],
+    [0, 1]
+  );
+  const awardLineOpacities = [awardLine0Opacity, awardLine1Opacity];
+
+  const desc1EndTime = descriptionStart + AWARD_STAGGER * 2 + 0.04;
 
   // ── EXPAND RIGHT SECTION TO FULL WIDTH ─────────────────────────────
   const expandStart = desc1EndTime + 0.03;
@@ -261,24 +281,25 @@ export default function IntroSection({ slide }) {
               {/* Description - Line 1 (fades in as block) */}
               {descLine1 && (
                 typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
-                  <motion.div 
-                    className="flex flex-col items-center justify-center relative"
-                    style={{ opacity: desc1Opacity }}
-                  >
-                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[5.1vw] xl:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap">
+                  <div className="flex flex-col items-center justify-center relative">
+                    <motion.span 
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8.6vw] md:text-[5.1vw] xl:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap"
+                      style={{ opacity: awardOverlayOpacity }}
+                    >
                       {descLine1.overlay}
-                    </span>
+                    </motion.span>
                     <div className="flex flex-col items-center leading-[0.8] z-10">
                       {descLine1.lines.map((line, idx) => (
-                        <span 
+                        <motion.span 
                           key={idx}
-                          className="text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
+                          className="text-[20vw] md:text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
+                          style={{ opacity: awardLineOpacities[idx] || desc1Opacity }}
                         >
                           {line}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 ) : (
                   <motion.p 
                     className="text-base md:text-lg leading-relaxed text-center"
@@ -317,7 +338,7 @@ export default function IntroSection({ slide }) {
                       return (
                         <motion.span
                           key={index}
-                          className="absolute left-0 text-xl sm:text-2xl md:text-3xl font-bold whitespace-nowrap"
+                          className="absolute left-0 text-sm sm:text-2xl md:text-3xl font-medium whitespace-nowrap"
                           style={{
                             opacity: serviceOpacity,
                             y: serviceY,
