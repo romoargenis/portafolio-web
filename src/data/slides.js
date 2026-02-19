@@ -12,8 +12,7 @@ export const introSlides = [
     title: "I'm Argenis Romo",
     subtitle: "Communication Designer",
     services: [
-      "Full Stack Development",
-      "WordPress & Custom Themes",
+      "Product Design",
       "UI/UX Design",
       "Technical Leadership",
       "Motion",
@@ -27,7 +26,7 @@ export const introSlides = [
         lines: ["Award", "Winning"],
         overlay: "Designer"
       },
-      "solving real world problems through a wide range of mediums like:"
+      "Solving real world problems through a wide range of mediums like:"
     ],
     color: "#141414",
   },

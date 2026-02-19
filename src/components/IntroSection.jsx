@@ -17,6 +17,50 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
+function FadeWord({ scrollYProgress, start, duration = 0.04, className, style, children }) {
+  const opacity = useTransform(scrollYProgress, [start, start + duration], [0, 1]);
+  return (
+    <motion.span className={className} style={{ opacity, ...style }}>
+      {children}
+    </motion.span>
+  );
+}
+
+function SlideWord({ scrollYProgress, start, duration = 0.04, yDistance = 20, className, style, children }) {
+  const opacity = useTransform(scrollYProgress, [start, start + duration], [0, 1]);
+  const y = useTransform(scrollYProgress, [start, start + duration], [yDistance, 0]);
+  return (
+    <motion.span className={className} style={{ opacity, y, ...style }}>
+      {children}
+    </motion.span>
+  );
+}
+
+function ServiceItem({ scrollYProgress, start, segmentSize, isLast, className, children }) {
+  const fadeIn = start + segmentSize * 0.15;
+  const fadeOut = start + segmentSize * 0.85;
+  const end = start + segmentSize;
+  const settleIn = start + segmentSize * 0.2;
+  const settleOut = start + segmentSize * 0.8;
+
+  const opacity = useTransform(
+    scrollYProgress,
+    isLast ? [start, fadeIn] : [start, fadeIn, fadeOut, end],
+    isLast ? [0, 1] : [0, 1, 1, 0]
+  );
+  const y = useTransform(
+    scrollYProgress,
+    isLast ? [start, settleIn] : [start, settleIn, settleOut, end],
+    isLast ? [40, 0] : [40, 0, 0, -40]
+  );
+
+  return (
+    <motion.span className={className} style={{ opacity, y }}>
+      {children}
+    </motion.span>
+  );
+}
+
 export default function IntroSection({ slide }) {
   const isMobile = useIsMobile();
   const containerRef = useRef(null);
@@ -29,55 +73,16 @@ export default function IntroSection({ slide }) {
   const services = slide.services || [];
   const totalServices = services.length;
 
-  // ── TITLE ──────────────────────────────────────────────────────────
+  // ── TIMING CALCULATIONS ─────────────────────────────────────────────
   const titleWords = slide.title.split(" ");
-  
-  const getTitleWordOpacity = (index) => {
-    const baseStart = 0.02;
-    const staggerDelay = 0.02;
-    const wordStart = baseStart + (index * staggerDelay);
-    const wordEnd = wordStart + 0.04;
-    
-    return useTransform(
-      scrollYProgress,
-      [wordStart, wordEnd],
-      [0, 1]
-    );
-  };
+  const titleBaseStart = 0.02;
+  const titleStagger = 0.02;
+  const titleEndApprox = titleBaseStart + (titleWords.length * titleStagger) + 0.04;
 
-  // ── SUBTITLE (part of the same motion as title) ────────────────────
   const subtitleWords = slide.subtitle.split(" ");
-  const titleEndApprox = 0.02 + (titleWords.length * 0.02) + 0.04;
-  
-  const getSubtitleWordOpacity = (index) => {
-    const baseStart = titleEndApprox;
-    const staggerDelay = 0.02;
-    const wordStart = baseStart + (index * staggerDelay);
-    const wordEnd = wordStart + 0.04;
-    
-    return useTransform(
-      scrollYProgress,
-      [wordStart, wordEnd],
-      [0, 1]
-    );
-  };
-
-  const getSubtitleWordY = (index) => {
-    const baseStart = titleEndApprox;
-    const staggerDelay = 0.02;
-    const wordStart = baseStart + (index * staggerDelay);
-    const wordEnd = wordStart + 0.04;
-    
-    return useTransform(
-      scrollYProgress,
-      [wordStart, wordEnd],
-      [20, 0]
-    );
-  };
-
-  const subtitleEndTime = titleEndApprox + (subtitleWords.length * 0.02) + 0.04;
-
-  // ── PAUSE ── let the layout (image + text) breathe ─────────────────
+  const subtitleBaseStart = titleEndApprox;
+  const subtitleStagger = 0.02;
+  const subtitleEndTime = subtitleBaseStart + (subtitleWords.length * subtitleStagger) + 0.04;
 
   // ── DESCRIPTION (two segments) ──────────────────────────────────────
   const description = slide.description || [];
@@ -85,7 +90,6 @@ export default function IntroSection({ slide }) {
   const descLine2 = Array.isArray(description) ? description[1] : null;
   const descLine2Words = descLine2 ? descLine2.split(" ") : [];
 
-  // Line 1 "Award winning designer," fades in after a deliberate pause
   const descriptionStart = subtitleEndTime + 0.12;
   const desc1Opacity = useTransform(
     scrollYProgress,
@@ -118,73 +122,14 @@ export default function IntroSection({ slide }) {
   const expandStart = desc1EndTime + 0.03;
   const expandEnd = expandStart + 0.15;
 
-  // Line 2 fades in word-by-word (after expansion, tighter stagger)
   const desc2Start = expandEnd + 0.02;
-  const desc2StaggerDelay = 0.01;
+  const desc2Stagger = 0.01;
+  const desc2EndTime = desc2Start + (descLine2Words.length * desc2Stagger) + 0.03;
 
-  const getDesc2WordOpacity = (index) => {
-    const wordStart = desc2Start + (index * desc2StaggerDelay);
-    const wordEnd = wordStart + 0.03;
-    return useTransform(
-      scrollYProgress,
-      [wordStart, wordEnd],
-      [0, 1]
-    );
-  };
-
-  const desc2EndTime = desc2Start + (descLine2Words.length * desc2StaggerDelay) + 0.03;
-
-  // ── SERVICES CAROUSEL (after desc line 2, full-width panel) ────────
+  // ── SERVICES CAROUSEL ──────────────────────────────────────────────
   const servicesStart = desc2EndTime + 0.02;
-  const servicesWindow = 0.92 - servicesStart; // fill remaining scroll budget (hold at end)
-  const servicesEnd = servicesStart + servicesWindow;
-  const segmentSize = servicesWindow / totalServices;
-
-  const isLastService = (index) => index === totalServices - 1;
-
-  const getServiceOpacity = (index) => {
-    const start = servicesStart + (index * segmentSize);
-    const fadeIn = start + segmentSize * 0.15;
-
-    if (isLastService(index)) {
-      // Last service fades in and STAYS
-      return useTransform(
-        scrollYProgress,
-        [start, fadeIn],
-        [0, 1]
-      );
-    }
-
-    const fadeOut = start + segmentSize * 0.85;
-    const end = start + segmentSize;
-    return useTransform(
-      scrollYProgress,
-      [start, fadeIn, fadeOut, end],
-      [0, 1, 1, 0]
-    );
-  };
-
-  const getServiceY = (index) => {
-    const start = servicesStart + (index * segmentSize);
-    const settleIn = start + segmentSize * 0.2;
-
-    if (isLastService(index)) {
-      // Last service settles and STAYS
-      return useTransform(
-        scrollYProgress,
-        [start, settleIn],
-        [40, 0]
-      );
-    }
-
-    const settleOut = start + segmentSize * 0.8;
-    const end = start + segmentSize;
-    return useTransform(
-      scrollYProgress,
-      [start, settleIn, settleOut, end],
-      [40, 0, 0, -40]
-    );
-  };
+  const servicesWindow = 0.92 - servicesStart;
+  const segmentSize = totalServices > 0 ? servicesWindow / totalServices : 0;
 
   const leftSectionOpacity = useTransform(
     scrollYProgress,
@@ -229,38 +174,28 @@ export default function IntroSection({ slide }) {
               width: isMobile ? leftSectionWidthMobile : leftSectionWidthDesktop, 
             }}
           >
-            {/* Title with staggered fade in */}
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 flex flex-wrap gap-2 md:gap-3">
-              {titleWords.map((word, index) => {
-                const wordOpacity = getTitleWordOpacity(index);
-                return (
-                  <motion.span
-                    key={index}
-                    style={{ opacity: wordOpacity }}
-                  >
-                    {word}
-                  </motion.span>
-                );
-              })}
+              {titleWords.map((word, index) => (
+                <FadeWord
+                  key={index}
+                  scrollYProgress={scrollYProgress}
+                  start={titleBaseStart + index * titleStagger}
+                >
+                  {word}
+                </FadeWord>
+              ))}
             </h1>
             
-            {/* Subtitle with staggered fade in + vertical slide */}
             <p className="text-lg sm:text-xl md:text-3xl opacity-90 flex flex-wrap gap-1.5 md:gap-2">
-              {subtitleWords.map((word, index) => {
-                const wordOpacity = getSubtitleWordOpacity(index);
-                const wordY = getSubtitleWordY(index);
-                return (
-                  <motion.span
-                    key={index}
-                    style={{ 
-                      opacity: wordOpacity,
-                      y: wordY
-                    }}
-                  >
-                    {word}
-                  </motion.span>
-                );
-              })}
+              {subtitleWords.map((word, index) => (
+                <SlideWord
+                  key={index}
+                  scrollYProgress={scrollYProgress}
+                  start={subtitleBaseStart + index * subtitleStagger}
+                >
+                  {word}
+                </SlideWord>
+              ))}
             </p>
           </motion.div>
           
@@ -268,17 +203,12 @@ export default function IntroSection({ slide }) {
           <motion.div 
             className="h-full rounded-2xl md:rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0"
           >
-            {/* Background image */}
             <div 
               className="absolute inset-0 bg-cover bg-center"
-              style={{
-                backgroundImage: "url('/img/Whiteflag.jpg')"
-              }}
+              style={{ backgroundImage: "url('/img/Whiteflag.jpg')" }}
             />
             
-            {/* Content overlay */}
             <div className="relative z-10 h-full w-full flex flex-col justify-center items-center p-4 md:p-8">
-              {/* Description - Line 1 (fades in as block) */}
               {descLine1 && (
                 typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
                   <div className="flex flex-col items-center justify-center relative">
@@ -310,44 +240,37 @@ export default function IntroSection({ slide }) {
                 )
               )}
 
-              {/* Description Line 2 & Services - Bottom Aligned & Inline */}
               <div className="absolute bottom-6 md:bottom-16 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-[#333] px-4">
-                {/* Description - Line 2 (word-by-word stagger) */}
                 {descLine2Words.length > 0 && (
                   <p className="text-sm sm:text-base md:text-xl leading-relaxed font-medium">
-                    {descLine2Words.map((word, index) => {
-                      const wordOpacity = getDesc2WordOpacity(index);
-                      return (
-                        <motion.span
-                          key={index}
-                          style={{ opacity: wordOpacity, display: "inline-block", marginRight: "0.25em" }}
-                        >
-                          {word}
-                        </motion.span>
-                      );
-                    })}
+                    {descLine2Words.map((word, index) => (
+                      <FadeWord
+                        key={index}
+                        scrollYProgress={scrollYProgress}
+                        start={desc2Start + index * desc2Stagger}
+                        duration={0.03}
+                        style={{ display: "inline-block", marginRight: "0.25em" }}
+                      >
+                        {word}
+                      </FadeWord>
+                    ))}
                   </p>
                 )}
 
-                {/* Services carousel - continuation of the description "like:" */}
                 {services.length > 0 && (
                   <div className="relative h-8 md:h-12 w-48 md:w-64 overflow-hidden flex items-center">
-                    {services.map((service, index) => {
-                      const serviceOpacity = getServiceOpacity(index);
-                      const serviceY = getServiceY(index);
-                      return (
-                        <motion.span
-                          key={index}
-                          className="text-sm sm:text-base md:text-xl leading-relaxed font-medium whitespace-nowrap"
-                          style={{
-                            opacity: serviceOpacity,
-                            y: serviceY,
-                          }}
-                        >
-                          {service}
-                        </motion.span>
-                      );
-                    })}
+                    {services.map((service, index) => (
+                      <ServiceItem
+                        key={index}
+                        scrollYProgress={scrollYProgress}
+                        start={servicesStart + index * segmentSize}
+                        segmentSize={segmentSize}
+                        isLast={index === totalServices - 1}
+                        className="absolute left-0 text-sm sm:text-base md:text-xl font-bold whitespace-nowrap"
+                      >
+                        {service}
+                      </ServiceItem>
+                    ))}
                   </div>
                 )}
               </div>
