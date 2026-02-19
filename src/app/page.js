@@ -95,16 +95,20 @@ export default function Home() {
                   <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
                     Awards
                   </h2>
-                  <div className="flex flex-col gap-2 w-full">
+                  <div className="flex flex-col gap-3 w-full">
                     {slide.awards.map((award, idx) => (
                       <motion.div
                         key={`award-${idx}`}
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                        className="opacity-80 hover:opacity-100 transition-opacity font-mono"
+                        transition={{ delay: idx * 0.05 }}
+                        className="opacity-80 hover:opacity-100 transition-opacity"
                       >
-                        {award}
+                        <span className="font-bold">{award.award}</span>
+                        <span className="opacity-60"> · </span>
+                        <span className="font-mono">{award.name}</span>
+                        <span className="opacity-60"> · </span>
+                        <span className="opacity-50 text-sm">{award.location}</span>
                       </motion.div>
                     ))}
                   </div>
@@ -116,16 +120,20 @@ export default function Home() {
                     <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2 inline-block px-8">
                       Exhibitions
                     </h2>
-                    <div className="flex flex-col gap-2 w-full">
+                    <div className="flex flex-col gap-3 w-full">
                       {slide.exhibitions.map((exhibition, idx) => (
                         <motion.div
                           key={`exhibition-${idx}`}
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="opacity-80 hover:opacity-100 transition-opacity font-mono"
+                          className="opacity-80 hover:opacity-100 transition-opacity"
                         >
-                          {exhibition}
+                          <span className="font-mono">{exhibition.name}</span>
+                          <span className="opacity-60"> · </span>
+                          <span className="font-bold">{exhibition.year}</span>
+                          <span className="opacity-60"> · </span>
+                          <span className="opacity-50 text-sm">{exhibition.location}</span>
                         </motion.div>
                       ))}
                     </div>
