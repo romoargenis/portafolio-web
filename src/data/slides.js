@@ -56,7 +56,7 @@ export const introSlides = [
     exhibitions: [
       { name: "Expo Lado B", year: "2014", location: "Caracas, Venezuela" },
       { name: "Biennal Iberoamericana de Diseño", year: "2015", location: "Barcelona, España" },
-      { name: "Altos de Chavón Student Exhibition", year: "2016", location: "La Romana, Dominican Republic" },
+      { name: "Altos de Chavón Student Exhibition", year: "2016", location: "Dominican Republic" },
       { name: "The Wrong Biennale", year: "2023", location: "Worldwide" }
     ],
     color: "#141414",

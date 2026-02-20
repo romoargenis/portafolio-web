@@ -132,7 +132,7 @@ export default function Home() {
               <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-left items-start">
                 {/* Left Column: Awards */}
                 <div className="flex flex-col gap-6">
-                  <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2">
+                  <h2 className="font-bold">
                     Awards
                   </h2>
                   <div className="flex flex-col gap-1 w-full">
@@ -176,10 +176,10 @@ export default function Home() {
                 {/* Right Column: Exhibitions */}
                 {slide.exhibitions && (
                   <div className="flex flex-col gap-6">
-                    <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2">
+                    <h2 className="font-bold">
                       Exhibitions
                     </h2>
-                    <div className="flex flex-col gap-2.5 w-full">
+                    <div className="flex flex-col gap-1 w-full">
                       {slide.exhibitions.map((exhibition, idx) => (
                         <motion.div
                           key={`exhibition-${idx}`}
