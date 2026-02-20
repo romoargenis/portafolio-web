@@ -203,11 +203,11 @@ export default function Home() {
 
             {slide.type === "contact" && (
               <>
-                <h1 className="text-6xl font-bold mb-4">{slide.title}</h1>
-                <div className="flex flex-col gap-6 text-xl">
+                <h1 className="text-6xl font-bold mb-4 text-left">{slide.title}</h1>
+                <div className="flex flex-col gap-6 text-xl text-left">
                   <a 
                     href={`mailto:${slide.email}`}
-                    className="px-6 py-4"
+                    className=""
                   >
                    {slide.email}
                   </a>

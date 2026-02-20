@@ -56,7 +56,7 @@ export default function ServicesCarousel({ title, services }) {
                     y,
                   }}
                 >
-                  <p className="text-4xl font-semibold text-[#333] whitespace-nowrap">{service}</p>
+                  <p className=" text-[#333] whitespace-nowrap">{service}</p>
                 </motion.div>
               );
             })}
