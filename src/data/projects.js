@@ -20,6 +20,7 @@ export const projects = [
       "/img/2k-desktop - br.mp4",
       "/img/2k-mobile.mp4",
       "/img/2k-desktop.mp4",
+      "/img/br/cocktails.gif",
       "/img/clean-browser-mockup-ar.png"
     ]
   },
