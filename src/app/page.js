@@ -135,7 +135,7 @@ export default function Home() {
                   <h2 className="text-2xl font-bold border-b border-white/20 pb-4 mb-2">
                     Awards
                   </h2>
-                  <div className="flex flex-col gap-3 w-full">
+                  <div className="flex flex-col gap-1 w-full">
                     {slide.awards.map((award, idx) => {
                       const medals = parseAwardMedals(award.award);
                       return (

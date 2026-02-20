@@ -119,6 +119,8 @@ export default function IntroSection({ slide }) {
   const leftSectionWidthDesktop = useTransform(scrollYProgress, [expandStart, expandEnd], ["50%", "0%"]);
   const leftSectionWidthMobile = useTransform(scrollYProgress, [expandStart, expandEnd], ["100%", "0%"]);
   const containerGap = useTransform(scrollYProgress, [expandStart, expandEnd], ["32px", "0px"]);
+  const rightSectionScaleMobile = useTransform(scrollYProgress, [expandStart, expandEnd], [1, 0.9]);
+  const rightSectionBorderRadiusMobile = useTransform(scrollYProgress, [expandStart, expandEnd], ["0px", "24px"]);
 
   // whileInView delay helpers
   const WORD_DELAY = 0.07;
@@ -137,13 +139,13 @@ export default function IntroSection({ slide }) {
         >
           {/* Left section - Title & Subtitle (simple whileInView stagger) */}
           <motion.div
-            className="flex flex-col justify-center px-5 text-left md:pl-8 md:pr-12 overflow-hidden flex-shrink-0 h-full"
+            className="flex flex-col justify-center px-0 md:pl-8 md:pr-12 overflow-hidden flex-shrink-0 h-full"
             style={{
               opacity: leftSectionOpacity,
               width: isMobile ? leftSectionWidthMobile : leftSectionWidthDesktop,
             }}
           >
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 flex flex-wrap gap-2 md:gap-3">
+            <h1 className="px-5 md:px-0 text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 flex flex-wrap gap-2 md:gap-3">
               {titleWords.map((word, index) => (
                 <motion.span
                   key={index}
@@ -157,7 +159,7 @@ export default function IntroSection({ slide }) {
               ))}
             </h1>
 
-            <p className="text-lg sm:text-xl md:text-3xl opacity-90 flex flex-wrap gap-1.5 md:gap-2">
+            <p className="px-5 md:px-0 text-lg sm:text-xl md:text-3xl opacity-90 flex flex-wrap gap-1.5 md:gap-2">
               {subtitleWords.map((word, index) => (
                 <motion.span
                   key={index}
@@ -174,7 +176,11 @@ export default function IntroSection({ slide }) {
 
           {/* Right section - Image background with description */}
           <motion.div
-            className="h-full rounded-2xl md:rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0"
+            className="h-full md:rounded-3xl overflow-hidden relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm flex-1 min-w-0 z-10"
+            style={{
+              scale: isMobile ? rightSectionScaleMobile : 1,
+              borderRadius: isMobile ? rightSectionBorderRadiusMobile : "24px",
+            }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -186,7 +192,7 @@ export default function IntroSection({ slide }) {
                 typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
                   <div className="flex flex-col items-center justify-center relative">
                     <motion.span
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8.6vw] md:text-[5.1vw] xl:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8.6vw] md:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap"
                       style={{ opacity: awardOverlayOpacity }}
                     >
                       {descLine1.overlay}
@@ -195,7 +201,7 @@ export default function IntroSection({ slide }) {
                       {descLine1.lines.map((line, idx) => (
                         <motion.span
                           key={idx}
-                          className="text-[20vw] md:text-[12vw] xl:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
+                          className="text-[20vw] md:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
                           style={{ opacity: awardLineOpacities[idx] || desc1Opacity }}
                         >
                           {line}
@@ -216,7 +222,7 @@ export default function IntroSection({ slide }) {
               {/* Desc line 2 + services carousel (scroll-driven) */}
               <div className="absolute bottom-6 md:bottom-16 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-[#333] px-4">
                 {descLine2Words.length > 0 && (
-                  <p className="text-sm sm:text-base md:text-xl leading-relaxed font-medium">
+                  <p className="text-sm sm:text-base md:text-xl leading-relaxed font-mono text-center md:text-left w-full md:w-auto">
                     {descLine2Words.map((word, index) => (
                       <ScrollFadeWord
                         key={index}
@@ -231,7 +237,7 @@ export default function IntroSection({ slide }) {
                 )}
 
                 {services.length > 0 && (
-                  <div className="relative h-8 md:h-12 w-48 md:w-64 overflow-hidden flex items-center">
+                  <div className="relative h-6 md:h-12 w-full md:w-64 overflow-hidden flex items-center justify-center md:justify-start">
                     {services.map((service, index) => (
                       <ServiceItem
                         key={index}
@@ -239,7 +245,7 @@ export default function IntroSection({ slide }) {
                         start={servicesStart + index * segmentSize}
                         segmentSize={segmentSize}
                         isLast={index === totalServices - 1}
-                        className="absolute left-0 text-sm sm:text-base md:text-xl font-bold whitespace-nowrap"
+                        className="absolute md:left-0 text-xs sm:text-sm md:text-xl font-mono whitespace-nowrap opacity-80"
                       >
                         {service}
                       </ServiceItem>
