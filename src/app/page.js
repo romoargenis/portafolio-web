@@ -203,23 +203,44 @@ export default function Home() {
             )}
 
             {slide.type === "contact" && (
-              <div className="w-full h-screen relative overflow-hidden">
-                {/* Full-width ASCII background */}
-                <iframe
-                  src="/ascii/horses.html"
-                  className="absolute inset-0 w-full h-full border-0"
-                  title="ASCII Art Animation"
-                  loading="lazy"
-                />
-                {/* Text overlay */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16 z-10 bg-gradient-to-t from-black/70 via-transparent to-transparent">
-                  <h1 className="text-5xl md:text-8xl font-bold mb-6 whitespace-pre-line">{slide.title}</h1>
-                  <a 
-                    href={`mailto:${slide.email}`}
-                    className="text-xl md:text-2xl opacity-70 hover:opacity-100 transition-opacity w-fit"
-                  >
-                    {slide.email}
-                  </a>
+              <div className="w-full min-h-screen">
+                {/* Desktop: full-screen with text overlay */}
+                <div className="hidden md:block w-full h-screen relative overflow-hidden">
+                  <iframe
+                    src="/ascii/horses.html"
+                    className="absolute inset-0 w-full h-full border-0"
+                    title="ASCII Art Animation"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 flex flex-col justify-end p-16 z-10 bg-gradient-to-t from-black/70 via-transparent to-transparent">
+                    <h1 className="text-8xl font-bold mb-6 whitespace-pre-line">{slide.title}</h1>
+                    <a 
+                      href={`mailto:${slide.email}`}
+                      className="text-2xl opacity-70 hover:opacity-100 transition-opacity w-fit"
+                    >
+                      {slide.email}
+                    </a>
+                  </div>
+                </div>
+                {/* Mobile: stacked */}
+                <div className="flex flex-col md:hidden min-h-screen">
+                  <div className="w-full h-[50vh] overflow-hidden">
+                    <iframe
+                      src="/ascii/horses.html"
+                      className="w-full h-full border-0"
+                      title="ASCII Art Animation"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center flex-1 p-8 text-left">
+                    <h1 className="text-5xl font-bold mb-6 whitespace-pre-line">{slide.title}</h1>
+                    <a 
+                      href={`mailto:${slide.email}`}
+                      className="text-xl opacity-70 hover:opacity-100 transition-opacity w-fit"
+                    >
+                      {slide.email}
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
