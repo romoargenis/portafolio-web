@@ -203,6 +203,29 @@ export default function Home() {
             )}
 
             {slide.type === "contact" && (
+              <div className="w-full h-screen relative overflow-hidden">
+                {/* Full-width ASCII background */}
+                <iframe
+                  src="/ascii/horses.html"
+                  className="absolute inset-0 w-full h-full border-0"
+                  title="ASCII Art Animation"
+                  loading="lazy"
+                />
+                {/* Text overlay */}
+                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-16 z-10 bg-gradient-to-t from-black/70 via-transparent to-transparent">
+                  <h1 className="text-5xl md:text-8xl font-bold mb-6 whitespace-pre-line">{slide.title}</h1>
+                  <a 
+                    href={`mailto:${slide.email}`}
+                    className="text-xl md:text-2xl opacity-70 hover:opacity-100 transition-opacity w-fit"
+                  >
+                    {slide.email}
+                  </a>
+                </div>
+              </div>
+            )}
+
+            {/* ALT: 50/50 split layout (kept for reference)
+            {slide.type === "contact" && (
               <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center min-h-screen">
                 <div className="flex flex-col justify-center text-left">
                   <h1 className="text-4xl md:text-6xl font-bold mb-4 whitespace-pre-line">{slide.title}</h1>
@@ -225,6 +248,7 @@ export default function Home() {
                 </div>
               </div>
             )}
+            */}
 
             </motion.div>
           </section>
