@@ -2,15 +2,10 @@ export const projects = [
     {
     id: 5,
     title: "Bermudez Corporation",
-    role: "Designer",
-    tags: ["Figma"],
+    tags: ["UX/UI Design", "Branding", "Art Direction"],
     color: "#141414",
-    description: "Dominican Republic first rum. With international reach and distribution",
+    description: "Dominican Republic's first rum. With international reach and distribution. Not only was a whole new site built, but a new look and feel was created to match the brand's new push into the market. Ranging from archival imagery to 3D renders, cocktail recipes were crafted.",
     highlights: [
-      {
-        title: "Corporative site and promotional landing page",
-        body: "Not only a whole new site, but a new look and feel was build to match the brands new push into the market. Ranging from archival imagry to 3D renders to cocktails recepies where crafted."
-      },
       {
         title: "Market Intelligence",
         body: "The introduction of a new product and promotions being designed specifically for the digital spaces, both Meta and Google tracking technologies were used to measure the success of the campaign."
@@ -27,7 +22,6 @@ export const projects = [
   {
     id: 1,
     title: "Grupo Peravia Industrial",
-    role: "Full Stack developer",
     tags: ["Wordpress", "Divi 5"],
     color: "#141414",
     description: "GPI is one of the most important holdings in the Dominican Republic, including flagship brands found in every household on the island",
@@ -64,7 +58,6 @@ export const projects = [
   {
     id: 4,
     title: "Teleswitch",
-    role: "Tech Lead",
     tags: ["Wordpress", "Elementor"],
     color: "#141414",
     description: "Microsoft's telecom segment that offers hardware and software for voice and data communication",

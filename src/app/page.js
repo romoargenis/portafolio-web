@@ -122,7 +122,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
               className={
-                slide.type === "awards-belt"
+                slide.type === "awards-belt" || slide.type === "contact"
                   ? "w-full h-full flex items-center justify-center"
                   : "text-center max-w-4xl px-8"
               }
@@ -144,16 +144,16 @@ export default function Home() {
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.04 }}
-                          className="group opacity-80 hover:opacity-100 transition-all cursor-default"
+                          className="group opacity-80 hover:opacity-100 transition-all cursor-default relative"
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex flex-col md:flex-row md:items-center gap-0 md:gap-2">
                             <span className="font-mono text-sm">{award.name}</span>
-                            <span className="opacity-40 text-sm">·</span>
-                            <span className="opacity-40 text-xs whitespace-nowrap">{award.location}</span>
+                            <span className="opacity-40 text-sm hidden md:inline">·</span>
+                            <span className="opacity-40 text-xs">{award.location}</span>
                           </div>
 
-                          {/* Circles + award text - revealed on hover */}
-                          <div className="flex items-center gap-2 h-0 group-hover:h-6 opacity-0 group-hover:opacity-100 overflow-hidden transition-all duration-300 ease-out">
+                          {/* Circles + award text - revealed on hover, expands downward */}
+                          <div className="flex items-center gap-2 max-h-0 group-hover:max-h-8 opacity-0 group-hover:opacity-100 overflow-hidden transition-all duration-300 ease-out">
                             {medals.length > 0 && (
                               <div className="flex gap-1 shrink-0">
                                 {medals.map((color, i) => (
@@ -175,7 +175,7 @@ export default function Home() {
 
                 {/* Right Column: Exhibitions */}
                 {slide.exhibitions && (
-                  <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-6 self-start">
                     <h2 className="font-bold">
                       Exhibitions
                     </h2>
@@ -186,13 +186,14 @@ export default function Home() {
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"
+                          className="flex flex-col md:flex-row md:items-center gap-0 md:gap-2 opacity-80 hover:opacity-100 transition-opacity"
                         >
                           <span className="font-mono text-sm">{exhibition.name}</span>
-                          <span className="opacity-40 text-sm">&nbsp;·&nbsp;</span>
-                          <span className="font-bold text-sm">{exhibition.year}</span>
-                          <span className="opacity-40 text-sm">&nbsp;·&nbsp;</span>
-                          <span className="opacity-40 text-xs whitespace-nowrap">{exhibition.location}</span>
+                          <span className="opacity-40 text-sm hidden md:inline">&nbsp;·&nbsp;</span>
+                          <span className="flex items-center gap-1 md:gap-2">
+                            <span className="font-bold text-sm">{exhibition.year}</span>
+                            <span className="opacity-40 text-xs">· {exhibition.location}</span>
+                          </span>
                         </motion.div>
                       ))}
                     </div>
@@ -202,17 +203,27 @@ export default function Home() {
             )}
 
             {slide.type === "contact" && (
-              <>
-                <h1 className="text-6xl font-bold mb-4 text-left">{slide.title}</h1>
-                <div className="flex flex-col gap-6 text-xl text-left">
-                  <a 
-                    href={`mailto:${slide.email}`}
-                    className=""
-                  >
-                   {slide.email}
-                  </a>
+              <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center min-h-screen">
+                <div className="flex flex-col justify-center text-left">
+                  <h1 className="text-4xl md:text-6xl font-bold mb-4 whitespace-pre-line">{slide.title}</h1>
+                  <div className="flex flex-col gap-6 text-xl">
+                    <a 
+                      href={`mailto:${slide.email}`}
+                      className="opacity-70 hover:opacity-100 transition-opacity"
+                    >
+                      {slide.email}
+                    </a>
+                  </div>
                 </div>
-              </>
+                <div className="w-full h-[50vh] md:h-[80vh] rounded-2xl overflow-hidden">
+                  <iframe
+                    src="/ascii/horses.html"
+                    className="w-full h-full border-0"
+                    title="ASCII Art Animation"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
             )}
 
             </motion.div>
