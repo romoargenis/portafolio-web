@@ -222,17 +222,15 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-                {/* Mobile: stacked */}
-                <div className="flex flex-col md:hidden min-h-screen">
-                  <div className="w-full h-[50vh] overflow-hidden">
-                    <iframe
-                      src="/ascii/horses.html"
-                      className="w-full h-full border-0"
-                      title="ASCII Art Animation"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-center flex-1 p-8 text-left">
+                {/* Mobile: full-screen bg with text overlay */}
+                <div className="md:hidden w-full h-screen relative overflow-hidden">
+                  <iframe
+                    src="/ascii/horses.html"
+                    className="absolute inset-0 w-full h-full border-0 scale-[1.8] origin-center"
+                    title="ASCII Art Animation"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 flex flex-col justify-end p-8 pb-16 z-10 bg-gradient-to-t from-black via-black/60 to-transparent">
                     <h1 className="text-5xl font-bold mb-6 whitespace-pre-line">{slide.title}</h1>
                     <a 
                       href={`mailto:${slide.email}`}
