@@ -234,7 +234,7 @@ export default function Home() {
                     <h1 className="text-5xl font-bold mb-6 whitespace-pre-line">{slide.title}</h1>
                     <a 
                       href={`mailto:${slide.email}`}
-                      className="text-xl opacity-70 hover:opacity-100 transition-opacity w-fit"
+                      className="text-xl opacity-70 hover:opacity-100 transition-opacity w-fit font-mono"
                     >
                       {slide.email}
                     </a>
