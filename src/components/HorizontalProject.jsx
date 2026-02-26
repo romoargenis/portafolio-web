@@ -211,7 +211,7 @@ export default function HorizontalProject({ project }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-20px" }}
                 transition={{ duration: 0.4 }}
-                className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-6"
+                className="rounded-2xl bg-white/5 backdrop-blur-sm p-6"
               >
                 <h5 className="mb-2 text-lg font-semibold leading-snug">
                   {title}
@@ -326,7 +326,7 @@ export default function HorizontalProject({ project }) {
               return (
                 <div
                   key={`text-${item.idx}`}
-                  className="flex-shrink-0 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-8 shadow-sm hover:bg-white/10 transition-colors flex flex-col justify-start text-left"
+                  className="flex-shrink-0 rounded-2xl bg-white/5 backdrop-blur-sm p-8 shadow-sm hover:bg-white/10 transition-colors flex flex-col justify-start text-left"
                   style={{
                     width: `${TEXT_CARD_WIDTH}px`,
                     height: "400px",

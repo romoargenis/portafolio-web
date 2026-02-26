@@ -26,9 +26,14 @@ export const projects = [
     color: "#141414",
     description: "GPI is one of the most important holdings in the Dominican Republic, including flagship brands found in every household on the island",
     highlights: [
-      "Multi-brand ecosystem. due to the nature of the business, careful planing was required to integrate a wide arrange of brands and internal departments",
-      "Custom Divi 5 theme. Build from the ground up with the fastest flexbox layout engine available.",
-      "Effortlessly Responsive design.",
+      {
+        title: "Multi-brand ecosystem",
+        body: "Due to the nature of the business, careful planing was required to integrate a wide arrange of brands and internal departments into a single platform."
+      },
+      {
+        title: "Custom Divi 5 theme",
+        body: "Build from the ground up with the fastest flexbox layout engine available."
+      },
     ],
     images: [
       "/img/GPI-01-wireframes.png",
@@ -36,25 +41,18 @@ export const projects = [
     ],
     extraMedia: "/img/GPI vert.mp4"
   },
-  // {
-  //   id: 3,
-  //   title: "Quepidocargo",
-  //   role: "Full Stack developer",
-  //   tags: ["Wordpress", "Elementor"],
-  //   color: "#141414",
-  //   description: "Logistics and tracking platform for the transportation of goods",
-  //   highlights: [
-  //     "Real-time tracking analytics. Since the buissnes is on its early stages marketing anlytics are crucial to the success of the business",
-  //   ],
-  //   images: [
-  //     "https://placehold.co/600x400?text=Quepido+1",
-  //     "https://placehold.co/400x600?text=Quepido+2",
-  //     "https://placehold.co/500x500?text=Quepido+3",
-  //     "https://placehold.co/600x400?text=Quepido+4",
-  //     "https://placehold.co/400x600?text=Quepido+5"
-  //   ]
-  // },
 
+  {
+    id: 2,
+    title: "Pap",
+    tags: ["wordpress", "Divi 5"],
+    color: "#141414",
+    description: "Pap is an educational platform based in Sweden that provides courses and coaching for migrants to integrate into the Swedish job market.",
+    extraMedia: "/img/pap.mp4",
+    images: [
+      "/img/pap.gif"
+    ]
+  },
   {
     id: 4,
     title: "Teleswitch",
