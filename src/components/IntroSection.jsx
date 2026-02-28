@@ -139,13 +139,13 @@ export default function IntroSection({ slide }) {
         >
           {/* Left section - Title & Subtitle (simple whileInView stagger) */}
           <motion.div
-            className="flex flex-col justify-center px-0 md:pl-8 md:pr-12 overflow-hidden flex-shrink-0 h-full"
+            className="flex flex-col justify-center px-0 md:pl-0 overflow-hidden flex-shrink-0 h-full"
             style={{
               opacity: leftSectionOpacity,
               width: isMobile ? leftSectionWidthMobile : leftSectionWidthDesktop,
             }}
           >
-            <h1 className="px-5 md:px-0 text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 flex flex-wrap gap-2 md:gap-3">
+            <h1 className="px-5 md:px-0 text-xl sm:text-4xl font-bold mb-2 flex flex-wrap gap-2 md:gap-3">
               {titleWords.map((word, index) => (
                 <motion.span
                   key={index}
@@ -159,7 +159,7 @@ export default function IntroSection({ slide }) {
               ))}
             </h1>
 
-            <p className="px-5 md:px-0 text-lg sm:text-xl md:text-3xl opacity-90 flex flex-wrap gap-1.5 md:gap-2">
+            <p className="px-5 md:px-0 text-lg sm:text-xl opacity-90 flex flex-wrap gap-1.5 md:gap-2">
               {subtitleWords.map((word, index) => (
                 <motion.span
                   key={index}
