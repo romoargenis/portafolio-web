@@ -143,7 +143,7 @@ export default function Home() {
                           key={`award-${idx}`}
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ delay: idx * 0.04 }}
+                          transition={{ delay: idx * 0.1 }}
                           className="group opacity-80 hover:opacity-100 transition-all cursor-default relative"
                         >
                           <div className="flex flex-col md:flex-row md:items-center gap-0 md:gap-2">
