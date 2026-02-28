@@ -48,7 +48,7 @@ export const projects = [
     tags: ["wordpress", "Divi 5"],
     color: "#141414",
     description: "Pap is an educational platform based in Sweden that provides courses and coaching for migrants to integrate into the Swedish job market.",
-    extraMedia: "/img/pap.mp4",
+    extraMedia: "/img/Pap video .mp4",
     images: [
       "/img/pap.gif"
     ]

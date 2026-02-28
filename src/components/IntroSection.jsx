@@ -192,7 +192,7 @@ export default function IntroSection({ slide }) {
                 typeof descLine1 === 'object' && descLine1.type === 'award-layout' ? (
                   <div className="flex flex-col items-center justify-center relative">
                     <motion.span
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8.6vw] md:text-[120px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8.6vw] md:text-[60px] tracking-[0.2em] font-[family-name:var(--font-bebas-neue)] uppercase z-20 text-[#333] whitespace-nowrap"
                       style={{ opacity: awardOverlayOpacity }}
                     >
                       {descLine1.overlay}
@@ -201,7 +201,7 @@ export default function IntroSection({ slide }) {
                       {descLine1.lines.map((line, idx) => (
                         <motion.span
                           key={idx}
-                          className="text-[20vw] md:text-[280px] font-[family-name:var(--font-pirata-one)] text-white"
+                          className="text-[20vw] md:text-[140px] font-[family-name:var(--font-pirata-one)] text-white"
                           style={{ opacity: awardLineOpacities[idx] || desc1Opacity }}
                         >
                           {line}
@@ -220,7 +220,7 @@ export default function IntroSection({ slide }) {
               )}
 
               {/* Desc line 2 + services carousel (scroll-driven) */}
-              <div className="absolute bottom-6 md:bottom-16 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-[#333] px-4">
+              <div className="absolute bottom-4 md:bottom-4 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-[#333] px-4">
                 {descLine2Words.length > 0 && (
                   <p className="text-sm sm:text-base md:text-xl leading-relaxed font-mono text-center md:text-left w-full md:w-auto">
                     {descLine2Words.map((word, index) => (

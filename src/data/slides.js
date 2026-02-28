@@ -26,7 +26,7 @@ export const introSlides = [
         lines: ["Award", "Winning"],
         overlay: "Designer"
       },
-      "Solving real world problems through a wide range of mediums like"
+      "Problem solving through a wide range of mediums like"
     ],
     color: "#141414",
   },
