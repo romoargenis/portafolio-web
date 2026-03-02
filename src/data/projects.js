@@ -22,7 +22,7 @@ export const projects = [
   {
     id: 1,
     title: "Grupo Peravia Industrial",
-    tags: ["Wordpress", "Divi 5"],
+    tags: ["UX/UI Design"],
     color: "#141414",
     description: "GPI is one of the most important holdings in the Dominican Republic, including flagship brands found in every household on the island",
     highlights: [
