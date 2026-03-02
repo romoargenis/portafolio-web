@@ -141,7 +141,7 @@ export default function GreetingSection({ title, subtitle, color }) {
             </div>
             
             {/* Subtitle with staggered words */}
-            <div className="text-base sm:text-xl md:text-2xl flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
+            <div className="text-base sm:text-xl md:text-2xl flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
               {subtitleWords.map((word, index) => {
                 const wordOpacity = getWordOpacity(index);
                 return (
