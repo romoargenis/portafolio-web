@@ -220,7 +220,7 @@ export default function IntroSection({ slide }) {
               )}
 
               {/* Desc line 2 + services carousel (scroll-driven) */}
-              <div className="absolute bottom-4 md:bottom-4 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-4 text-[#333] px-4">
+              <div className="absolute bottom-4 md:bottom-4 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-1 text-[#333] px-4">
                 {descLine2Words.length > 0 && (
                   <p className="text-sm sm:text-base md:text-xl leading-relaxed font-mono text-center md:text-left w-full md:w-auto">
                     {descLine2Words.map((word, index) => (
