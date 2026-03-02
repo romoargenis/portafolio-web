@@ -129,7 +129,7 @@ export default function Home() {
             >
 
             {slide.type === "awards-belt" && (
-              <div className="w-full max-w-6xl px-8 grid grid-cols-1 md:grid-cols-2 gap-16 text-left items-start">
+              <div className="w-full max-w-6xl px-5 py-16 grid grid-cols-1 md:grid-cols-2 gap-16 text-left items-start">
                 {/* Left Column: Awards */}
                 <div className="flex flex-col gap-6">
                   <h2 className="font-bold">

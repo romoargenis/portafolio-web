@@ -20,17 +20,18 @@ export default function GreetingSection({ title, subtitle, color }) {
   const clientName = words.slice(1).join(" ");
 
   // Animation progress for different stages
-  // Stage 1: "Hi" fades in quickly
+  // Stage 1: Scroll cue is visible, then fades; greeting comes after
+  // Delay "Hi" so the instruction appears first
   const firstWordOpacity = useTransform(
     scrollYProgress,
-    [0, 0.04, 0.10],
+    [0.16, 0.28, 0.40],
     [0, 1, 1]
   );
 
-  // Stage 2: "[Client Name]" fades in right after
+  // Stage 2: "[Client Name]" fades in after "Hi"
   const clientNameOpacity = useTransform(
     scrollYProgress,
-    [0.06, 0.10, 0.18],
+    [0.32, 0.44, 0.58],
     [0, 1, 1]
   );
 
@@ -46,9 +47,9 @@ export default function GreetingSection({ title, subtitle, color }) {
   // Split subtitle into words for stagger
   const subtitleWords = subtitle.split(" ");
   
-  // Stage 3: Subtitle fades in after the pause
+  // Stage 3: Subtitle fades in after the greeting
   const getWordOpacity = (index) => {
-    const baseStart = 0.35;
+    const baseStart = 0.60;
     const staggerDelay = 0.025;
     const wordStart = baseStart + (index * staggerDelay);
     const wordEnd = wordStart + 0.05;
@@ -80,6 +81,11 @@ export default function GreetingSection({ title, subtitle, color }) {
     [zoomStart, zoomEnd],
     ["0px", "24px"]
   );
+  const scrollHintOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.18, 0.30],
+    [1, 1, 0]
+  );
 
   return (
     <div ref={containerRef} className="h-[300vh] relative" style={{ backgroundColor: color }}>
@@ -94,6 +100,23 @@ export default function GreetingSection({ title, subtitle, color }) {
         >
           {/* Background circle */}
           <HiCircle />
+
+          {/* Scroll cue – fixed to bottom of viewport */}
+          <motion.div
+            className="absolute left-1/2 -translate-x-1/2 bottom-8 flex flex-col items-center gap-1 text-[0.65rem] tex-xs sm:text-xs md:text-sm text-neutral-300 pointer-events-none"
+            style={{ opacity: scrollHintOpacity }}
+          >
+            <span className="uppercase tracking-[0.25em]">
+              Scroll down, don&apos;t be shy.
+            </span>
+            {/* <motion.div
+              className="w-px h-6 sm:h-7 md:h-8 bg-neutral-500/60 overflow-hidden"
+              animate={{ y: [0, 4, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <div className="w-px h-6 sm:h-7 md:h-8 bg-neutral-100" />
+            </motion.div> */}
+          </motion.div>
           
           {/* Title container */}
           <div className="relative z-10 text-center px-6 md:px-8 max-w-full">
