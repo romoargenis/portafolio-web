@@ -65,24 +65,22 @@ export default function IntroSection({ slide }) {
   const titleWords = slide.title.split(" ");
   const subtitleWords = slide.subtitle.split(" ");
 
-  // ── TIMING (scroll-driven phases still need these) ──────────────────
-  const titleEndApprox = 0.02 + (titleWords.length * 0.02) + 0.04;
-  const subtitleEndTime = titleEndApprox + (subtitleWords.length * 0.02) + 0.04;
-
   const description = slide.description || [];
   const descLine1 = Array.isArray(description) ? description[0] : description;
   const descLine2 = Array.isArray(description) ? description[1] : null;
   const descLine2Words = descLine2 ? descLine2.split(" ") : [];
 
   // ── AWARD TEXT (staggered, scroll-driven, fixed count) ──────────────
-  const descriptionStart = subtitleEndTime + 0.12;
+  const speedFactor = isMobile ? 0.7 : 1;
+  const baseDescriptionStart = 0.06;
+  const descriptionStart = baseDescriptionStart * speedFactor;
   const desc1Opacity = useTransform(
     scrollYProgress,
     [descriptionStart, descriptionStart + 0.06],
     [0, 1]
   );
 
-  const AWARD_STAGGER = 0.03;
+  const AWARD_STAGGER = 0.03 * speedFactor;
   const awardLine0Opacity = useTransform(
     scrollYProgress,
     [descriptionStart, descriptionStart + 0.04],
@@ -102,15 +100,15 @@ export default function IntroSection({ slide }) {
 
   // ── LEFT PANEL COLLAPSE ─────────────────────────────────────────────
   const desc1EndTime = descriptionStart + AWARD_STAGGER * 2 + 0.04;
-  const expandStart = desc1EndTime + 0.03;
-  const expandEnd = expandStart + 0.15;
+  const expandStart = desc1EndTime + 0.03 * speedFactor;
+  const expandEnd = expandStart + 0.15 * speedFactor;
 
   // ── DESC LINE 2 + SERVICES (scroll-driven, variable count) ─────────
-  const desc2Start = expandEnd + 0.02;
-  const desc2Stagger = 0.01;
+  const desc2Start = expandEnd + 0.02 * speedFactor;
+  const desc2Stagger = 0.01 * speedFactor;
   const desc2EndTime = desc2Start + (descLine2Words.length * desc2Stagger) + 0.03;
 
-  const servicesStart = desc2EndTime + 0.02;
+  const servicesStart = desc2EndTime + 0.02 * speedFactor;
   const servicesWindow = 0.92 - servicesStart;
   const segmentSize = totalServices > 0 ? servicesWindow / totalServices : 0;
 
@@ -126,8 +124,14 @@ export default function IntroSection({ slide }) {
   const WORD_DELAY = 0.07;
   const subtitleOffset = titleWords.length * WORD_DELAY + 0.1;
 
+  const containerHeight = isMobile ? "500vh" : "650vh";
+
   return (
-    <div ref={containerRef} className="h-[800vh] relative" style={{ backgroundColor: slide.color }}>
+    <div
+      ref={containerRef}
+      className="relative"
+      style={{ backgroundColor: slide.color, height: containerHeight }}
+    >
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <motion.div
           className="w-full h-full flex items-center justify-center"
@@ -139,13 +143,13 @@ export default function IntroSection({ slide }) {
         >
           {/* Left section - Title & Subtitle (simple whileInView stagger) */}
           <motion.div
-            className="flex flex-col justify-center px-0 md:pl-0 overflow-hidden flex-shrink-0 h-full"
+            className="flex flex-col justify-center px-5 md:pl-0 overflow-hidden flex-shrink-0 h-full"
             style={{
               opacity: leftSectionOpacity,
               width: isMobile ? leftSectionWidthMobile : leftSectionWidthDesktop,
             }}
           >
-            <h1 className="px-5 md:px-0 text-xl sm:text-4xl font-bold mb-2 flex flex-wrap gap-2 md:gap-3">
+            <h1 className="px-5 md:px-0 text-xl sm:text-4xl font-bold flex flex-wrap gap-2 md:gap-3">
               {titleWords.map((word, index) => (
                 <motion.span
                   key={index}
