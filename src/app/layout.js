@@ -1,4 +1,5 @@
 import { IBM_Plex_Sans, IBM_Plex_Mono, Pirata_One, Bebas_Neue } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
         className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} ${pirataOne.variable} ${bebasNeue.variable} antialiased`}
       >
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
