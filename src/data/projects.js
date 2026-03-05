@@ -45,7 +45,7 @@ export const projects = [
   {
     id: 2,
     title: "Pap",
-    tags: ["wordpress", "Divi 5"],
+    tags: ["UI/UX","Wordpress", "Divi 5"],
     color: "#141414",
     description: "Pap is an educational platform based in Sweden that provides courses and coaching for migrants to integrate into the Swedish job market.",
     extraMedia: "/img/Pap video .mp4",
@@ -58,6 +58,7 @@ export const projects = [
     title: "Teleswitch",
     tags: ["Wordpress", "Elementor"],
     color: "#141414",
+    hidden: true,
     description: "Microsoft's telecom segment that offers hardware and software for voice and data communication",
     highlights: [
       "Technical leadership. Support was custom tooling was provided to both marketing and 2b2 sales teams.",
@@ -66,6 +67,17 @@ export const projects = [
       "https://placehold.co/600x400?text=Teleswitch+1",
       "https://placehold.co/400x600?text=Teleswitch+2",
       "https://placehold.co/500x500?text=Teleswitch+3"
+    ]
+  },
+  {
+    id: 3,
+    title: "Food Service",
+    tags: ["UI/UX","Framer"],
+    color: "#141414",
+    description: "The international segment of La Famosa, one of the Caribbean's largest food providers to the hotel and restaurant industries. It serves both local and international markets with products from all over the world. Handling hundreds of items at blazing fast speeds, a product gallery and contact pipeline was built.",
+    images: [
+      "/img/fs-Desktop.mp4",
+      "/img/fs-mobile.mp4"
     ]
   },
 ];

@@ -52,7 +52,11 @@ function parseAwardMedals(awardStr) {
 
 export default function Home() {
   // Combine intro slides, projects, and outro
-  const allSlides = [...introSlides, ...projects, outroSlide];
+  const allSlides = [
+    ...introSlides,
+    ...projects.filter((project) => !project.hidden),
+    outroSlide,
+  ];
 
   return (
     <SmoothScroll>
