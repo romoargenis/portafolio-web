@@ -77,7 +77,9 @@ export const projects = [
     description: "The international segment of La Famosa, one of the Caribbean's largest food providers to the hotel and restaurant industries. It serves both local and international markets with products from all over the world. Handling hundreds of items at blazing fast speeds, a product gallery and contact pipeline was built.",
     images: [
       "/img/fs-Desktop.mp4",
-      "/img/fs-mobile.mp4"
+      "/img/fs-mobile.mp4",
+      "/img/fs-contacto-frame.jpg",
+      "/img/fs-nosotros-frame.jpg"
     ]
   },
 ];
