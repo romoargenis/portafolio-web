@@ -163,6 +163,7 @@ export default function HorizontalProject({ project }) {
                       autoPlay
                       loop
                       playsInline
+                      preload="none"
                     />
                   ) : (
                     <img
@@ -187,6 +188,7 @@ export default function HorizontalProject({ project }) {
                     autoPlay
                     loop
                     playsInline
+                    preload="none"
                   />
                 ) : (
                   <img
@@ -260,6 +262,7 @@ export default function HorizontalProject({ project }) {
                   autoPlay
                   loop
                   playsInline
+                  preload="none"
                   aria-label={`${project.title} — desktop`}
                 />
               </div>
@@ -274,6 +277,7 @@ export default function HorizontalProject({ project }) {
                   autoPlay
                   loop
                   playsInline
+                  preload="none"
                   aria-label={`${project.title} — mobile`}
                 />
               </div>
@@ -363,6 +367,7 @@ export default function HorizontalProject({ project }) {
                     autoPlay
                     loop
                     playsInline
+                    preload="none"
                   />
                 ) : (
                   <img
@@ -388,6 +393,7 @@ export default function HorizontalProject({ project }) {
                   autoPlay
                   loop
                   playsInline
+                  preload="none"
                 />
               ) : (
                 <img
@@ -426,6 +432,7 @@ export default function HorizontalProject({ project }) {
                   autoPlay
                   loop
                   playsInline
+                  preload="none"
                   aria-label={`${project.title} — desktop`}
                 />
               </div>
@@ -440,6 +447,7 @@ export default function HorizontalProject({ project }) {
                   autoPlay
                   loop
                   playsInline
+                  preload="none"
                   aria-label={`${project.title} — mobile`}
                 />
               </div>
