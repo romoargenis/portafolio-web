@@ -30,10 +30,10 @@ export const projects = [
         title: "Multi-brand ecosystem",
         body: "Due to the nature of the business, careful planing was required to integrate a wide arrange of brands and internal departments into a single platform."
       },
-      {
-        title: "Custom Divi 5 theme",
-        body: "Build from the ground up with the fastest flexbox layout engine available."
-      },
+      // {
+      //   title: "Custom Divi 5 theme",
+      //   body: "Build from the ground up with the fastest flexbox layout engine available."
+      // },
     ],
     images: [
       "/img/GPI-01-wireframes.png",
@@ -50,7 +50,9 @@ export const projects = [
     description: "Pap is an educational platform based in Sweden that provides courses and coaching for migrants to integrate into the Swedish job market.",
     extraMedia: "/img/Pap video .mp4",
     images: [
-      "/img/pap.gif"
+      "/img/pap.gif",
+      "/img/pap-dash.jpg",
+      "/img/pap-dash2.jpg"
     ]
   },
   {
