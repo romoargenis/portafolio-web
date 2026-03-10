@@ -3,6 +3,12 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useMemo, useState, useEffect } from "react";
 import ResponsiveScrollPair from "./ResponsiveScrollPair";
+import LazyVideo from "./LazyVideo";
+
+const VIDEO_EXTENSIONS = /\.(mp4|m4v|webm)$/i;
+function isVideoSrc(src) {
+  return src && VIDEO_EXTENSIONS.test(src);
+}
 
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false);
@@ -148,7 +154,7 @@ export default function HorizontalProject({ project }) {
         <div className="overflow-x-auto scrollbar-hide -mx-5 px-5 mb-6">
           <div className="flex gap-3" style={{ width: "max-content" }}>
             {imageItems.map((item) => {
-              const isVideo = item.src?.endsWith(".mp4");
+              const isVideo = isVideoSrc(item.src);
               return (
                 <div
                   key={`img-${item.idx}`}
@@ -156,14 +162,13 @@ export default function HorizontalProject({ project }) {
                   style={{ width: 260, height: 260 }}
                 >
                   {isVideo ? (
-                    <video
+                    <LazyVideo
                       src={item.src}
                       className="w-full h-full object-cover"
                       muted
                       autoPlay
                       loop
                       playsInline
-                      preload="none"
                     />
                   ) : (
                     <img
@@ -180,15 +185,14 @@ export default function HorizontalProject({ project }) {
                 className="flex-shrink-0 rounded-xl overflow-hidden bg-white/5"
                 style={{ width: 260, height: 260 }}
               >
-                {project.extraMedia.endsWith(".mp4") ? (
-                  <video
+                {isVideoSrc(project.extraMedia) ? (
+                  <LazyVideo
                     src={project.extraMedia}
                     className="w-full h-full object-cover"
                     muted
                     autoPlay
                     loop
                     playsInline
-                    preload="none"
                   />
                 ) : (
                   <img
@@ -255,14 +259,13 @@ export default function HorizontalProject({ project }) {
                 className="flex-shrink-0 rounded-lg overflow-hidden bg-black/40"
                 style={{ width: 260, height: 146 }}
               >
-                <video
+                <LazyVideo
                   src={project.videos.desktop}
                   className="w-full h-full object-cover"
                   muted
                   autoPlay
                   loop
                   playsInline
-                  preload="none"
                   aria-label={`${project.title} — desktop`}
                 />
               </div>
@@ -270,14 +273,13 @@ export default function HorizontalProject({ project }) {
                 className="flex-shrink-0 rounded-lg overflow-hidden bg-black/40"
                 style={{ width: 130, height: 231 }}
               >
-                <video
+                <LazyVideo
                   src={project.videos.mobile}
                   className="w-full h-full object-cover"
                   muted
                   autoPlay
                   loop
                   playsInline
-                  preload="none"
                   aria-label={`${project.title} — mobile`}
                 />
               </div>
@@ -348,7 +350,7 @@ export default function HorizontalProject({ project }) {
               );
             }
 
-            const isVideo = item.src?.endsWith(".mp4");
+            const isVideo = isVideoSrc(item.src);
 
             return (
               <div
@@ -360,14 +362,13 @@ export default function HorizontalProject({ project }) {
                 }}
               >
                 {isVideo ? (
-                  <video
+                  <LazyVideo
                     src={item.src}
                     className="w-full h-full object-cover"
                     muted
                     autoPlay
                     loop
                     playsInline
-                    preload="none"
                   />
                 ) : (
                   <img
@@ -385,15 +386,14 @@ export default function HorizontalProject({ project }) {
               className="flex-shrink-0 rounded-lg overflow-hidden bg-white/5"
               style={{ width: EXTRA_MEDIA_SIZE, height: EXTRA_MEDIA_SIZE }}
             >
-              {project.extraMedia.endsWith(".mp4") ? (
-                <video
+              {isVideoSrc(project.extraMedia) ? (
+                <LazyVideo
                   src={project.extraMedia}
                   className="w-full h-full object-cover"
                   muted
                   autoPlay
                   loop
                   playsInline
-                  preload="none"
                 />
               ) : (
                 <img
@@ -425,14 +425,13 @@ export default function HorizontalProject({ project }) {
                 className="rounded-lg overflow-hidden bg-black/40"
                 style={{ width: 320, height: 180 }}
               >
-                <video
+                <LazyVideo
                   src={project.videos.desktop}
                   className="w-full h-full object-cover"
                   muted
                   autoPlay
                   loop
                   playsInline
-                  preload="none"
                   aria-label={`${project.title} — desktop`}
                 />
               </div>
@@ -440,14 +439,13 @@ export default function HorizontalProject({ project }) {
                 className="rounded-lg overflow-hidden bg-black/40"
                 style={{ width: 160, height: 284 }}
               >
-                <video
+                <LazyVideo
                   src={project.videos.mobile}
                   className="w-full h-full object-cover"
                   muted
                   autoPlay
                   loop
                   playsInline
-                  preload="none"
                   aria-label={`${project.title} — mobile`}
                 />
               </div>

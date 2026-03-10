@@ -1,15 +1,17 @@
 "use client";
 
 import { motion, useMotionValue } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function HiCircle() {
   const numberOfHis = 6;
   const circleRotation = useMotionValue(0);
+  const containerRef = useRef(null);
 
   // Responsive radius based on viewport size
   const [radius, setRadius] = useState(800);
   const [isMounted, setIsMounted] = useState(false);
+  const [isInView, setIsInView] = useState(true);
   const fontSize = radius * .5;
 
   useEffect(() => {
@@ -24,8 +26,19 @@ export default function HiCircle() {
   }, []);
 
   useEffect(() => {
-    if (!isMounted) return;
-    
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isMounted]);
+
+  useEffect(() => {
+    if (!isMounted || !isInView) return;
+
     const startTime = Date.now();
     const duration = 90000;
 
@@ -38,7 +51,7 @@ export default function HiCircle() {
 
     const id = requestAnimationFrame(update);
     return () => cancelAnimationFrame(id);
-  }, [circleRotation, isMounted]);
+  }, [circleRotation, isMounted, isInView]);
 
   // Don't render the animated elements until mounted to avoid hydration issues
   if (!isMounted) {
@@ -50,7 +63,7 @@ export default function HiCircle() {
   }
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+    <div ref={containerRef} className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
       <motion.div
         className="relative"
         style={{

@@ -230,7 +230,7 @@ export default function Home() {
                 <div className="md:hidden w-full h-screen relative overflow-hidden">
                   <iframe
                     src="/ascii/horses.html"
-                    className="absolute inset-0 w-full h-full border-0 scale-[1.8] origin-center"
+                    className="absolute inset-0 w-full h-full border-0"
                     title="ASCII Art Animation"
                     loading="lazy"
                   />

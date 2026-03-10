@@ -249,7 +249,7 @@ export default function IntroSection({ slide }) {
                         start={servicesStart + index * segmentSize}
                         segmentSize={segmentSize}
                         isLast={index === totalServices - 1}
-                        className="absolute md:left-0 text-xs sm:text-sm md:text-xl font-mono whitespace-nowrap opacity-80"
+                        className="absolute md:left-0 text-sm md:text-xl font-mono whitespace-nowrap opacity-80"
                       >
                         {service}
                       </ServiceItem>
